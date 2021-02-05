@@ -1,0 +1,12 @@
+#streetGreed .x-grid-cell-inner {
+    text-overflow: ellipsis;
+    padding: 10px 10px 10px 10px !important;
+}
+.btn-replace{
+    left: 84% !important;
+    z-index: 10;
+}
+.menu-replace{
+    left: 72% !important;
+    z-index: 10;
+}

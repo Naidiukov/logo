@@ -1,0 +1,891 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_realtyObject"
+// @model "INV"
+// @formType "auto"
+// @caption "Паспорт об’єкта"
+// @description "Паспорт об’єкта"
+const _ = require('lodash');
+exports.formDef = {
+    requiredFields: ['koattNum', 'koattNum.koattNum', 'koattNum.governmentFullName', 'koattNum.localGovernment', 'url'],
+    size: {
+        width: 900,
+        height: 600
+    },
+    items: [
+        {
+            xtype: 'tabpanel',
+            itemId: 'cmpTabPanel',
+            flex: 1,
+            minWidth: 250,
+            plain: true,
+            items: [{
+                itemId: "tabMain",
+                title: 'Паспорт об’єкта',
+                defaults: {
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    }
+                },
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
+                items: [
+                    {
+                        layout: {
+                            type: "vbox",
+                            align: "stretch"
+                        },
+                        defaults: {
+                            labelWidth: 160
+                        },
+                        flex: 4,
+                        autoScroll: true,
+                        items: [
+
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'textfield',
+                                        fieldLabel: 'Тип об’єкта',
+                                        readOnly: true,
+                                        value: "Об'єкт нерухомості",
+                                        itemId: 'objType',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'code',
+                                        fieldLabel: 'Код',
+                                        readOnly: true,
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'textfield',
+                                        fieldLabel: 'Код КОАТУУ',
+                                        readOnly: true,
+                                        itemId: 'koattNum',
+                                        value: '',
+                                        width: 400
+                                    }
+                                ]
+                            },
+
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'textfield',
+                                        fieldLabel: 'Орган місцевого самоврядування',
+                                        readOnly: true,
+                                        itemId: 'organSam',
+                                        value: '',
+                                        itemID: 'objType',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'ubcombobox',
+                                        itemId: "locality",
+                                        fieldLabel: "Населений пункт",
+                                        valueField: 'ID',
+                                        displayField: 'governmentFullName',
+                                        width: 400,
+                                        allowBlank: false,
+                                        ubRequest: {
+                                            entity: 'inv_landDict',
+                                            method: 'select',
+                                            fieldList: ['ID', 'koattNum', 'governmentFullName', 'localGovernment']
+                                        },
+                                        listeners: {
+                                            change: function (fld, newV, oldV) {
+                                                let form = this.up('form'),
+                                                    koattCtrl = form.queryById('koattNum'),
+                                                    organSamCtrl = form.queryById('organSam');
+                                                if (newV) {
+                                                    let record = fld.findRecordByValue(fld.getValue());
+                                                    if (record) {
+                                                        koattCtrl.setValue(record.get('koattNum'));
+                                                        form.record.set('koattNum', record.get('ID'));
+                                                        organSamCtrl.setValue(record.get('localGovernment'));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'realtyType',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'notToLive',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'notTaxed',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'location',
+                                        width: 400
+                                    }
+                                ]
+                            },
+							{
+								layout: {
+									type: "hbox",
+									align: "stretch"
+								},
+								defaults: {
+									labelWidth: 160
+								},
+								margin: "5, 0, 0, 0",
+								items: [
+									{
+										attributeName: 'calcParamsID',
+										width: 400,
+										whereList: {
+											byNotParentID: {
+												expression: 'parentID',
+												condition: 'isNotNull'
+											}
+										}
+									}
+								]
+							},
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'numberfield',
+                                        allowExponential: false,
+                                        hideTrigger: true,
+                                        decimalPrecision: 2,
+                                        maxLength: 10,
+                                        attributeName: 'totalArea',
+                                        fieldLabel: 'Загальна площа, м<sup style="font-size: 9px">2</sup>',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'numberfield',
+                                        allowExponential: false,
+                                        hideTrigger: true,
+                                        decimalPrecision: 2,
+                                        maxLength: 10,
+                                        attributeName: 'summerArea',
+                                        fieldLabel: 'З них, літніх приміщень, м<sup style="font-size: 9px">2</sup>',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'numberfield',
+                                        allowExponential: false,
+                                        hideTrigger: true,
+                                        decimalPrecision: 2,
+                                        maxLength: 10,
+                                        attributeName: 'livingArea',
+                                        fieldLabel: 'Житлова площа, м<sup style="font-size: 9px">2</sup>',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        xtype: 'numberfield',
+                                        allowExponential: false,
+                                        hideTrigger: true,
+                                        decimalPrecision: 2,
+                                        maxLength: 10,
+                                        attributeName: 'ownershipArea',
+                                        fieldLabel: 'Заг. площа домоволодіння, м<sup style="font-size: 9px">2</sup>',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'documentOwnership',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'registryData',
+                                        width: 400,
+                                        maxValue: new Date()
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'terminationDate',
+                                        width: 400,
+                                        maxValue: new Date()
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'address',
+                                        width: 400
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'owner',
+                                        width: 400
+                                    },
+                                    {
+                                        attributeName: 'acceptPrivilege',
+                                        fieldLabel: '',
+                                        boxLabel: 'Враховувати пільгу',
+                                        style: {color: '#818181;'}
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'notes',
+                                        width: 400
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        layout: {
+                            type: "vbox",
+                            align: "stretch"
+                        },
+                        defaults: {
+                            labelWidth: 160
+                        },
+                        flex: 4,
+                        autoScroll: true,
+                        items: [{
+                            xtype: "ubdetailgrid",
+                            title: 'Платники',
+                            itemId: "gridPayers",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            //hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "inv_objPayers",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "payerID", visibility: false},
+                                    {name: "payerID.personType", "description": 'Тип'},
+                                    {name: "payerID.fullName", "description": 'ПІБ/Назва'},
+                                    {name: "payerID.code", "description": 'РНОКПП/ЄДРПОУ'},
+                                    {name: "payerID.areaAddR", "description": 'Область'},
+                                    {name: "payerID.settlementAddR", "description": 'Населений пункт'},
+                                    {name: "payerID.streetTypeAddR", "description": 'Тип вулиці'},
+                                    {name: "payerID.streetAddR", "description": 'Вулиця'},
+                                    {name: "payerID.houseNumAddR", "description": 'Будинок'},
+                                    {name: "payerID.flatNumAddR", "description": 'Квартира'},
+                                    {name: "state", "description": 'Стан'},
+                                    {name: "nullData", "description": 'Дата визнання недійсним'}
+                                ],
+								options: {
+									totalRequired: true
+								}
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objectID"],
+                            onDeterminateForm: function () {
+                                let form = this.up("form");
+                                return {
+                                    formCode: "inv_objPayers",
+                                    entityName: "inv_objPayers",
+                                    cmpInitConfig: {
+                                        ID: form.record.get('ID')
+                                    }
+                                };
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            },
+                            onItemDblClick: function () {
+                                var me = this,
+                                    record = me.store.getById(me.selectedRecordID);
+
+                                $App.doCommand({
+                                    cmdType: "showForm",
+                                    formCode: 'inv_payers',
+                                    entityName: 'inv_payers',
+                                    entity: 'inv_payers',
+                                    instanceID: record.get('payerID')
+
+                                });
+                            },
+                            onAddNew: function () {
+                                var me = this;
+                                $App.connection.select({
+                                    entity: "inv_objPayers",
+                                    fieldList: ['ID'],
+                                    whereList: {
+                                        byObject: {
+                                            expression: "[objectID]",
+                                            condition: "equal",
+                                            values: {objectID: me.up('form').record.get('ID')}
+                                        },
+                                        byState: {
+                                            expression: "[state]",
+                                            condition: "equal",
+                                            values: {state: 'Дійсний'}
+                                        }
+                                    }
+                                }).then(function (r) {
+                                    let res = UB.LocalDataStore.selectResultToArrayOfObjects(r)[0];
+                                    if (res) {
+                                        $App.dialogError(`Платник зі станом "Дійсний" вже зареєстровано в Системі.`);
+                                    }
+                                    else {
+                                        me.up('basepanel').saveForm().then((saveStatus)=>{
+                                            if (saveStatus === -1) return;
+                                            $App.doCommand({
+                                                cmdType: "showForm",
+                                                formCode: "inv_objPayers",
+                                                entityName: "inv_objPayers",
+                                                entity: "inv_objPayers",
+                                                isModal: true,
+                                                sender: me,
+                                                cmpInitConfig: {
+                                                    objectID: me.up('form').instanceID
+                                                }
+                                            });
+                                        });
+
+                                    }
+                                });
+
+                            },
+                            onDel: function () {
+                                var me = this,
+                                    selection = me.getSelectionModel().getSelection()[0];
+
+                                if (selection) {
+                                    let data = selection.data;
+                                    if (data && data.state) {
+                                        if (data.state == 'Дійсний') {
+                                            $App.dialogYesNo("Підтвердження", 'Ви дійсно хочете перевести в стан "Недійсний"?').then(function (res) {
+                                                if (!res) {
+                                                    return;
+                                                }
+
+                                                $App.connection.update({
+                                                    entity: 'inv_objPayers', fieldList: ['ID', 'state'],
+                                                    execParams: {ID: data.ID, state: 'Недійсний', nullData: new Date()}
+                                                }).then(function (result) {
+                                                        me.onRefresh();
+                                                    }
+                                                );
+                                            });
+
+                                        }
+                                    } else {
+                                        $App.dialogInfo('Запис вже в стані Недійсний!');
+                                    }
+                                }
+                                else {
+                                    $App.dialogInfo('Не обрано запис!');
+                                }
+                            }/*,
+							features: [{
+								id: 'group',
+								ftype: 'groupingsummary',
+								groupHeaderTpl: '{state})',
+								hideGroupedHeader: false,
+								enableGroupingMenu: true
+							}],
+							listeners: {
+								beforerender: function (a, b, c) {
+									a.store.groupField = 'oTypeStr'
+								}
+							},*/
+                        }]
+                    }
+                ]
+            },
+                {
+                    itemId: "tabTaxes",
+                    title: 'Податки',
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch'
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    items: [
+                        {
+                            layout: {
+                                type: 'vbox',
+                                align: 'stretch'
+                            },
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    title: 'Податки',
+                                    collapsible: true,
+                                    items: [{
+                                        xtype: "ubdetailgrid",
+                                        itemId: "gridTaxes",
+                                        hideToolbar: false,
+                                        toolbarActionList: ['refresh', 'addNew', 'del'],
+                                        //hideMenuAllActions: true,
+                                        hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                                        autoScroll: true,
+                                        margin: "0, 0, 5, 0",  //top, right, buttom, left
+                                        cmdType: "showList",
+                                        selModel: {
+                                            selectionMode: "SINGLE"
+                                        },
+                                        entityConfig: {
+                                            entity: "inv_taxes",
+                                            method: "select",
+                                            fieldList: [
+                                                {name: "ID", visibility: false},
+                                                {name: "objectID", visibility: false},
+                                                {name: "pType", visibility: false},
+                                                {name: "pIdn", visibility: false},
+                                                {name: "name.payerID", visibility: false},
+                                                {name: "reportYear"},
+                                                {name: "pName"},
+                                                {name: "payerAddress"},
+                                                {name: "payerPhone"},
+                                                {name: "privilege"},
+                                                {name: "sumYear"},
+                                                {name: "debt"},
+                                                {name: "fine"},
+                                                {name: "actualSum"},
+                                                'actualDate'
+                                            ]
+                                        },
+                                        masterFields: ["ID"],
+                                        detailFields: ["objectID"],
+                                        onDeterminateForm: function () {
+                                            return {
+                                                formCode: "inv_taxes",
+                                                entityName: "inv_taxes",
+                                                cmpInitConfig: {
+                                                    privilegeSum: true,
+                                                    ID: this.up("form").record.get('ID'),
+                                                    objType: 'inv_realtyObject'
+                                                }
+                                            };
+                                        },
+                                        onAddNew: function () {
+                                            let me = this,
+                                                form = this.up("form"),
+                                                payersGridRecords = form.queryById('gridPayers').getStore().getRange(),
+                                                activePayer = _.find(_.map(payersGridRecords, 'data'), {'state': 'Дійсний'});
+                                            $App.doCommand({
+                                                cmdType: UB.core.UBCommand.commandType.showForm,
+                                                formCode: "inv_taxes",
+                                                entity: 'inv_taxes',
+                                                sender: me,
+                                                cmpInitConfig: {
+                                                    privilegeSum: true,
+                                                    // koattNum: form.record.get('koattNum'),
+                                                    // owner: form.record.get('owner'),
+                                                    objType: 'inv_realtyObject',
+                                                    ID: form.record.get('ID'),
+                                                    // totalArea: form.record.get('totalArea'),
+                                                    // registryData: form.record.get('registryData'),
+                                                    // notToLive: form.record.get('notToLive'),
+                                                    // notTaxed: form.record.get('notTaxed'),
+                                                    // realtyType: form.record.get('realtyType'),
+                                                    // location: form.record.get('location'),
+                                                    // acceptPrivilege: form.record.get('acceptPrivilege'),
+                                                    activePayer: activePayer ? activePayer.ID : undefined,
+                                                    payerID: activePayer ? activePayer.payerID : undefined,
+													                          // calcParamsID: form.record.get('calcParamsID')
+                                                },
+                                                initialFieldValues: {
+                                                    objectID: form.instanceID
+                                                }
+                                            });
+                                        },
+                                        onItemContextMenu: function (grid, record, item, index, event) {
+
+                                        }
+                                    }]
+                                }
+                            ]
+                        },
+                        {
+                            layout: {
+                                type: 'vbox',
+                                align: 'stretch'
+                            },
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    title: 'Надходження',
+                                    collapsible: true,
+                                    items: [{
+                                        xtype: "ubdetailgrid",
+                                        itemId: "gridIncomes",
+                                        hideToolbar: false,
+                                        toolbarActionList: ['refresh', 'addNew', 'del'],
+                                        //hideMenuAllActions: true,
+                                        hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                                        margin: "0, 0, 5, 0",  //top, right, buttom, left
+                                        cmdType: "showList",
+                                        selModel: {
+                                            selectionMode: "SINGLE"
+                                        },
+                                        entityConfig: {
+                                            entity: "inv_incoms",
+                                            method: "select",
+                                            fieldList: [
+                                                {name: "ID", visibility: false},
+                                                {name: "objectID", visibility: false},
+                                                {name: "payDate"},
+                                                {name: "paySum"},
+                                                {name: "payer"},
+                                                {name: "payPurpose"},
+                                                {name: "payCode"}
+                                            ]
+                                        },
+                                        masterFields: ["ID"],
+                                        detailFields: ["objectID"],
+                                        onDeterminateForm: function () {
+                                            let form = this.up("form");
+                                            return {
+                                                formCode: "inv_incoms",
+                                                entityName: "inv_incoms",
+                                                cmpInitConfig: {}
+                                            };
+                                        },
+                                        onItemContextMenu: function (grid, record, item, index, event) {
+
+                                        }
+                                    }]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabDocus",
+                    title: 'Документи',
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch'
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            itemId: "gridAttachments",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh'],
+                            //hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink", 'addNew', 'del'],
+                            autoScroll: true,
+                            pageSize: 8,
+                            minRowsPagingBarVisibled: 8,
+                            margin: "0, 0, 5, 0",  //top, right, bottom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "inv_objAttachment",
+                                method: "select",
+                                fieldList: [
+                                    {"name": "ID", "visibility": false},
+                                    {"name": "objectID", "visibility": false},
+                                    {"name": "name"}
+                                ]
+                            },
+                            beforeRender: function () {
+                                let me = this;
+                                me.columns[0].renderer = function (value, a) {
+                                    return "<a href='#' style='color:red'  data-id=" + a.record.get('ID') + "><i class='fa fa-times' aria-hidden='true'></i></a>&nbsp;&nbsp;" + value;
+                                };
+                            },
+                            afterInit: function () {
+                                var grid = this;
+                                grid.actions.del.setHidden(true);
+
+                                grid.on('deselect', function () {
+                                    grid.actions.del.setHidden(true);
+                                });
+
+                                grid.on('select', function () {
+                                    grid.actions.del.setHidden(true);
+                                });
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objectID"],
+                            onItemContextMenu: function () {
+                            },
+                            onDeterminateForm: function () {
+                            }
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabMap",
+                    title: 'Карта',
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    listeners: {
+                        afterrender: function (){
+                            const form = this.up('form')
+                            const cadastralNumber = form.record.get('cadastralNumber')
+                            let res
+                            let cmpInitConfig = {defaultObject: {}}
+
+                            if (cadastralNumber) {
+                                res = landPlotOwn.features.find(item => item.properties['Кадас'] === cadastralNumber)
+                                if (res) {
+                                    cmpInitConfig.defaultObject = {
+                                        coords: INV.services.getObjCoords(res),
+                                        cadastralNumber
+                                    }
+                                }
+                            }
+
+                            $App.doCommand(
+                              {
+                                  cmdType: "showForm",
+                                  formCode: 'inv_subject-map',
+                                  entity: "inv_subject",
+                                  target: this,
+                                  cmpInitConfig
+                              })
+                        }
+                    }
+                }/*,
+              {
+                itemId: "tabMap",
+                title: 'Карта',
+                html: ``,
+                listeners: {
+                  beforerender: function (){
+                    this.setHeight(this.up('form').queryById('tabMain').getHeight()-270)
+                    this.html = `<iframe src="${this.up('form').record.get('url')}" frameborder="0" width="100%" height="100%" marginheight="0" marginwidth="0"></iframe>`
+                  }
+                }
+              }*/
+
+            ]
+        }
+    ]
+};

@@ -1,0 +1,32 @@
+{
+  "caption": "Об’єкт оренди",
+  "description": "Об’єкт оренди",
+  "connectionName": "main",
+  "sqlAlias": "inv_agreementobj",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "agreementID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_leaseAgreements",
+      "caption": "Договір оренди",
+      "allowNull": false
+    },
+    {
+      "name": "objectID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_subject",
+      "caption": "Об'єкти оподаткування",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

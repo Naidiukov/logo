@@ -1,0 +1,102 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_incoms"
+// @model "INV"
+// @formType "auto"
+// @caption "Надходження"
+// @description "Надходження"
+exports.formDef = {
+    items: [{
+        layout: {
+            type: 'vbox',
+            align: 'stretch'
+        },
+        items: [
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'payDate',
+                        width: 347
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'paySum',
+                        validator: function (v) {
+                            return /^[0-9]{1,10}(,[0-9]{1,2})?$/.test(v) ? true : 'Не припустимий формат!';
+                        }
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'payer'
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'payPurpose'
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'payCode'
+                    }
+                ]
+            }
+
+        ]
+    }]
+};

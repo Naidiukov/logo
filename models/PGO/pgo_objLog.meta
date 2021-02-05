@@ -1,0 +1,164 @@
+{
+  "caption": "Журнал змін ПГО",
+  "description": "Журнал змін ПГО",
+  "connectionName": "main",
+  "sqlAlias": "pgo_objlog",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "changeDate",
+      "dataType": "DateTime",
+      "caption": "Дата зміни",
+      "allowNull": false
+    },
+    {
+      "name": "actionType",
+      "dataType": "Enum",
+      "enumGroup": "HISTORY_TYPE",
+      "caption": "Тип операції",
+      "description": "Тип операції",
+      "allowNull": false
+    },
+    {
+      "name": "entityName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Сутність",
+      "description": "Сутність",
+      "allowNull": true
+    },
+    {
+      "name": "streetID",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Адреса",
+      "description": "Адреса",
+      "allowNull": true
+    },
+    {
+      "name": "houseNum",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Номер будинку",
+      "description": "Номер будинку",
+      "allowNull": true
+    },
+    {
+      "name": "flatNum",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Номер квартири",
+      "description": "Номер квартири",
+      "allowNull": true
+    },
+    {
+      "name": "personType",
+      "dataType": "Enum",
+      "enumGroup": "PGO_PERSON_TYPE",
+      "caption": "Тип особи",
+      "description": "Тип особи",
+      "allowNull": true
+    },
+    {
+      "name": "payerID",
+      "dataType": "String",
+      "size": 100,
+      "caption": "ПІБ",
+      "description": "ПІБ",
+      "allowNull": true
+    },
+    {
+      "name": "roomType",
+      "dataType": "Enum",
+      "enumGroup": "ROOM_TYPE",
+      "caption": "Тип приміщення",
+      "description": "Тип приміщення",
+      "allowNull": true
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа (м2)",
+      "allowNull": true
+    },
+    {
+      "name": "cadastralNumber",
+      "dataType": "String",
+      "size": 50,
+      "caption": "Кадастровий номер",
+      "description": "Кадастровий номер",
+      "allowNull": true
+    },
+    {
+      "name": "landCategory",
+      "dataType": "Enum",
+      "enumGroup": "LAND_CATEGORY",
+      "caption": "Категорія земель",
+      "description": "Категорія земель",
+      "allowNull": true
+    },
+    {
+      "name": "location",
+      "dataType": "Enum",
+      "enumGroup": "INV_LOCATION",
+      "caption": "Розташування",
+      "description": "Розташування",
+      "allowNull": true
+    },
+    {
+      "name": "useType",
+      "dataType": "Enum",
+      "enumGroup": "INV_USETYPE",
+      "caption": "Вид використання",
+      "description": "Вид використання",
+      "allowNull": true
+    },
+    {
+      "name": "landPurpose",
+      "dataType": "Enum",
+      "enumGroup": "LAND_PURPOSE",
+      "caption": "Угіддя",
+      "description": "Угіддя",
+      "allowNull": true
+    },
+    {
+      "name": "documentOwnership",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Документ права власності",
+      "description": "Документ права власності",
+      "allowNull": true
+    },
+    {
+      "name": "registryData",
+      "dataType": "Date",
+      "caption": "Дата держреєстрації",
+      "description": "Дата держреєстрації",
+      "allowNull": true
+    },
+    {
+      "name": "position",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Місцезнаходження",
+      "description": "Місцезнаходження",
+      "allowNull": true
+    },
+    {
+      "name": "employeeID",
+      "dataType": "Entity",
+      "associatedEntity": "uba_user",
+      "caption": "Змінено",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

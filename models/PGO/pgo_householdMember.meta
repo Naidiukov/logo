@@ -1,0 +1,283 @@
+{
+  "caption": "Члени домогосподарства",
+  "description": "Члени домогосподарства",
+  "connectionName": "main",
+  "sqlAlias": "pgo_household",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "orderNum",
+      "dataType": "Int",
+      "caption": "№ з/п",
+      "description": "№ з/п",
+      "allowNull": true
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Член домогосподарства",
+      "description": "Член домогосподарства",
+      "allowNull": false
+    },
+    {
+      "name": "isHead",
+      "dataType": "boolean",
+      "caption": "Голова домогосподарства",
+      "description": "Голова домогосподарства",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "gender",
+      "dataType": "Enum",
+      "enumGroup": "GENDER",
+      "caption": "Стать",
+      "description": "Стать",
+      "allowNull": true
+    },
+    {
+      "name": "birthDate",
+      "dataType": "Date",
+      "caption": "Дата народження",
+      "allowNull": false
+    },
+    {
+      "name": "birthCertificate",
+      "dataType": "String",
+      "size": 200,
+      "caption": "№ свідоцтва про народження",
+      "description": "№ свідоцтва про народження",
+      "allowNull": true
+    },
+    {
+      "name": "birthCertifDate",
+      "dataType": "Date",
+      "caption": "Дата видання свідоцтва про народження",
+      "allowNull": true
+    },
+    {
+      "name": "birthCertifIssuedBy",
+      "dataType": "Entity",
+      "associatedEntity": "inv_regUnit",
+      "caption": "Ким видано свідоцтво про народження",
+      "description": "Ким видано свідоцтво про народження",
+      "allowNull": true
+    },
+    {
+      "name": "passportSeries",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Серія/номер паспорта.Серія",
+      "allowNull": true
+    },
+    {
+      "name": "passportNumber",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Серія/номер паспорта.Номер",
+      "allowNull": true
+    },
+    {
+      "name": "idCardNumber",
+      "dataType": "String",
+      "size": 9,
+      "caption": "№ паспорта нового зразка",
+      "allowNull": true
+    },
+    {
+      "name": "passportIssueDate",
+      "dataType": "Date",
+      "caption": "Дата видачі",
+      "allowNull": true
+    },
+    {
+      "name": "passportIssuedBy",
+      "dataType": "Entity",
+      "associatedEntity": "inv_regUnit",
+      "caption": "Ким видано",
+      "description": "Ким видано",
+      "allowNull": true
+    },
+    {
+      "name": "idnCode",
+      "dataType": "String",
+      "size": 10,
+      "caption": "РНОКПП",
+      "allowNull": true
+    },
+    {
+      "name": "cognationID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_cognation",
+      "caption": "Родинні стосунки до голови домогосподарства",
+      "description": "Родинні стосунки до голови домогосподарства",
+      "allowNull": true
+    },
+    {
+      "name": "workPlace",
+      "dataType": "String",
+      "size": 300,
+      "caption": "Місце роботи",
+      "description": "Місце роботи",
+      "allowNull": true
+    },
+    {
+      "name": "privilegeStartDate",
+      "dataType": "Date",
+      "caption": "Дата початку дії пільги",
+      "allowNull": true
+    },
+    {
+      "name": "privilegeEndDate",
+      "dataType": "Date",
+      "caption": "Дата закінчення дії пільги",
+      "allowNull": true
+    },
+    {
+      "name": "exemptionID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_exemptionPhysDict",
+      "caption": "Пільгова категорія",
+      "description": "Пільгова категорія",
+      "allowNull": true
+    },
+    {
+      "name": "countryB",
+      "dataType": "Entity",
+      "associatedEntity": "inv_countryDict",
+      "caption": "Країна",
+      "description": "Країна (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "areaB",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Область",
+      "description": "Область (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "regionB",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Район",
+      "description": "Район (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementB",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "natalPlaceB",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Місце народження",
+      "description": "Місце народження (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "areaAddR",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Область",
+      "description": "Область (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "regionAddR",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Район",
+      "description": "Район (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementAddR",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "streetTypeAddR",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_streetType",
+      "caption": "Тип вулиці",
+      "description": "Тип вулиці (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "streetAddR",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_localStreet",
+      "caption": "Вулиця",
+      "description": "Вулиця (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "houseNumAddR",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Будинок",
+      "description": "Будинок (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "flatNumAddR",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Квартира",
+      "description": "Квартира (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "postIndex",
+      "dataType": "String",
+      "size": 5,
+      "caption": "Індекс",
+      "allowNull": true
+    },
+    {
+      "name": "objAccountingID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_objAccounting",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    },
+    {
+      "name": "oldID",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ID з старої системи",
+      "description": "ID з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

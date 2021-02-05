@@ -1,0 +1,30 @@
+{
+  "caption": "Причина скасування",
+  "description": "Причина скасування",
+  "connectionName": "main",
+  "sqlAlias": "comm_canres",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 20,
+      "caption": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

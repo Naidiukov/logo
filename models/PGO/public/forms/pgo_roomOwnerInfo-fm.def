@@ -1,0 +1,190 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_roomOwnerInfo"
+// @model "PGO"
+// @formType "auto"
+// @caption "Інформація про власника"
+// @description "Інформація про власника"
+exports.formDef = {
+    requiredFields: ['objAccountingID'],
+    items: [
+        {
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'year',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'personType',
+                    listeners: {
+                        change: function (fld, newV, oldV) {
+                            let form = this.up('form'),
+                                partCtrl = form.getField('part');
+                            if (newV == 'CO_OWNER') {
+                                partCtrl.show();
+                                partCtrl.setAllowBlank(false);
+                            } else {
+                                partCtrl.hide();
+                                partCtrl.setAllowBlank(true);
+                                partCtrl.setValue(null);
+                            }
+                        }
+                    }
+                },
+                {
+                    attributeName: 'payerID',
+                    disableContextMenu: true,
+                    whereList: {
+                        byPhys: {
+                            expression: '[personType]',
+                            condition: 'equal',
+                            values: {personType: 'PHYSICAL'}
+                        }
+                    },
+                    listeners: {
+                        select: function (fld, record) {
+                            let form = this.up('form'),
+                                realtyObjCtrl = form.queryById('realtyObjectID');
+                            if (record[0]) {
+                                if(ADM.AccessManager.checkAccess('PGO_04_01_02')) realtyObjCtrl.setReadOnly(false);
+                                realtyObjCtrl.store.ubRequest.whereList = {};
+                                realtyObjCtrl.store.ubRequest.whereList.byPayerID = {
+                                    expression: '[owner]',
+                                    condition: '=',
+                                    values: {owner: record[0].getData()['ID']}
+                                };
+                                realtyObjCtrl.setValue(null);
+                            }
+                        },
+                        change: function (fld, newV, oldV) {
+                            let form = this.up('form'),
+                                realtyObjCtrl = form.queryById('realtyObjectID');
+
+                            if (!newV) {
+                                realtyObjCtrl.setReadOnly(true);
+                                realtyObjCtrl.setValue(null);
+                                realtyObjCtrl.store.ubRequest.whereList = {};
+                            } else {
+
+                            }
+                        }
+                    }
+                },
+                {
+                    layout: {
+                        type: "hbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        labelWidth: 160
+                    },
+                    margin: "0, 0, 0, 0",
+                    items: [
+                        {
+                            attributeName: 'realtyObjectID',
+                            itemId: 'realtyObjectID',
+                            disableContextMenu: true,
+                            maxHeight: 20,
+                            flex: 1,
+                            readOnly: true,
+                            listeners: {
+                                afterrender: function (fld) {
+                                    fld.firstOpen = true;
+                                    fld.inputCell.on('contextmenu', function (e, t) {
+                                        e.stopEvent();
+                                        fld.contextMenu = Ext.create('Ext.menu.Menu', {
+                                            items: [{
+                                                text: UB.i18n('editSelItem'),
+                                                iconCls: 'fa fa-edit',
+                                                itemID: 'editItem',
+                                                disabled: !fld.getValue() || fld.up('form').isNewInstance || !ADM.AccessManager.checkAccess('PGO_04_01_02'),
+                                                handler: function (ctx) {
+                                                    let realtyID = fld.getValue(),
+                                                        form = fld.up('form');
+                                                    if (realtyID) {
+                                                        //form.form.reset();
+                                                        //form.up().doClose();
+                                                        $App.doCommand({
+                                                            cmdType: "showForm",
+                                                            formCode: 'inv_realtyObject',
+                                                            entity: "inv_realtyObject",
+                                                            instanceID: realtyID,
+                                                            isModal: true,
+                                                            cmpInitConfig: {
+                                                                pgoRealtyID: form.instanceID
+                                                            }
+                                                        });
+                                                    }
+
+                                                }
+                                            }]
+                                        });
+                                        fld.contextMenu.showAt(e.getXY());
+                                    });
+                                }
+                            }
+                        },
+                        {
+                            xtype: 'button',
+                            itemId: 'addButton',
+                            maxHeight: 40,
+                            flex: 2,
+                            maxWidth: 40,
+                            minHeight: 40,
+                            minWidth: 40,
+                            margin: '0, 4, 0, 0',
+                            tooltip: "Додати об'єкт нерухомості",
+                            style: 'background-color: white; border: 0px;',
+                            iconCls: 'fa fa-plus-circle fa-2x',
+                            disabled: !ADM.AccessManager.checkAccess('PGO_04_01_02'),
+                            handler: function (btn) {
+                                var form = this.up('form'),
+                                    payerID = form.getField('payerID').getValue(),
+                                    realtyObjectCtrl = form.getField('realtyObjectID');
+                                if (payerID) {
+                                    $App.doCommand({
+                                        cmdType: "showForm",
+                                        formCode: "inv_realtyObject",
+                                        entityName: "inv_realtyObject",
+                                        entity: "inv_realtyObject",
+                                        isModal: true,
+                                        initialFieldValues: {
+                                            owner: payerID
+                                        },
+                                        cmpInitConfig: {
+                                            ctrlToRefresh: realtyObjectCtrl
+                                        }
+                                    });
+
+                                    // form.up().doClose();
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    attributeName: 'part',
+                    hidden: true,
+                    xtype: 'textfield',
+                    allowExponential: false,
+                    allowDecimals: false,
+                    hideTrigger: true,
+                    validator: function (v) {
+                        return /^[0-9]*(,||\/)[0-9]*$/.test(v) ? true : 'Не припустимий формат!';
+                    }
+                },
+                {
+                    attributeName: 'notes'
+                }
+            ]
+        }
+    ]
+};

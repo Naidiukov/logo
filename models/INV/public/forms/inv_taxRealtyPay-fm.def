@@ -1,0 +1,84 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_taxRealtyPay"
+// @model "INV"
+// @formType "auto"
+// @caption "Пільги із сплати податку на нерухоме майно"
+// @description "Пільги із сплати податку на нерухоме майно"
+exports.formDef = {
+    items: [{
+        layout: {
+            type: 'vbox',
+            align: 'stretch'
+        },
+        //bodyStyle: 'padding:10px 10px 0',
+        items: [
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        xtype: 'numberfield',
+                        attributeName: 'year',
+                        itemId: 'calcYear',
+                        allowExponential: false,
+                        allowDecimals: false,
+                        hideTrigger: true,
+                        minValue: 1000
+
+                    }
+                ]
+            },
+            {
+
+                xtype: 'fieldset',
+                margin: "0, 15, 0, 15",
+                title: 'База оподаткування для фіз.осіб зменшується на, кв.м.:',
+                collapsible: false,
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [{
+                    attributeName: 'flat',
+                    xtype: 'numberfield',
+                    allowExponential: false,
+                    maxLength: 14,
+                    validator: function (v) {
+                        return /^[0-9]{1,10}(,[0-9]{1,2})?$/.test(v) ? true : 'Не припустимий формат!';
+                    }
+                }, {
+                    attributeName: 'house',
+                    xtype: 'numberfield',
+                    allowExponential: false,
+                    maxLength: 14,
+                    validator: function (v) {
+                        return /^[0-9]{1,10}(,[0-9]{1,2})?$/.test(v) ? true : 'Не припустимий формат!';
+                    }
+                },
+                    {
+                        attributeName: 'otherRealtyObj',
+                        xtype: 'numberfield',
+                        allowExponential: false,
+                        maxLength: 14,
+                        validator: function (v) {
+                            return /^[0-9]{1,10}(,[0-9]{1,2})?$/.test(v) ? true : 'Не припустимий формат!';
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    ]
+
+};

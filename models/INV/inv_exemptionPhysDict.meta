@@ -1,0 +1,64 @@
+{
+  "caption": "Довідник пільгових категорій фіз. осіб",
+  "description": "Довідник пільгових категорій фіз. осіб",
+  "connectionName": "main",
+  "sqlAlias": "inv_exphys",
+  "cacheType": "None",
+  "descriptionAttribute": "exemptionCat",
+  "attributes": [
+    {
+      "name": "exemptionCat",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Пільгова категорія",
+      "description": "Пільгова категорія",
+      "allowNull": false
+    },
+    {
+      "name": "managingOSG",
+      "dataType": "Currency",
+      "caption": "Для ведення ОСГ, Га",
+      "description": "Для ведення ОСГ, Га",
+      "allowNull": false,
+      "defaultValue": "2.00"
+    },
+    {
+      "name": "smallholding",
+      "dataType": "Currency",
+      "caption": "Присадибна ділянка, Га",
+      "description": "Присадибна ділянка, Га",
+      "allowNull": false,
+      "defaultValue": "0.25"
+    },
+    {
+      "name": "cottageConstruction",
+      "dataType": "Currency",
+      "caption": "Для дачного будівництва, Га",
+      "description": "Для дачного будівництва, Га",
+      "allowNull": false,
+      "defaultValue": "0.10"
+    },
+    {
+      "name": "constructionGarages",
+      "dataType": "Currency",
+      "caption": "Для  будівництва інд. гаражів, Га",
+      "description": "Для  будівництва інд. гаражів, Га",
+      "allowNull": false,
+      "defaultValue": "0.01"
+    },
+    {
+      "name": "managingGarden",
+      "dataType": "Currency",
+      "caption": "Для  ведення садівництва, Га",
+      "description": "Для  ведення садівництва, Га",
+      "allowNull": false,
+      "defaultValue": "0.12"
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

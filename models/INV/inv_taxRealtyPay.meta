@@ -1,0 +1,45 @@
+{
+  "caption": "Пільги із сплати податку на нерухоме майно",
+  "description": "Пільги із сплати податку на нерухоме майно",
+  "connectionName": "main",
+  "sqlAlias": "inv_taxpay",
+  "cacheType": "None",
+  "descriptionAttribute": "year",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "String",
+      "size": 4,
+      "caption": "Рік",
+      "description": "Рік",
+      "allowNull": false
+    },
+    {
+      "name": "flat",
+      "dataType": "Currency",
+      "caption": "Квартира",
+      "description": "Квартира",
+      "allowNull": true
+    },
+    {
+      "name": "house",
+      "dataType": "Currency",
+      "caption": "Житловий  будинок",
+      "description": "Житловий  будинок",
+      "allowNull": true
+    },
+    {
+      "name": "otherRealtyObj",
+      "dataType": "Currency",
+      "caption": "Інший об’єкт житлової нерухомості",
+      "description": "Інший об’єкт житлової нерухомості",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

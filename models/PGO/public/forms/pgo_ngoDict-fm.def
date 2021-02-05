@@ -1,0 +1,67 @@
+// @! "do not remove comments below unless you know what you do!"
+// @mi_modifyDate "Wed Aug 16 2017 20:45:07 GMT+0300 (FLE Standard Time)"
+// @isDefault "true"
+// @entity "pgo_ngoDict"
+// @model "PGO"
+// @formType "auto"
+// @caption "Довідник населених пунктів"
+// @description "Довідник населених пунктів"
+exports.formDef = {
+    items: [
+        {
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'localGovernment'
+                },
+                {
+                    attributeName: 'regionName'
+                },
+                {
+                    attributeName: 'areaName'
+                },
+                {
+                    xtype: "ubdetailgrid",
+                    title: 'Населені пункти',
+                    itemId: "gridLocality",
+                    hideToolbar: false,
+                    toolbarActionList: ['refresh', 'addNew', 'del'],
+                    //hideMenuAllActions: true,
+                    hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                    autoScroll: true,
+                    margin: "0, 0, 5, 0",  //top, right, buttom, left
+                    cmdType: "showList",
+                    selModel: {
+                        selectionMode: "SINGLE"
+                    },
+                    entityConfig: {
+                        entity: "pgo_settlementDict",
+                        method: "select",
+                        fieldList: [
+                            {name: "ID", visibility: false},
+                            {name: "pgoDictID", visibility: false},
+                            {name: "koattNum"},
+                            {name: "governmentStatus"},
+                            {name: "governmentName"}
+                        ]
+                    },
+                    masterFields: ["ID"],
+                    detailFields: ["pgoDictID"],
+                    onDeterminateForm: function () {
+                        return true;
+                    },
+                    onItemContextMenu: function (grid, record, item, index, event) {
+
+                    }
+                }
+            ]
+        }
+    ]
+};

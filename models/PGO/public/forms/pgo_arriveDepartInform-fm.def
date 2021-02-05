@@ -1,0 +1,138 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_arriveDepartInform"
+// @model "PGO"
+// @formType "auto"
+// @caption "Відомості про вибуття/ повернення з/до домогосподарства"
+// @description "Відомості про вибуття/ повернення з/до домогосподарства"
+var setFieldsVisibility = function (field, isVisible, blank) {
+
+    if(isVisible) {
+        field.show();
+        if(blank) field.setAllowBlank(false) ;
+    }else{
+        field.hide();
+        field.setValue(null);
+        if(blank) field.setAllowBlank(true);
+    }
+};
+exports.formDef = {
+    size: {
+        width: 500,
+        height: 500
+    },
+    items: [
+        {
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'regDate',
+                    maxValue: new Date()
+                },
+                {
+                    attributeName: 'departureDate',
+                    maxValue: new Date(),
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                regDateCtrl = form.getField('regDate'),
+                                deathDepartureCtrl = form.getField('deathDeparture'),
+                                reasonCtrl = form.getField('reason');
+                            setFieldsVisibility(reasonCtrl, newValue && !deathDepartureCtrl.getValue(), true);
+                            if(newValue){
+                                regDateCtrl.setAllowBlank(false);
+                            }else{
+                                regDateCtrl.setAllowBlank(true);
+                            }
+                        }
+                    }
+                },
+                {
+                    attributeName: 'returnDate',
+                    maxValue: new Date(),
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                regDateCtrl = form.getField('regDate'),
+                                departureDateCtrl = form.getField('departureDate'),
+                                fullDepartureCtrl = form.getField('fullDeparture'),
+                                deathDepartureCtrl = form.getField('deathDeparture'),
+                                reasonCtrl = form.getField('reason');
+                            setFieldsVisibility(reasonCtrl, newValue && !deathDepartureCtrl.getValue(), true);
+                            if(newValue){
+                                regDateCtrl.setAllowBlank(false);
+                                departureDateCtrl.setAllowBlank(false);
+                            }else{
+                                if(!fullDepartureCtrl.getValue())regDateCtrl.setAllowBlank(true);
+                                departureDateCtrl.setAllowBlank(true);
+                            }
+                        }
+                    }
+                },
+                {
+                    attributeName: 'fullDeparture',
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                regDateCtrl = form.getField('regDate'),
+                                departureDateCtrl = form.getField('departureDate'),
+                                deathDepCtrl = form.getField('deathDeparture'),
+                                reasonCtrl = form.getField('reason');
+                            if(newValue) regDateCtrl.setAllowBlank(false);
+                            else if(!departureDateCtrl.getValue()) regDateCtrl.setAllowBlank(true);
+                            setFieldsVisibility(deathDepCtrl, newValue, false);
+
+                        }
+                    }
+                },
+                {
+                    attributeName: 'deathDeparture',
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+
+                            let form = this.up('form'),
+                                departureDateCtrl = form.getField('departureDate'),
+                                returnDateCtrl = form.getField('returnDate'),
+                                deathCertificateCtrl = form.getField('deathCertificate'),
+                                certIssueDateCtrl = form.getField('certIssueDate'),
+                                certIssuedByCtrl = form.getField('certIssuedBy'),
+                                reasonCtrl = form.getField('reason');
+                            setFieldsVisibility(deathCertificateCtrl, newValue, true);
+                            setFieldsVisibility(certIssueDateCtrl, newValue, true);
+                            setFieldsVisibility(certIssuedByCtrl, newValue, true);
+                            setFieldsVisibility(reasonCtrl, !newValue && (departureDateCtrl.getValue() || returnDateCtrl.getValue()), true);
+
+                        }
+                    },
+                    hidden: true
+                },
+                {
+                    attributeName: 'deathCertificate',
+                    hidden: true
+                },
+                {
+                    attributeName: 'certIssueDate',
+                    hidden: true
+                },
+                {
+                    attributeName: 'certIssuedBy',
+                    hidden: true
+                },
+                {
+                    attributeName: 'reason',
+                    hidden: true
+                },
+                {
+                    attributeName: 'preRegPlace'
+                }
+            ]
+        }
+    ]
+};

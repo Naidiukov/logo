@@ -1,0 +1,32 @@
+{
+  "caption": "Довідник країн",
+  "description": "Довідник країн",
+  "connectionName": "main",
+  "sqlAlias": "inv_countryd",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Код",
+      "description": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Країна",
+      "description": "Країна",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

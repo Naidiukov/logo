@@ -1,0 +1,142 @@
+<!--@name "Заява про реєстрацію місця проживання малолітньої дитини"-->
+<!--@report_code "applBabyReg"-->
+<!--@model "COMM"-->
+<!--@ID "333802630643713"-->
+
+
+
+<!--%pageOrientation:portrait--><p style="text-align: right; margin-right: 70px;">Додаток&nbsp;7<br />до Правил</p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: bottom; text-align: left; padding: 0;">Органу реєстрації</td>
+</tr>
+<tr>
+<td style="width: 45%; font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="width: 55%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: left;">{{unitName1}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: center; padding: 0; padding-top: 1px;">(найменування органу реєстрації)</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{unitName2}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;"></td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{fullName}} {{birthDate}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: center; padding: 0; padding-top: 1px;">(прізвище, ім’я та по батькові особи (представника),</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;"></td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{addrBPlace1}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: center; padding: 0; padding-top: 1px;">дата і місце народження, громадянство/підданство)</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;"></td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{addrBPlace2}}</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 14px; font-weight: bold;">&nbsp;</p>
+<p style="text-align: center; font-size: 14px; font-weight: bold;">ЗАЯВА<br />про реєстрацію місця проживання малолітньої дитини</p>
+<p style="text-indent: 60px; text-align: justify;">Прошу зареєструвати місце проживання малолітньої дитини</p>
+<p style="text-indent: 60px;">прізвище ___________________________________________________________________</p>
+<p style="text-indent: 60px; margin-top: -5px;">ім&rsquo;я ________________________________________________________________________</p>
+<p style="text-indent: 60px; margin-top: -5px;">по батькові _________________________________________________________________</p>
+<p style="text-indent: 60px; margin-top: -5px;">дата і місце народження ______________________________________________________</p>
+<p style="text-indent: 60px; margin-top: -5px;">громадянство/підданство _____________________________________________________</p>
+<p style="text-indent: 60px; margin-top: -5px;">за адресою __________________________________________________________________</p>
+<p style="text-indent: 330px; font-size: 10px; margin-top: -6px;">(адреса житла або адреса (місцезнаходження) спеціалізованої соціальної</p>
+<p style="text-indent: 60px;">____________________________________________________________________________</p>
+<p style="text-indent: 130px; font-size: 10px; margin-top: -8px;">установи, закладу соціального обслуговування та соціального захисту або військової частини,</p>
+<p style="text-indent: 60px;">____________________________________________________________________________</p>
+<p style="text-indent: 455px; font-size: 10px; margin-top: -6px;">за якою реєструється місце проживання)</p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0;">
+<p style="text-indent: 80px; text-align: justify;">адреса реєстрації місця проживання на дату звернення (попереднього місця проживання) ____________________________________________________________________</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; text-align: center; height: 22px; font-size: 10px; padding-top: -3px;">(адреса житла</td>
+</tr>
+<tr>
+<td style="vertical-align: top; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; text-align: center; height: 22px; font-size: 10px;">або адреса (місцезнаходження) спеціалізованої соціальної установи, закладу соціального обслуговування</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">та соціального захисту або військової частини, назва іншої країни, звідки прибув)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; text-align: justify; padding: 0;">
+<p style="text-indent: 60px; height: 22px;">Унікальний номер запису в Єдиному державному демографічному реєстрі*</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; padding: 0; text-align: justify; padding-top: 8px;">
+<p style="text-indent: 60px;">Свідоцтво про народження (подається при реєстрації місця проживання дітей до 16 років) __________________________________________________________________________</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; text-align: center; height: 32px; font-size: 10px; padding-top: -10px;">(серія, номер, дата видачі, найменування органу,</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">який його видав)</td>
+</tr>
+</tbody>
+</table>
+<p style="text-indent: 60px; text-align: justify;">Документ, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;що &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;посвідчує &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;особу &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;законного &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;представника/представника за довіреністю __________________________________________________________________</p>
+<p style="text-indent: 330px; font-size: 10px; margin-top: -8px;">(вид, серія, номер, дата видачі, найменування органу, який його видав,</p>
+<p style="text-indent: 60px; margin-top: -5px;">____________________________________________________________________________</p>
+<p style="text-indent: 240px; font-size: 10px; margin-top: -8px;">унікальний номер запису в Єдиному державному демографічному реєстрі*)</p>
+<p style="text-indent: 60px; margin-top: -5px;">____________________________________________________________________________</p>
+<p style="text-indent: 60px; margin-top: -2px;">_____ ________________ 20 __ р. ___________________</p>
+<p><!-- pagebreak --></p>
+<p style="text-indent: 60px;">До заяви додаю: квитанцію про сплату адміністративного збору.</p>
+<p></p>
+<p style="text-align: center;">Підстава для реєстрації місця проживання малолітньої дитини -<br/>документи, що підтверджують (необхідне заповнити)</p>
+<p style="text-indent: 60px; text-align: justify;">1. Право на проживання в житлі (зазначені документи подаються в разі реєстрації малолітньої &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;дитини &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;не &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;за &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;адресою &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;батьків/законних представників) __________________________________________________________________</p>
+<p style="text-indent: 400px; font-size: 10px; margin-top: -6px;">(вид документа, що посвідчує особу, серія, номер, дата видачі,</p>
+<p>_______________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">найменування органу, який його видав)</p>
+<p style="text-indent: 60px; text-align: justify;">2. Перебування або взяття на облік у спеціалізованій соціальній установі, закладі соціального обслуговування та соціального захисту (заповнюється у разі реєстрації за адресою відповідної установи/закладу) _____________________________________________</p>
+<p style="margin-top: -6px;">________________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">(реквізити документів, що підтверджують право на перебування у спеціалізованій соціальній</p>
+<p style="margin-top: -6px;">________________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">установі, закладі соціального обслуговування та соціального захисту)</p>
+<p style="text-indent: 60px;">Я, __________________________________________________________, який є законним</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">(прізвище, ім’я та по батькові)</p>
+<p style="margin-top: -5px;">представником</p>
+<p style="margin-top: -5px;">____________________________________________________, даю згоду на реєстрацію місця</p>
+<p style="text-indent: 200px; font-size: 10px; margin-top: -6px;">(прізвище, ім’я та по батькові особи)</p>
+<p style="margin-top: -5px; text-align: justify;">її проживання (за наявності в особи двох або більше законних представників реєстрація місця проживання здійснюється за згодою інших законних представників).</p>
+<p></p>
+<p style="text-align: center;">Службові відмітки</p>
+<p style="text-indent: 60px;">Заяву  &nbsp;&nbsp;&nbsp;&nbsp;прийняв,  &nbsp;&nbsp;наявність  &nbsp;&nbsp;та  &nbsp;&nbsp;правильність  &nbsp;&nbsp;необхідних  &nbsp;&nbsp;документів  &nbsp;&nbsp;перевірив</p>
+<p style="margin-top: -6px;">_______________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">(посада, підпис, прізвище та ініціали особи, що прийняла документи)</p>
+<p style="text-indent: 60px; margin-bottom: 20px;">М.П. _____ ___________ 20 ___ р.</p>
+<p style="text-indent: 60px;">У &nbsp;&nbsp;реєстрації &nbsp;&nbsp;місця &nbsp;&nbsp;проживання &nbsp;&nbsp;відмовлено &nbsp;&nbsp;_____ &nbsp;&nbsp;_________________ &nbsp;&nbsp;20 &nbsp;&nbsp;__ &nbsp;&nbsp;р.</p>
+<p style="margin-top: -6px;">_______________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">(найменування органу реєстрації, посада, підпис, прізвище та ініціали працівника,</p>
+<p style="margin-top: -6px;">_______________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">що прийняв рішення)</p>
+<p style="margin-top: -6px;">_______________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">(зазначаються підстави, визначені пунктом 11 Правил реєстрації місця проживання)</p>
+<p></p>
+<p style="text-indent: 60px;">Місце &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;проживання &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;зареєстровано &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_____ &nbsp;&nbsp;&nbsp;&nbsp;___________________ &nbsp;&nbsp;20 &nbsp;&nbsp;___ &nbsp;&nbsp;р.</p>
+<p style="margin-top: -6px;">_______________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">(найменування органу реєстрації, посада, підпис, прізвище</p>
+<p style="margin-top: -6px;">_______________________________________________________________________________</p>
+<p style="text-align: center; font-size: 10px; margin-top: -6px;">та ініціали працівника, що здійснив реєстрацію)</p>
+<p style="font-size: 10px;">__________</p>
+<p style="text-indent: 70px; font-size: 10px;">* Для осіб, яким оформлено паспорт громадянина України чи паспорт громадянина України для виїзду за кордон засобами Єдиного державного демографічного реєстру.</p>

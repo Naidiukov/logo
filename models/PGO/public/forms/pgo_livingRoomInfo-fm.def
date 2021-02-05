@@ -1,0 +1,140 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_livingRoomInfo"
+// @model "PGO"
+// @formType "auto"
+// @caption "Відомості про житловий об’єкт"
+// @description "Відомості про житловий об’єкт"
+exports.formDef = {
+    requiredFields:['objAccountingID'],
+    size: {
+        width: 495,
+        height: 880
+    },
+    items:[
+        {
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'year',
+                    xtype: 'numberfield',
+                    allowExponential: false,
+                    allowDecimals: false,
+                    hideTrigger: true,
+                    maxLength: 4,
+                    minValue: 1000,
+                    readOnly: true
+                },
+                {
+                    attributeName: 'buildYear',
+                    xtype: 'numberfield',
+                    allowExponential: false,
+                    allowDecimals: false,
+                    hideTrigger: true,
+                    maxLength: 4,
+                    minValue: 1000
+                },
+                {
+                    attributeName: 'roomType',
+                },
+                {
+                    attributeName: 'wallMaterial'
+                },
+                {
+                    attributeName: 'roofMaterial'
+                },
+                {
+                    attributeName: 'checkDate',
+                    maxValue: new Date()
+                },
+                {
+                    attributeName: 'totalArea',
+                    xtype: 'numberfield',
+                    decimalPrecision : 4,
+                    minValue: 0,
+                    negativeText: "Число не може бути від'ємним!",
+                    fieldLabel: 'Загальна площа, м<sup style="font-size: 9px">2</sup>'
+                },
+                {
+                    attributeName: 'summerArea',
+                    xtype: 'numberfield',
+                    decimalPrecision : 4,
+                    minValue: 0,
+                    negativeText: "Число не може бути від'ємним!",
+                    fieldLabel: 'З них, літніх приміщень, м<sup style="font-size: 9px">2</sup>'
+                },
+                {
+                    attributeName: 'livingArea',
+                    xtype: 'numberfield',
+                    decimalPrecision : 4,
+                    minValue: 0,
+                    negativeText: "Число не може бути від'ємним!",
+                    fieldLabel: 'Житлова площа, м<sup style="font-size: 9px">2</sup>'
+                },
+                {
+                    attributeName: 'ownershipArea',
+                    xtype: 'numberfield',
+                    decimalPrecision : 4,
+                    minValue: 0,
+                    negativeText: "Число не може бути від'ємним!",
+                    fieldLabel: 'Заг.площа домоволодіння, м<sup style="font-size: 9px">2</sup>'
+                },
+                {
+                    attributeName: 'floorCount',
+                    xtype: 'numberfield',
+                    allowExponential: false,
+                    allowDecimals: false,
+                    minValue: 0,
+                    negativeText: "Число не може бути від'ємним!",
+                    hideTrigger: true
+                },
+                {
+                    attributeName: 'livingRoomCount',
+                    xtype: 'numberfield',
+                    allowExponential: false,
+                    allowDecimals: false,
+                    minValue: 0,
+                    negativeText: "Число не може бути від'ємним!",
+                    hideTrigger: true
+                },
+                {
+                    attributeName: 'aqueduct'
+                },
+                {
+                    attributeName: 'sewerage'
+                },
+                {
+                    attributeName: 'heating'
+                },
+                {
+                    attributeName: 'hotWater'
+                },
+                {
+                    attributeName: 'bath',
+                },
+                {
+                    attributeName: 'naturalGas'
+                },
+                {
+                    attributeName: 'liquefiedGas'
+                },
+                {
+                    attributeName: 'electricPlate'
+                },
+                {
+                    attributeName: 'oldFund'
+                },
+                {
+                    attributeName: 'emergencyFund'
+                }
+            ]
+        }
+    ]
+};

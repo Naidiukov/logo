@@ -1,0 +1,132 @@
+{
+  "caption": "Журнал змін МПН",
+  "description": "Журнал змін МПН",
+  "connectionName": "main",
+  "sqlAlias": "inv_objlog",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "changeDate",
+      "dataType": "DateTime",
+      "caption": "Дата зміни",
+      "allowNull": false
+    },
+    {
+      "name": "actionType",
+      "dataType": "Enum",
+      "enumGroup": "HISTORY_TYPE",
+      "caption": "Тип операції",
+      "description": "Тип операції",
+      "allowNull": false
+    },
+    {
+      "name": "oType",
+      "dataType": "String",
+      "size": 20,
+      "caption": "Тип об’єкта",
+      "description": "Тип об’єкта",
+      "allowNull": true
+    },
+    {
+      "name": "landCategory",
+      "dataType": "Enum",
+      "enumGroup": "LAND_CATEGORY",
+      "caption": "Категорія земель",
+      "description": "Категорія земель",
+      "allowNull": true
+    },
+    {
+      "name": "landPurpose",
+      "dataType": "Enum",
+      "enumGroup": "LAND_PURPOSE",
+      "caption": "Угіддя",
+      "description": "Угіддя",
+      "allowNull": true
+    },
+    {
+      "name": "cadastralNumber",
+      "dataType": "String",
+      "size": 30,
+      "caption": "Кадастровий номер",
+      "description": "Кадастровий номер",
+      "allowNull": true
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа",
+      "description": "Загальна площа",
+      "allowNull": true
+    },
+    {
+      "name": "address",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Адреса",
+      "description": "Адреса",
+      "allowNull": true
+    },
+    {
+      "name": "documentOwnership",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Документ права власності",
+      "description": "Документ права власності",
+      "allowNull": true
+    },
+    {
+      "name": "registryData",
+      "dataType": "Date",
+      "caption": "Дата держреєстрації",
+      "description": "Дата держреєстрації",
+      "allowNull": true
+    },
+    {
+      "name": "owner",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Власник",
+      "description": "Власник",
+      "allowNull": true
+    },
+    {
+      "name": "location",
+      "dataType": "Enum",
+      "enumGroup": "INV_LOCATION",
+      "caption": "Розташування",
+      "description": "Розташування",
+      "allowNull": true
+    },
+    {
+      "name": "useType",
+      "dataType": "Enum",
+      "enumGroup": "INV_USETYPE",
+      "caption": "Вид використання",
+      "description": "Вид використання",
+      "allowNull": true
+    },
+    {
+      "name": "terminationDate",
+      "dataType": "Date",
+      "caption": "Дата припинення права власності",
+      "description": "Дата припинення права власності",
+      "allowNull": true
+    },
+    {
+      "name": "employeeID",
+      "dataType": "Entity",
+      "associatedEntity": "uba_user",
+      "caption": "Змінено",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

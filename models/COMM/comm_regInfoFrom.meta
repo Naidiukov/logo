@@ -1,0 +1,123 @@
+{
+  "caption": "Інформація про реєстрацію (Звідки прибув)",
+  "description": "Інформація про реєстрацію (Звідки прибув)",
+  "connectionName": "main",
+  "sqlAlias": "comm_reginfrom",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "removeDate",
+      "dataType": "Date",
+      "caption": "Дата зняття з реєстрації попереднього місця проживання/ перебування",
+      "allowNull": false
+    },
+    {
+      "name": "area",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Область",
+      "description": "Область",
+      "allowNull": true
+    },
+    {
+      "name": "region",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Район",
+      "description": "Район",
+      "allowNull": true
+    },
+    {
+      "name": "settlement",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт",
+      "allowNull": true
+    },
+    {
+      "name": "streetType",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_streetType",
+      "caption": "Тип вулиці",
+      "description": "Тип вулиці",
+      "allowNull": true
+    },
+    {
+      "name": "settlementDistrict",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDistrict",
+      "caption": "Район міста",
+      "description": "Район міста",
+      "allowNull": true
+    },
+    {
+      "name": "street",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_localStreet",
+      "caption": "Вулиця",
+      "description": "Вулиця",
+      "allowNull": true
+    },
+    {
+      "name": "houseNum",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Будинок",
+      "description": "Будинок",
+      "allowNull": true
+    },
+    {
+      "name": "flatNum",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Квартира",
+      "description": "Квартира",
+      "allowNull": true
+    },
+    {
+      "name": "postIndex",
+      "dataType": "String",
+      "size": 5,
+      "caption": "Індекс",
+      "allowNull": true
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Платник",
+      "description": "Платник",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  },
+  "dbExtensions": {
+    "IDX_COMM_REGINFROM_AREA": {
+      "type": "INDEX",
+      "definition": {
+        "keys": {
+          "area": {}
+        },
+        "isUnique": false
+      }
+    },
+    "IDX_COMM_REGINFROM_REGION": {
+      "type": "INDEX",
+      "definition": {
+        "keys": {
+          "region": {}
+        },
+        "isUnique": false
+      }
+    }
+  }
+}

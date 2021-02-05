@@ -1,0 +1,14 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_yearsDic"
+// @model "PGO"
+// @formType "auto"
+// @caption "Період"
+// @description "Період"
+exports.formDef = {
+	items:[
+		{ attributeName: "yearFrom",minValue:1990,maxLength:4 /*Рік з*/},
+    { attributeName: "yearTo",minValue:1994,maxLength:4 /*Рік по*/}
+
+	]
+};

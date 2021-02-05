@@ -1,0 +1,110 @@
+<!--@name "Про розмір земельної ділянки"-->
+<!--@report_code "landPlotSize"-->
+<!--@model "PGO"-->
+<!--@ID "333283557736449"-->
+
+
+
+<!--%pageOrientation:portrait--><p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><span style="font-size: 14pt;"><strong>ДОВІДКА</strong></span><br /><span style="font-size: 14pt;"><strong>про розмір земельної ділянки</strong></span></p>
+<p style="text-align: center;">&nbsp;</p>
+<table style="word-break: break-all;" width="673" cellspacing="0" cellpadding="3px" border="">
+<tbody>
+<tr>
+<td style="width: 70px; padding: 0px; text-align: left; vertical-align: bottom;"><span style="font-size: 14pt;">Видана</span></td>
+<td style="width: 602px; padding: 0px; text-align: center; vertical-align: bottom; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;"><strong>{{formParams.issued}}</strong></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;">Сім&rsquo;я користується:</span></p>
+<table style="word-break: normal; width: 100%;" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td><span style="font-size: 14pt;">1.</span></td>
+<td colspan="2"><span style="font-size: 14pt;">Земельною ділянкою&nbsp;<!--{{#yearSum}}-->{{yearSum}}<!--{{/yearSum}}--><!--{{^yearSum}}--><strong>_______</strong><!--{{/yearSum}}--> га. в т.ч.  для ведення :</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span style="font-size: 14pt;">Під садибні ділянки</span></td>
+<td><span style="font-size: 14pt;"><!--{{#smallHolding}}-->{{smallHolding}}<!--{{/smallHolding}}--><!--{{^smallHolding}}--><strong>_____</strong><!--{{/smallHolding}}--> га.;</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span style="font-size: 14pt;">Особистого селянського господарства</span></td>
+<td><span style="font-size: 14pt;"><!--{{#osgManage}}-->{{osgManage}}<!--{{/osgManage}}--><!--{{^osgManage}}--><strong>_____</strong><!--{{/osgManage}}--> га.;</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span style="font-size: 14pt;">Городництва</span></td>
+<td><span style="font-size: 14pt;"><strong>_____</strong>&nbsp; га.;</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span style="font-size: 14pt;">Сінокосіння</span></td>
+<td><span style="font-size: 14pt;"><strong>_____</strong>&nbsp; га.;</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span style="font-size: 14pt;">Пасовища</span></td>
+<td><span style="font-size: 14pt;"><strong>_____</strong>&nbsp; га.;</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><span style="font-size: 14pt;">2.</span></td>
+<td><span style="font-size: 14pt;">Земельним паєм&nbsp;&nbsp;<strong>______&nbsp;&nbsp;</strong>га. в т.ч.:</span></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="vertical-align: top;"><span style="font-size: 14pt;">a)</span></td>
+<td style="text-align: justify;" colspan="2"><span style="font-size: 14pt;">Пай, зданий в оренду по договору&nbsp;&nbsp;<strong>______</strong>&nbsp;га.;</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="vertical-align: top;"><span style="font-size: 14pt;">б)</span></td>
+<td style="text-align: justify;" colspan="2"><span style="font-size: 14pt;">Пай перебуває в користуванні сільгосппідприємства без укладання договору оренди <strong>______</strong> га.;</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="vertical-align: top;"><span style="font-size: 14pt;">с)</span></td>
+<td colspan="2"><span style="font-size: 14pt;">Пай приєднаний до особистого підсобного господарства&nbsp;<strong>______</strong> га.</span></td>
+</tr>
+<tr>
+<td style="width: 35px;">&nbsp;</td>
+<td style="width: 35px;">&nbsp;</td>
+<td style="width: 300px;">&nbsp;</td>
+<td style="width: 438px;">&nbsp;&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p style="text-indent: 150px;"><span style="font-size: 14pt;">Довідка видана для пред&rsquo;явлення до управління праці та соціального захисту населення.</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="773" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td style="width: 1072px;">
+<p style="text-indent: 100px; font-size: 14pt;">Сільський голова</p>
+</td>
+<td style="width: 472px;">
+<p style="font-size: 14pt;">{{local.headShortName}}</p>
+</td>
+</tr>
+<tr>
+<td style="width: 1072px;">
+<p style="text-indent: 100px; font-size: 14pt;">Секретар</p>
+</td>
+<td style="width: 472px;">
+<p style="font-size: 14pt;">{{local.clerkShortName}}</p>
+</td>
+</tr>
+</tbody>
+</table>

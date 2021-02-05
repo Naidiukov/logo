@@ -1,0 +1,140 @@
+{
+  "caption": "Договори оренди",
+  "description": "Договори оренди",
+  "connectionName": "main",
+  "sqlAlias": "inv_lease",
+  "cacheType": "None",
+  "descriptionAttribute": "agreeNum",
+  "attributes": [
+    {
+      "name": "agreeNum",
+      "dataType": "String",
+      "size": 10,
+      "caption": "№ договору",
+      "description": "№ договору",
+      "allowNull": false
+    },
+    {
+      "name": "renter",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Орендар",
+      "description": "Орендар",
+      "allowNull": false
+    },
+    {
+      "name": "landLord",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Орендодавець",
+      "description": "Орендодавець",
+      "allowNull": false
+    },
+    {
+      "name": "startDate",
+      "dataType": "Date",
+      "caption": "Дата початку дії",
+      "description": "Дата початку дії",
+      "allowNull": false
+    },
+    {
+      "name": "endDate",
+      "dataType": "Date",
+      "caption": "Дата закінчення дії",
+      "description": "Дата закінчення дії",
+      "allowNull": false
+    },
+    {
+      "name": "stopDate",
+      "dataType": "Date",
+      "caption": "Дата припинення",
+      "description": "Дата припинення",
+      "allowNull": true
+    },
+    {
+      "name": "validTerm",
+      "dataType": "String",
+      "size": 9,
+      "caption": "Строк дії, років",
+      "description": "Строк дії, років",
+      "allowNull": false
+    },
+    {
+      "name": "state",
+      "dataType": "Enum",
+      "enumGroup": "INV_AGREESTATE",
+      "caption": "Стан",
+      "description": "Стан",
+      "defaultValue": "PROJECT",
+      "allowNull": false
+    },
+    {
+      "name": "rentPay",
+      "dataType": "Currency",
+      "caption": "Орендна плата, грн",
+      "description": "Орендна плата, грн",
+      "allowNull": false
+    },
+    {
+      "name": "payTerm",
+      "dataType": "Enum",
+      "enumGroup": "INV_PAYTERM",
+      "caption": "Строки оплати",
+      "description": "Строки оплати",
+      "allowNull": true
+    },
+    {
+      "name": "fine",
+      "dataType": "Currency",
+      "caption": "Пеня",
+      "description": "Пеня",
+      "allowNull": true
+    },
+    {
+      "name": "indexation",
+      "dataType": "boolean",
+      "caption": "Індексація",
+      "description": "Індексація",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "useGoal",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Мета використання",
+      "description": "Мета використання",
+      "allowNull": true
+    },
+    {
+      "name": "insurance",
+      "dataType": "boolean",
+      "caption": "Страхування ",
+      "description": "Страхування ",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "insurer",
+      "dataType": "Enum",
+      "enumGroup": "INV_INSURERTYPE",
+      "caption": "Страхувальник",
+      "description": "Страхувальник",
+      "allowNull": true
+    },
+    {
+      "name": "notes",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Примітка",
+      "description": "Примітка ",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

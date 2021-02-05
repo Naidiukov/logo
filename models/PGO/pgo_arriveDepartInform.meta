@@ -1,0 +1,98 @@
+{
+  "caption": "Відомості про вибуття/ повернення з/до домогосподарства",
+  "description": "Відомості про вибуття/ повернення з/до домогосподарства",
+  "connectionName": "main",
+  "sqlAlias": "pgo_arriveinf",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "regDate",
+      "dataType": "Date",
+      "caption": "Дата реєстрації",
+      "allowNull": true
+    },
+    {
+      "name": "departureDate",
+      "dataType": "Date",
+      "caption": "Дата вибуття",
+      "allowNull": true
+    },
+    {
+      "name": "returnDate",
+      "dataType": "Date",
+      "caption": "Дата повернення",
+      "allowNull": true
+    },
+    {
+      "name": "fullDeparture",
+      "dataType": "boolean",
+      "caption": "Повне вибуття",
+      "description": "Повне вибуття",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "deathDeparture",
+      "dataType": "boolean",
+      "caption": "Причина вибуття - смерть",
+      "description": "Причина вибуття - смерть",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "deathCertificate",
+      "dataType": "String",
+      "size": 200,
+      "caption": "№ свідоцтва про смерть",
+      "description": "№ свідоцтва про смерть",
+      "allowNull": true
+    },
+    {
+      "name": "certIssueDate",
+      "dataType": "Date",
+      "caption": "Дата видання свідоцтва",
+      "allowNull": true
+    },
+    {
+      "name": "certIssuedBy",
+      "dataType": "String",
+      "size": 300,
+      "caption": "Ким видано свідоцтво",
+      "description": "Ким видано свідоцтво",
+      "allowNull": true
+    },
+    {
+      "name": "reason",
+      "dataType": "String",
+      "size": 1000,
+      "caption": "Причина",
+      "description": "Причина",
+      "allowNull": true
+    },
+    {
+      "name": "preRegPlace",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Попереднє місце реєстрації проживання",
+      "description": "Попереднє місце реєстрації проживання",
+      "allowNull": true
+    },
+    {
+      "name": "houseMemberID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_householdMember",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

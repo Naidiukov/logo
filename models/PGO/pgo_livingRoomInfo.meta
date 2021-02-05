@@ -1,0 +1,205 @@
+{
+  "caption": "Відомості про житловий об’єкт",
+  "description": "Відомості про житловий об’єкт",
+  "connectionName": "main",
+  "sqlAlias": "pgo_livingroom",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "Int",
+      "caption": "Рік обходу",
+      "description": "Рік обходу",
+      "allowNull": false
+    },
+    {
+      "name": "buildYear",
+      "dataType": "Int",
+      "caption": "Рік побудови",
+      "description": "Рік побудови",
+      "allowNull": true
+    },
+    {
+      "name": "roomType",
+      "dataType": "Enum",
+      "enumGroup": "ROOM_TYPE",
+      "caption": "Тип приміщення",
+      "description": "Тип приміщення",
+      "allowNull": false
+    },
+    {
+      "name": "wallMaterial",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_wallMaterial",
+      "caption": "Матеріал стін",
+      "description": "Матеріал стін",
+      "allowNull": true
+    },
+    {
+      "name": "roofMaterial",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_roofMaterial",
+      "caption": "Матеріал покрівлі",
+      "description": "Матеріал покрівлі",
+      "allowNull": true
+    },
+    {
+      "name": "checkDate",
+      "dataType": "Date",
+      "caption": "Дата обходу",
+      "allowNull": false
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа (м2)",
+      "allowNull": false
+    },
+    {
+      "name": "summerArea",
+      "dataType": "float",
+      "caption": "З них, літніх приміщень, м2",
+      "allowNull": true
+    },
+    {
+      "name": "livingArea",
+      "dataType": "float",
+      "caption": "Житлова площа, м2",
+      "allowNull": true
+    },
+    {
+      "name": "ownershipArea",
+      "dataType": "float",
+      "caption": "Заг.площа домоволодіння (м2)",
+      "allowNull": true
+    },
+    {
+      "name": "floorCount",
+      "dataType": "Int",
+      "caption": "К-сть поверхів",
+      "description": "К-сть поверхів",
+      "allowNull": true
+    },
+    {
+      "name": "livingRoomCount",
+      "dataType": "Int",
+      "caption": "К-сть житлових кімнат",
+      "description": "К-сть житлових кімнат",
+      "allowNull": true
+    },
+    {
+      "name": "aqueduct",
+      "dataType": "boolean",
+      "caption": "Водопровід",
+      "description": "Водопровід",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "sewerage",
+      "dataType": "boolean",
+      "caption": "Каналізація",
+      "description": "Каналізація",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "heating",
+      "dataType": "Enum",
+      "enumGroup": "HEATING",
+      "caption": "Опалення",
+      "description": "Опалення",
+      "allowNull": true
+    },
+    {
+      "name": "hotWater",
+      "dataType": "boolean",
+      "caption": "Гаряче водопостачання",
+      "description": "Гаряче водопостачання",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "bath",
+      "dataType": "boolean",
+      "caption": "Ванна",
+      "description": "Ванна",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "naturalGas",
+      "dataType": "boolean",
+      "caption": "Природний газ",
+      "description": "Природний газ",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "liquefiedGas",
+      "dataType": "boolean",
+      "caption": "Скраплений газ",
+      "description": "Скраплений газ",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "electricPlate",
+      "dataType": "boolean",
+      "caption": "Підлогова електрична плита",
+      "description": "Підлогова електрична плита",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "oldFund",
+      "dataType": "boolean",
+      "caption": "Ветхий фонд",
+      "description": "Ветхий фонд",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "emergencyFund",
+      "dataType": "boolean",
+      "caption": "Аварійний фонд",
+      "description": "Аварійний фонд",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "objAccountingID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_objAccounting",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    },
+    {
+      "name": "oldID",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ID з старої системи",
+      "description": "ID з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

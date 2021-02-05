@@ -1,0 +1,73 @@
+{
+  "caption": "Історія зміни типів ПГО",
+  "description": "Історія зміни типів ПГО",
+  "connectionName": "main",
+  "sqlAlias": "pgo_objhistory",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "checkDate",
+      "dataType": "DateTime",
+      "caption": "Дата зміни",
+      "allowNull": false
+    },
+    {
+      "name": "actionType",
+      "dataType": "Enum",
+      "enumGroup": "HISTORY_TYPE",
+      "caption": "Тип операції",
+      "description": "Тип операції",
+      "allowNull": true
+    },
+    {
+      "name": "objState",
+      "dataType": "Enum",
+      "enumGroup": "OBJ_STATE",
+      "caption": "Стан об’єкта",
+      "description": "Стан об’єкта",
+      "defaultValue": "OBJ_INPGO",
+      "allowNull": true
+    },
+    {
+      "name": "pgoType",
+      "dataType": "Enum",
+      "enumGroup": "OBJ_TYPE",
+      "caption": "Тип об’єкта погосподарського обліку",
+      "description": "Тип об’єкта погосподарського обліку",
+      "defaultValue": "HOUSEHOLD_LIVE",
+      "allowNull": true
+    },
+    {
+      "name": "pgoObjNum",
+      "dataType": "String",
+      "size": 8,
+      "caption": "Номер об’єкта погосподарського обліку",
+      "description": "Номер об’єкта погосподарського обліку",
+      "allowNull": true
+    },
+    {
+      "name": "employeeID",
+      "dataType": "Entity",
+      "associatedEntity": "uba_user",
+      "caption": "Змінено",
+      "allowNull": false
+    },
+    {
+      "name": "objAccountingID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_objAccounting",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

@@ -1,0 +1,211 @@
+{
+	"caption": "Відомості про поголів’я у приватній власності",
+	"description": "Відомості про поголів’я у приватній власності",
+	"connectionName": "main",
+	"sqlAlias": "pgo_agriculture",
+	"cacheType": "None",
+	"attributes": [
+         {
+        "name" : "year",
+            "dataType": "Int",
+            "caption": "Рік обходу",
+            "description": "Рік обходу",
+            "allowNull": false
+        },
+        {
+        "name" : "cattleTotal",
+            "dataType": "Int",
+            "caption": "Велика рогата худоба - всього",
+            "description": "Велика рогата худоба - всього",
+            "allowNull": true
+        },
+        {
+        "name" : "bull",
+            "dataType": "Int",
+            "caption": "Бугаї-плідники",
+            "description": "Бугаї-плідники",
+            "allowNull": true
+        },
+        {
+        "name" : "cow",
+            "dataType": "Int",
+            "caption": "Корови",
+            "description": "Корови",
+            "allowNull": true
+        },
+        {
+        "name" : "heiferOneTwo",
+            "dataType": "Int",
+            "caption": "Телиці від 1 року до 2 років",
+            "description": "Телиці від 1 року до 2 років",
+            "allowNull": true
+        },
+        {
+            "name" : "heiferTwoMore",
+            "dataType": "Int",
+            "caption": "Телиці від 2 років і старші",
+            "description": "Телиці від 2 років і старші",
+            "allowNull": true
+        },
+        {
+        "name" : "calveOneYear",
+            "dataType": "Int",
+            "caption": "Телята до 1 року",
+            "description": "Телята до 1 року",
+            "allowNull": true
+        },
+        {
+        "name" : "pigsTotal",
+            "dataType": "Int",
+            "caption": "Свині – всього",
+            "description": "Свині – всього",
+            "allowNull": true
+        },
+        {
+        "name" : "sowsNineMore",
+            "dataType": "Int",
+            "caption": "Свиноматки від 9 місяців і старші",
+            "description": "Свиноматки від 9 місяців і старші",
+            "allowNull": true
+        },
+        {
+        "name" : "repairPigFourMore",
+            "dataType": "Int",
+            "caption": "Ремонтні свинки від 4 місяців і старші",
+            "description": "Ремонтні свинки від 4 місяців і старші",
+            "allowNull": true
+        },
+        {
+        "name" : "pigletTwoLess",
+            "dataType": "Int",
+            "caption": "Поросята до 2 місяців",
+            "description": "Поросята до 2 місяців",
+            "allowNull": true
+        },
+        {
+        "name" : "sheepTotal",
+            "dataType": "Int",
+            "caption": "Вівці – всього",
+            "description": "Вівці – всього",
+            "allowNull": true
+        },
+        {
+        "name" : "sheepYearMore",
+            "dataType": "Int",
+            "caption": "У т.ч. вівцематки і ярки від 1 року і старші",
+            "description": "У т.ч. вівцематки і ярки від 1 року і старші",
+            "allowNull": true
+        },
+        {
+        "name" : "goatTotal",
+            "dataType": "Int",
+            "caption": "Кози - всього",
+            "description": "Кози - всього",
+            "allowNull": true
+        },
+        {
+        "name" : "goatYearMore",
+            "dataType": "Int",
+            "caption": "У т.ч. козематки від 1 року і старші",
+            "description": "У т.ч. козематки від 1 року і старші",
+            "allowNull": true
+        },
+       {
+        "name" : "horseTotal",
+            "dataType": "Int",
+            "caption": "Коні – всього",
+            "description": "Коні – всього",
+            "allowNull": true
+        },
+        {
+        "name" : "mareThreeYearMore",
+            "dataType": "Int",
+            "caption": "Кобили від 3 років і старші",
+            "description": "Кобили від 3 років і старші",
+            "allowNull": true
+        },
+        {
+        "name" : "horseYearMore",
+            "dataType": "Int",
+            "caption": "Лошата від 1 року",
+            "description": "Лошата від 1 року",
+            "allowNull": true
+        },
+        {
+        "name" : "birdTotal",
+            "dataType": "Int",
+            "caption": "Птиця - всього",
+            "description": "Птиця - всього",
+            "allowNull": true
+        },
+        {
+        "name" : "hen",
+            "dataType": "Int",
+            "caption": "У т.ч. кури-несучки",
+            "description": "У т.ч. кури-несучки",
+            "allowNull": true
+        },
+        {
+        "name" : "rabbitTotal",
+            "dataType": "Int",
+            "caption": "Кролі - всього",
+            "description": "Кролі - всього",
+            "allowNull": true
+        },
+        {
+        "name" : "rabbits",
+            "dataType": "Int",
+            "caption": "У т.ч. кролематки",
+            "description": "У т.ч. кролематки",
+            "allowNull": true
+        },
+        {
+        "name" : "beesTotal",
+            "dataType": "Int",
+            "caption": "Бджолосім’ї, штук",
+            "description": "Бджолосім’ї, штук",
+            "allowNull": true
+        },
+        {
+        "name" : "notes",
+            "dataType": "String",
+            "size": 1000,
+            "caption": "Додаткова інформація",
+            "description": "Додаткова інформація",
+            "allowNull": true
+        },
+        {
+        "name" : "animalsTotal",
+            "dataType": "String",
+            "size": 5,
+            "caption": "Хутрові звірі - всього",
+            "description": "Хутрові звірі - всього",
+            "allowNull": true,
+            "mapping": [
+                {
+                    "name" : "AnsiSQL",
+                    "expressionType": "Expression",
+                    "expression": "(select SUM(count) from pgo_agricultureCellAnimal where agricultureID=[ID])"
+                }
+            ]
+        },
+        {
+        "name" : "objAccountingID",
+            "dataType": "Entity",
+            "associatedEntity": "pgo_objAccounting",
+            "caption": "Об'єкт ПГО",
+            "description": "Об'єкт ПГО",
+            "allowNull": false
+        }
+
+	],
+    "mixins": {
+        "mStorage": {
+            "simpleAudit": false,
+            "safeDelete": false
+        },
+        "softDelete": {
+            "enabled": false
+        }
+    }
+}

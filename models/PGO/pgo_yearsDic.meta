@@ -1,0 +1,47 @@
+{
+  "caption": "Довідник періодів",
+  "description": "Довідник періодів",
+  "connectionName": "main",
+  "sqlAlias": "pgo_years",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "yearFrom",
+      "dataType": "Int",
+      "caption": "Рік з",
+      "description": "Рік з",
+      "allowNull": false
+    },
+    {
+      "name": "yearTo",
+      "dataType": "Int",
+      "caption": "Рік по",
+      "description": "Рік по",
+      "allowNull": false
+    },
+    {
+      "name": "yearsPeriod",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Назва",
+      "description": "Назва",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[yearFrom] || ' - ' || [yearTo]"
+        }
+      ]
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

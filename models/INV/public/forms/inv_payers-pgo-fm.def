@@ -1,0 +1,1420 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_payers"
+// @model "INV"
+// @formType "auto"
+// @caption "Громада"
+// @description "Громада"
+exports.formDef = {
+    requiredFields: ['personType', 'areaB', 'regionB', 'areaAddR', 'regionAddR', 'areaAddL'],
+    defaults: {
+        layout: {
+            type: 'vbox',
+            align: 'stretch'
+        }
+    },
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
+    },
+    items: [
+        {
+            xtype: 'tabpanel',
+            itemId: 'cmpTabPanel',
+            minWidth: 250,
+            plain: true,
+            items: [
+                {
+                    itemId: "tabMain",
+                    title: 'Загальні дані',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+						{
+							layout: {
+								type: "hbox",
+								align: 'middle'
+							},
+							flex: 1,
+							margin: "0, 0, 2, 0", //top, right, buttom, left
+							items: [
+								{
+									attributeName: "lastName",
+									xtype: 'textfield',
+									itemId: "lastName",
+									maxLength: 240,
+									labelWidth: 170,
+									rows: 1,
+									flex: 1
+								},
+								{
+									attributeName: "firstName",
+									xtype: 'textfield',
+									itemId: "firstName",
+									maxLength: 100,
+									labelWidth: 170,
+									rows: 1,
+									allowBlank: false,
+									flex: 1
+								}
+							]
+						},
+						{
+							layout: {
+								type: "hbox",
+								align: 'middle'
+							},
+							flex: 1,
+							margin: "0, 0, 2, 0", //top, right, buttom, left
+							items: [
+								{
+									attributeName: "prevLastName",
+									itemId: "prevLastName",
+									xtype: 'textfield',
+									maxLength: 100,
+									labelWidth: 170,
+									flex: 1,
+									rows: 1
+								},
+								{
+									attributeName: "middleName",
+									itemId: "middleName",
+									xtype: 'textfield',
+									maxLength: 100,
+									labelWidth: 170,
+									flex: 1,
+									rows: 1
+								}
+							]
+						},
+
+						{
+							layout: {
+								type: "hbox"
+							},
+							flex: 1,
+							margin: "0, 0, 2, 0", //top, right, buttom, left
+							items: [
+								{
+									layout: {
+										type: "vbox",
+										align: 'stretch'
+									},
+									flex: 2,
+									items: [
+										{
+											attributeName: "nationality",
+											itemId: "nationality",
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											layout: {
+												type: "hbox",
+												align: 'stretch'
+											},
+											flex: 1,
+											items: [
+												{
+													attributeName: "birthCertificateSeries",
+													itemId: "birthCertificateSeries",
+													labelWidth: 170,
+													width: 230,
+													margin: "0, 5, 0, 15",
+													fieldLabel: 'Серія/номер свідоцтва про народження'
+												},
+												{
+													attributeName: "birthCertificateNum",
+													itemId: "birthCertificateNum",
+													flex: 1,
+													margin: "0 15 0 0", //top, right, buttom, left
+													fieldLabel: ''
+												}
+											]
+										},
+										{
+											layout: {
+												type: "hbox",
+												align: 'stretch'
+											},
+											flex: 1,
+											items: [
+												{
+													attributeName: "deathCertificateSeries",
+													itemId: "deathCertificateSeries",
+													labelWidth: 170,
+													width: 230,
+													margin: "0, 5, 0, 15",
+													fieldLabel: 'Серія/номер свідоцтва про смерть'
+												},
+												{
+													attributeName: "deathCertificateNum",
+													itemId: "deathCertificateNum",
+													flex: 1,
+													margin: "0 15 0 0", //top, right, buttom, left
+													fieldLabel: ''
+												}
+											]
+										},
+										{
+											attributeName: "personNum",
+											itemId: "personNum",
+											xtype: 'textfield',
+											maxLength: 100,
+											flex: 1,
+											labelWidth: 170,
+											rows: 1
+										},
+										{
+											layout: {
+												type: "hbox",
+												align: 'middle'
+											},
+											flex: 1,
+											items: [
+												{
+													attributeName: "idnCode",
+													itemId: "idnCode",
+													maxLength: 10,
+													maxWidth: 310,
+													labelWidth: 170,
+													width: 300,
+												},
+												{
+													attributeName: "passportSeries",
+													itemId: "passportSeries",
+													fieldLabel: "Серія/номер паспорта",
+													maxLength: 2,
+													labelWidth: 170,
+													margin: "0, 5, 0, 0",
+													width: 220,
+													listeners: {
+														change: function (fld, newV, oldV) {
+															let numberCtrl = fld.up('form').getField('passportNumber');
+															if (newV) {
+																fld.setValue(newV.toUpperCase());
+																fld.setAllowBlank(false);
+																numberCtrl.setAllowBlank(false);
+															} else if (!numberCtrl.getValue()) {
+																fld.up('form').getField('passportNumber').setAllowBlank(true);
+																fld.setAllowBlank(true);
+															}
+														}
+													},
+													validator: function (v) {
+														return v && v.match(/[А-ЯЁЇІЄҐ]+$/g) || !v ? true : 'Не припустимий формат!';
+													}
+												},
+												{
+													attributeName: "passportNumber",
+													itemId: "passportNumber",
+													fieldLabel: "",
+													maxLength: 6,
+													margin: "0, 15, 0, 0", //top, right, buttom, left
+													flex: 1,
+													listeners: {
+														change: function (fld, newV, oldV) {
+															let seriesCtrl = fld.up('form').getField('passportSeries');
+															if (newV) {
+																seriesCtrl.setAllowBlank(false);
+																fld.setAllowBlank(false);
+															} else if (!seriesCtrl.getValue()) {
+																seriesCtrl.setAllowBlank(true);
+																fld.setAllowBlank(true);
+															}
+														}
+													},
+													validator: function (v) {
+														return v && v.match(/^[0-9]{6}$/g) || !v ? true : 'Не припустимий формат!';
+													}
+												}
+											]
+										},
+										{
+											attributeName: "idCardNumber",
+											itemId: "idCardNumber",
+											fieldLabel: "№ паспорта нового зразка",
+											labelWidth: 170,
+											maxLength: 9,
+											flex: 1
+										}
+									]
+								},
+								{
+									layout: {
+										type: "vbox",
+										align: 'stretch'
+									},
+									flex: 1,
+									items: [
+										{
+											attributeName: "birthDate",
+											itemId: "birthDate",
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											attributeName: "birthCertifDate",
+											itemId: "birthCertifDate",
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											attributeName: "deathCertifDate",
+											itemId: "deathCertifDate",
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											attributeName: "deathDate",
+											itemId: "deathDate",
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											attributeName: "passportIssueDate",
+											itemId: "passportIssueDate",
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											attributeName: "passportValidToDate",
+											itemId: "passportValidToDate",
+											flex: 1,
+											labelWidth: 170
+										},
+									]
+								},
+								{
+									layout: {
+										type: "vbox",
+										align: 'stretch'
+									},
+									flex: 2,
+									items: [
+										{
+											attributeName: "gender",
+											itemId: "gender",
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											attributeName: "birthCertifIssuedBy",
+											itemId: "birthCertifIssuedBy",
+											rows: 1,
+											whereList: {
+												byType: {
+													expression: '[type]',
+													condition: '=',
+													values: {type: 'CERTIF'}
+												}
+											},
+											listeners: {
+												// beforeQuerySend: function () {
+												//     if (this.getValue()) {
+												//         this.store.ubRequest.whereList.byCurrID = {
+												//             expression: 'ID',
+												//             condition: "=",
+												//             values: {ID: this.getValue()}
+												//         };
+												//         this.store.ubRequest.logicalPredicates = ["([byUser] or [byCurrID])"];
+												//     } else {
+												//         this.store.ubRequest.logicalPredicates = [];
+												//     }
+												//
+												// }
+											},
+											labelWidth: 170,
+											flex: 1
+										},
+										{
+											attributeName: "deathCertifIssuedBy",
+											itemId: "deathCertifIssuedBy",
+											whereList: {
+												byType: {
+													expression: '[type]',
+													condition: '=',
+													values: {type: 'CERTIF'}
+												}
+											},
+											listeners: {
+												// beforeQuerySend: function () {
+												//     if (this.getValue()) {
+												//         this.store.ubRequest.whereList.byCurrID = {
+												//             expression: 'ID',
+												//             condition: "=",
+												//             values: {ID: this.getValue()}
+												//         };
+												//         this.store.ubRequest.logicalPredicates = ["([byUser] or [byCurrID])"];
+												//     } else {
+												//         this.store.ubRequest.logicalPredicates = [];
+												//     }
+												//
+												// }
+											},
+											rows: 1,
+											labelWidth: 170,
+											flex: 1
+										},
+										{
+											attributeName: "EDDRecordNum",
+											itemId: "EDDRecordNum",
+											rows: 1,
+											labelWidth: 170,
+											flex: 1
+										},
+										{
+											attributeName: "passportIssuedBy",
+											itemId: "passportIssuedBy",
+											rows: 1,
+											labelWidth: 170,
+											flex: 1,
+											listeners: {
+												// beforeQuerySend: function () {
+												//     if (this.getValue()) {
+												//         this.store.ubRequest.whereList.byCurrID = {
+												//             expression: 'ID',
+												//             condition: "=",
+												//             values: {ID: this.getValue()}
+												//         };
+												//         this.store.ubRequest.logicalPredicates = ["([byUser] or [byCurrID])"];
+												//     } else {
+												//         this.store.ubRequest.logicalPredicates = [];
+												//     }
+												//
+												// }
+											},
+											whereList: {
+												byType: {
+													expression: '[type]',
+													condition: '=',
+													values: {type: 'PASSPORT'}
+												}
+											}
+										},
+										{
+											labelWidth: 170,
+											flex: 1
+										}
+									]
+								}
+							]
+						},
+						{
+							xtype: 'fieldset',
+							margin: "0, 15, 10, 15",
+							title: 'Місце народження',
+							itemId: 'birthBlock',
+							collapsible: true,
+							layout: {
+								type: "vbox",
+								align: "stretch"
+							},
+							defaults: {
+								flex: 1
+							},
+							items: [
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											attributeName: "countryB",
+											itemId: "countryB",
+											flex: 1,
+											listeners: {
+												change(fld, newValue, oldValue) {
+
+													let form = this.up('form');
+													if (fld.getRawValue() !== 'Україна') {
+														INV.services.setCtrlVisibility(
+															[
+																{name: 'natalPlaceB', isVisible: true},
+																{name: 'areaB', isVisible: false, nullVal: true},
+																{name: 'regionB', isVisible: false, nullVal: true},
+																{name: 'settlementB', isVisible: false, nullVal: true}
+															], form)
+													} else {
+														INV.services.setCtrlVisibility(
+															[
+																{name: 'natalPlaceB', isVisible: false, nullVal: true},
+																{name: 'areaB', isVisible: true},
+																{name: 'regionB', isVisible: true},
+																{name: 'settlementB', isVisible: true}
+															], form)
+													}
+												}
+											}
+										},
+										{
+											attributeName: "natalPlaceB",
+											itemId: "natalPlaceB",
+											hidden: true,
+											flex: 1
+										},
+										{
+											xtype: 'ubcombobox',
+											valueField: 'areaName',
+											fieldLabel: $App.domainInfo.get('inv_payers').attr('areaB').caption,
+											displayField: 'areaName',
+											disableContextMenu: true,
+											itemId: "areaB",
+											ubRequest: {
+												entity: "pgo_ngoDict",
+												method: "select",
+												fieldList: ['areaName'],
+												groupList: ['areaName'],
+												orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+											},
+											flex: 1,
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														regionBCtrl = form.queryById('regionB'),
+														settlementBCtrl = form.queryById('settlementB');
+													if (newValue) {
+														form.record.set('areaB', newValue);
+														fld.store.reload();
+														INV.services.setWhereList(regionBCtrl, 'byAreaName', 'areaName', newValue);
+														if (oldValue) {
+															regionBCtrl.setValue(null);
+															form.record.set('regionB', null);
+															settlementBCtrl.setValue(null);
+														}
+													} else {
+														form.record.set('areaB', null);
+														INV.services.setWhereList(regionBCtrl, 'byAreaName', 'areaName', true);
+														regionBCtrl.setValue(null);
+														INV.services.setWhereList(settlementBCtrl, 'byRegionName', 'pgoDictID.regionName', true);
+														settlementBCtrl.setValue(null);
+													}
+													regionBCtrl.store.reload();
+												},
+												beforeRender: function () {
+													this.store.ubRequest.fieldList = ['areaName']
+												}
+											}
+										}
+									]
+								},
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											xtype: 'ubcombobox',
+											valueField: 'regionName',
+											displayField: 'regionName',
+											fieldLabel: $App.domainInfo.get('inv_payers').attr('regionB').caption,
+											itemId: "regionB",
+											flex: 1,
+											ubRequest: {
+												entity: "pgo_ngoDict",
+												method: "select",
+												fieldList: ['regionName'],
+												groupList: ['regionName'],
+												orderList: {sortOrder: {expression: "regionName", order: 'asc'}}
+											},
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														settlementBCtrl = form.queryById('settlementB');
+													if (newValue) {
+														form.record.set('regionB', newValue);
+														INV.services.setWhereList(settlementBCtrl, 'byRegionName', 'pgoDictID.regionName', fld.getRawValue());
+
+													} else {
+														form.record.set('regionB', null);
+														INV.services.setWhereList(settlementBCtrl, 'byRegionName', 'pgoDictID.regionName', true);
+														settlementBCtrl.setValue(null);
+													}
+													settlementBCtrl.store.reload();
+												},
+												beforeRender: function () {
+													this.store.ubRequest.fieldList = ['regionName']
+												}
+											}
+										},
+										{
+											xtype: "ubcombobox",
+											attributeName: "settlementB",
+											displayField: 'governmentShortName',
+											itemId: "settlementB",
+											flex: 1,
+											fieldList: ["ID", "governmentShortName", "pgoDictID.regionName"],
+											whereList: {}
+										}
+									]
+								}
+							]
+						},
+						{
+							xtype: 'fieldset',
+							margin: "0, 15, 10, 15",
+							title: 'Адреса реєстрації',
+							itemId: 'AddRBlock',
+							collapsible: true,
+							layout: {
+								type: "vbox",
+								align: "stretch"
+							},
+							defaults: {
+								flex: 1
+							},
+							items: [
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											xtype: 'ubcombobox',
+											valueField: 'areaName',
+											displayField: 'areaName',
+											fieldLabel: $App.domainInfo.get('inv_payers').attr('areaAddR').caption,
+											disableContextMenu: true,
+											itemId: "areaAddR",
+											ubRequest: {
+												entity: "pgo_ngoDict",
+												method: "select",
+												fieldList: ['areaName'],
+												groupList: ['areaName'],
+												orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+											},
+											flex: 1,
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														regionAddRCtrl = form.queryById('regionAddR'),
+														settlementAddRCtrl = form.queryById('settlementAddR');
+													if (newValue) {
+														form.record.set('areaAddR', newValue);
+														fld.store.reload();
+														INV.services.setWhereList(regionAddRCtrl, 'byAreaName', 'areaName', newValue);
+														if (oldValue) {
+															regionAddRCtrl.setValue(null);
+															form.record.set('regionAddR', null);
+
+															settlementAddRCtrl.setValue(null);
+														}
+
+													} else {
+														form.record.set('areaAddR', null);
+														INV.services.setWhereList(regionAddRCtrl, 'byAreaName', 'areaName', -1);
+														regionAddRCtrl.setValue(null);
+
+														INV.services.setWhereList(settlementAddRCtrl, 'byRegionName', 'pgoDictID.regionName', -1);
+														settlementAddRCtrl.setValue(null);
+													}
+													regionAddRCtrl.store.reload();
+												},
+												beforeRender: function () {
+													this.store.ubRequest.fieldList = ['areaName']
+												}
+											}
+										},
+										{
+											xtype: 'ubcombobox',
+											valueField: 'regionName',
+											displayField: 'regionName',
+											fieldLabel: $App.domainInfo.get('inv_payers').attr('regionAddR').caption,
+											itemId: "regionAddR",
+											flex: 1,
+											ubRequest: {
+												entity: "pgo_ngoDict",
+												method: "select",
+												fieldList: ['regionName'],
+												groupList: ['regionName'],
+												orderList: {sortOrder: {expression: "regionName", order: 'asc'}}
+											},
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														settlementAddRCtrl = form.queryById('settlementAddR');
+													if (newValue) {
+														form.record.set('regionAddR', newValue);
+														INV.services.setWhereList(settlementAddRCtrl, 'byRegionName', 'pgoDictID.regionName', fld.getRawValue());
+														if (oldValue) {
+
+															settlementAddRCtrl.setValue(null);
+														}
+
+													} else {
+														form.record.set('regionAddR', null);
+
+														INV.services.setWhereList(settlementAddRCtrl, 'byRegionName', 'pgoDictID.regionName', -1);
+														settlementAddRCtrl.setValue(null);
+													}
+													settlementAddRCtrl.store.reload();
+												},
+												beforeRender: function () {
+													this.store.ubRequest.fieldList = ['regionName']
+												}
+											}
+										}
+
+									]
+								},
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											attributeName: "settlementAddR",
+											displayField: 'governmentShortName',
+											fieldList: ["ID", "governmentShortName", "governmentStatus"],
+											itemId: "settlementAddR",
+											flex: 1,
+											whereList: {},
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														streetAddRCtrl = form.queryById('streetAddR'),
+														settlementDistrictAddR = form.getField('settlementDistrictAddR');
+													if (newValue) {
+														INV.services.setWhereList(streetAddRCtrl, 'bySettlement', 'settlementDictID', newValue);
+														if (oldValue) {
+															streetAddRCtrl.setValue(null);
+															settlementDistrictAddR.setValue(null);
+														}
+
+														let store = fld.getStore(),
+															governmentStatus = store.getById(newValue).get('governmentStatus');
+
+														if(governmentStatus === 'Місто' || governmentStatus === 'місто'){
+															settlementDistrictAddR.show();
+															INV.services.setWhereList(settlementDistrictAddR, 'bySettlement', 'settlementDictID', newValue)
+														}
+														else {
+															settlementDistrictAddR.hide();
+														}
+
+													} else {
+
+														INV.services.setWhereList(streetAddRCtrl, 'bySettlement', 'settlementDictID', -1);
+														INV.services.setWhereList(settlementDistrictAddR, 'bySettlement', 'settlementDictID', -1);
+														settlementDistrictAddR.hide();
+														streetAddRCtrl.setValue(null);
+														settlementDistrictAddR.setValue(null);
+													}
+													settlementDistrictAddR.store.reload();
+													streetAddRCtrl.store.reload();
+												}
+											}
+										},
+										{
+											attributeName: "settlementDistrictAddR",
+											fieldList: ["ID", "name", "settlementDictID"],
+											itemId: "settlementDistrictAddR",
+											flex: 1,
+											whereList: {},
+											hidden: true,
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														streetAddRCtrl = form.queryById('streetAddR');
+													if (newValue) {
+														INV.services.setWhereList(streetAddRCtrl, 'byDistrict', 'settlementDistrictID', newValue);
+														if (oldValue) {
+															streetAddRCtrl.setValue(null);
+														}
+													} else {
+														if (streetAddRCtrl.store.ubRequest.whereList && streetAddRCtrl.store.ubRequest.whereList.byDistrict) {
+															delete streetAddRCtrl.store.ubRequest.whereList.byDistrict;
+														}
+														streetAddRCtrl.setValue(null);
+													}
+													streetAddRCtrl.store.reload();
+												}
+											}
+										}
+									]
+								},
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+
+											layout: {
+												type: "vbox",
+												align: 'stretch'
+											},
+											flex: 1,
+											items: [
+												{
+													layout: {
+														type: "hbox",
+														align: 'stretch'
+													},
+													items: [
+														{
+															attributeName: "streetTypeAddR",
+															itemId: "streetTypeAddR",
+															flex: 1,
+															listeners: {
+																change(fld, newValue, oldValue) {
+																	let form = this.up('form'),
+																		streetAddRCtrl = form.queryById('streetAddR');
+																	if (newValue) {
+																		INV.services.setWhereList(streetAddRCtrl, 'byStreetType', 'streetType', newValue);
+																	} else {
+																		INV.services.setWhereList(streetAddRCtrl, 'byStreetType', 'streetType', true);
+																		streetAddRCtrl.setValue(null);
+																	}
+																	streetAddRCtrl.store.reload();
+																}
+															}
+														},
+														{
+															attributeName: "streetAddR",
+															itemId: "streetAddR",
+															flex: 1,
+															whereList: {}
+														}
+													]
+												}
+											]
+										},
+
+										{
+											layout: {
+												type: "vbox",
+												align: 'stretch'
+											},
+											flex: 1,
+											items: [
+												{
+													layout: {
+														type: "hbox",
+														align: 'stretch'
+													},
+													items: [
+														{
+															attributeName: "houseNumAddR",
+															itemId: "houseNumAddR",
+															flex: 1,
+															minWidth: 145
+														},
+														{
+															attributeName: "corpusNumAddR",
+															itemId: "corpusNumAddR",
+															labelWidth: 65,
+															flex: 1
+														},
+														{
+															attributeName: "flatNumAddR",
+															itemId: "flatNumAddR",
+															labelWidth: 85,
+															flex: 1
+														}
+													]
+
+												}
+											]
+
+										}
+									]
+								},
+								{
+									attributeName: "postIndex",
+									itemId: "postIndex",
+									fieldLabel: "Індекс",
+									maxLength: 5
+								}
+							]
+						},
+						{
+							xtype: 'fieldset',
+							margin: "0, 15, 10, 15",
+							title: 'Адреса проживання',
+							itemId: 'AddLBlock',
+							collapsible: true,
+							layout: {
+								type: "vbox",
+								align: "stretch"
+							},
+							defaults: {
+								flex: 1
+							},
+							hidden: false,
+							items: [
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											xtype: 'ubcombobox',
+											valueField: 'areaName',
+											displayField: 'areaName',
+											fieldLabel: $App.domainInfo.get('inv_payers').attr('areaAddL').caption,
+											disableContextMenu: true,
+											itemId: "areaAddL",
+											ubRequest: {
+												entity: "pgo_ngoDict",
+												method: "select",
+												fieldList: ['areaName'],
+												groupList: ['areaName'],
+												orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+											},
+											flex: 3,
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														settlementAddLCtrl = form.queryById('settlementAddL');
+													if (newValue) {
+														form.record.set('areaAddL', newValue);
+														INV.services.setWhereList(settlementAddLCtrl, 'byAreaName', 'pgoDictID.areaName', fld.getRawValue());
+														if (oldValue) {
+															settlementAddLCtrl.setValue(null);
+														}
+
+													} else {
+														form.record.set('areaAddL', null);
+														INV.services.setWhereList(settlementAddLCtrl, 'byAreaName', 'pgoDictID.areaName', -1);
+														settlementAddLCtrl.setValue(null);
+													}
+													settlementAddLCtrl.store.reload();
+												},
+												beforeRender: function () {
+													this.store.ubRequest.fieldList = ['areaName']
+												}
+											}
+										},
+										{
+											attributeName: "settlementAddL",
+											itemId: "settlementAddL",
+											flex: 3,
+											fieldList: ["ID", "governmentFullName", "governmentStatus"],
+											whereList: {},
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														streetAddRCtrl = form.queryById('streetAddL'),
+														settlementDistrictAddR = form.getField('settlementDistrictAddL');
+													if (newValue) {
+														INV.services.setWhereList(streetAddRCtrl, 'bySettlement', 'settlementDictID', newValue);
+														if (oldValue) {
+															streetAddRCtrl.setValue(null);
+															settlementDistrictAddR.setValue(null);
+														}
+
+														let store = fld.getStore(),
+															governmentStatus = store.getById(newValue).get('governmentStatus');
+
+														if(governmentStatus === 'Місто' || governmentStatus === 'місто'){
+															settlementDistrictAddR.show();
+															INV.services.setWhereList(settlementDistrictAddR, 'bySettlement', 'settlementDictID', newValue)
+														}
+														else {
+															settlementDistrictAddR.hide();
+														}
+
+													} else {
+
+														INV.services.setWhereList(streetAddRCtrl, 'bySettlement', 'settlementDictID', -1);
+														INV.services.setWhereList(settlementDistrictAddR, 'bySettlement', 'settlementDictID', -1);
+														settlementDistrictAddR.hide();
+														streetAddRCtrl.setValue(null);
+														settlementDistrictAddR.setValue(null);
+													}
+													settlementDistrictAddR.store.reload();
+													streetAddRCtrl.store.reload();
+												}
+											}
+										},
+										{
+											attributeName: "settlementDistrictAddL",
+											fieldList: ["ID", "name", "settlementDictID"],
+											itemId: "settlementDistrictAddR",
+											flex: 2,
+											whereList: {},
+											hidden: true,
+											listeners: {
+												change(fld, newValue, oldValue) {
+													let form = this.up('form'),
+														streetAddRCtrl = form.queryById('streetAddL');
+													if (newValue) {
+														INV.services.setWhereList(streetAddRCtrl, 'byDistrict', 'settlementDistrictID', newValue);
+														if (oldValue) {
+															streetAddRCtrl.setValue(null);
+														}
+													} else {
+														if (streetAddRCtrl.store.ubRequest.whereList && streetAddRCtrl.store.ubRequest.whereList.byDistrict) {
+															delete streetAddRCtrl.store.ubRequest.whereList.byDistrict;
+														}
+														streetAddRCtrl.setValue(null);
+													}
+													streetAddRCtrl.store.reload();
+												}
+											}
+										}
+									]
+								},
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+
+											layout: {
+												type: "vbox",
+												align: 'stretch'
+											},
+											flex: 1,
+											items: [
+												{
+													layout: {
+														type: "hbox",
+														align: 'stretch'
+													},
+													items: [
+														{
+															attributeName: "streetTypeAddL",
+															itemId: "streetTypeAddL",
+															flex: 1,
+															listeners: {
+																change(fld, newValue, oldValue) {
+																	let form = this.up('form'),
+																		streetAddLCtrl = form.queryById('streetAddL');
+																	if (newValue) {
+																		INV.services.setWhereList(streetAddLCtrl, 'byStreetType', 'streetType', newValue);
+																	} else {
+																		INV.services.setWhereList(streetAddLCtrl, 'byStreetType', 'streetType', true);
+																		streetAddLCtrl.setValue(null);
+																	}
+																	streetAddLCtrl.store.reload();
+																}
+															}
+														},
+														{
+															attributeName: "streetAddL",
+															itemId: "streetAddL",
+															flex: 1,
+															whereList: {}
+														}
+													]
+												}
+											]
+										},
+
+										{
+											layout: {
+												type: "vbox",
+												align: 'stretch'
+											},
+											flex: 1,
+											items: [
+												{
+													layout: {
+														type: "hbox",
+														align: 'stretch'
+													},
+													items: [
+														{
+															attributeName: "houseNumAddL",
+															itemId: "houseNumAddL",
+															flex: 1,
+															minWidth: 145
+														},
+														{
+															attributeName: "corpusNumAddL",
+															itemId: "corpusNumAddL",
+															labelWidth: 65,
+															flex: 1
+														},
+														{
+															attributeName: "flatNumAddL",
+															itemId: "flatNumAddL",
+															labelWidth: 85,
+															flex: 1
+														}
+													]
+
+												}
+											]
+
+										}
+									]
+								}
+							]
+						},
+						{
+							xtype: 'fieldset',
+							margin: "0, 15, 10, 15",
+							title: 'Імпортована адреса',
+							collapsible: true,
+							layout: {
+								type: "vbox",
+								align: "stretch"
+							},
+							defaults: {
+								flex: 1
+							},
+							items: [
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											layout: {
+												type: "hbox"
+											},
+											flex: 1,
+											items: [
+												{
+													attributeName: "natalPlace",
+													itemId: "natalPlace",
+													readOnly: true,
+													labelWidth: 170,
+													maxLength: 9,
+													flex: 1
+												}
+											]
+										}
+									]
+								},
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									flex: 1,
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											attributeName: "country",
+											itemId: "country",
+											xtype: 'textfield',
+											readOnly: true,
+											maxLength: 100,
+											flex: 1,
+											labelWidth: 170,
+											rows: 1
+										},
+										{
+											attributeName: "area",
+											itemId: "area",
+											readOnly: true,
+											flex: 1,
+											labelWidth: 170
+										},
+										{
+											attributeName: "settlement",
+											itemId: "settlement",
+											readOnly: true,
+											rows: 1,
+											labelWidth: 170,
+											flex: 1,
+											width: 400
+										}
+									]
+								},
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											attributeName: "addressAtuID",
+											itemId: "addressAtuID",
+											xtype: 'textfield',
+											readOnly: true,
+											fieldLabel: "Адреса реєстрації",
+											margin: "5, 15, 0, 15", //top, right, buttom, left
+											labelWidth: 170,
+											flex: 7,
+											rows: 1
+										},
+										{
+											attributeName: "address",
+											itemId: "address",
+											xtype: 'textfield',
+											readOnly: true,
+											fieldLabel: "",
+											margin: "0, 15, 0, 0", //top, right, buttom, left
+											labelWidth: 170,
+											flex: 7,
+											rows: 1
+										}
+									]
+								},
+								{
+									layout: {
+										type: "hbox",
+										align: 'middle'
+									},
+									margin: "0, 0, 2, 0", //top, right, buttom, left
+									items: [
+										{
+											attributeName: "birthPlaceAtuID",
+											itemId: "birthPlaceAtuID",
+											readOnly: true,
+											disableContextMenu: true,
+											labelWidth: 170,
+											flex: 7
+										},
+										{
+											attributeName: "birthPlace",
+											itemId: "birthPlace",
+											xtype: 'textfield',
+											readOnly: true,
+											fieldLabel: "",
+											margin: "0, 15, 0, 0", //top, right, buttom, left
+											labelWidth: 170,
+											flex: 7,
+											rows: 1
+										}
+									]
+								}
+							]
+						},
+						{
+							layout: {
+								type: "hbox",
+								align: 'middle'
+							},
+							flex: 1,
+							margin: "0, 0, 2, 0", //top, right, buttom, left
+							items: [
+								{
+									attributeName: "email",
+									itemId: "email",
+									fieldLabel: "Електронна пошта",
+									xtype: 'textfield',
+									labelWidth: 170,
+									flex: 1
+								},
+								{
+									layout: {
+										type: "hbox"
+									},
+									flex: 1,
+									items: [
+										{
+											attributeName: "phone",
+											itemId: "phone",
+											fieldLabel: "Номер телефону",
+											labelWidth: 170,
+											flex: 1
+										}
+									]
+								}
+							]
+						},
+						{
+							layout: {
+								type: "hbox",
+								align: 'middle'
+							},
+							flex: 1,
+							margin: "0, 0, 2, 0", //top, right, buttom, left
+							items: [
+								{
+									attributeName: "privilegeStartDate",
+									itemId: "privilegeStartDate",
+									fieldLabel: "Дата початку дії пільги",
+									labelWidth: 170,
+									flex: 1,
+									maxValue: new Date(),
+									validator: function (v) {
+										let privilegeEndDateRecord = this.up('form').record.get('privilegeEndDate'),
+											privilegeEndDate = privilegeEndDateRecord && new Date(privilegeEndDateRecord) || null,
+											thisValue = this.getValue() && new Date(this.getValue()) || null;
+
+										if (v && thisValue instanceof Date && privilegeEndDate && privilegeEndDate instanceof Date && thisValue.setHours(0, 0, 0, 0) > (privilegeEndDate).setHours(0, 0, 0, 0)) return 'Дата має бути менше за "Дату закінчення дії пільги"';
+										else return true;
+									}
+								},
+								{
+									attributeName: "privilegeEndDate",
+									itemId: "privilegeEndDate",
+									fieldLabel: "Дата закінчення дії пільги",
+									labelWidth: 190,
+									flex: 1,
+									validator: function (v) {
+										let privilegeStartDateRecord = this.up('form').record.get('privilegeStartDate'),
+											privilegeStartDate = new Date(privilegeStartDateRecord),
+											thisValue = this.getValue() && new Date(this.getValue()) || null;
+
+										if (v && thisValue instanceof Date && privilegeStartDate && privilegeStartDate instanceof Date && thisValue.setHours(0, 0, 0, 0) < (privilegeStartDate).setHours(0, 0, 0, 0)) return 'Дата має бути більша за "Дату початку дії пільги"';
+										else return true;
+									},
+									listeners: {
+										change: function (fld) {
+											this.up('form').getField('privilegeStartDate').setAllowBlank(!this.getValue());
+										}
+									}
+								}
+							]
+						},
+						{
+							layout: {
+								type: "hbox"
+							},
+							flex: 1,
+							items: [
+								{
+									attributeName: "privilegePhysID",
+									itemId: "privilegePhysID",
+									fieldLabel: "Пільгова категорія",
+									labelWidth: 170,
+									flex: 1,
+                                    /*listeners: {
+                                     change: function (ele, newValue, oldValue) {
+                                     var form = ele.up('form');
+                                     newValue && form ? form.queryById('privilegeStartDate').setAllowBlank(false) : form.queryById('privilegeStartDate').setAllowBlank(true);
+                                     }
+                                     }*/
+								}
+							]
+						},
+						{
+							attributeName: "notes",
+							itemId: "notes",
+							maxLength: 4000,
+							labelWidth: 170
+						}
+					]
+                },
+                {
+                    itemId: "tabMilitary",
+                    title: 'Військовий облік',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            attributeName: 'accBoard'
+                        },
+                        {
+                            attributeName: 'militaryGroup'
+                        },
+                        {
+                            attributeName: 'militaryRank'
+                        },
+                        {
+                            attributeName: 'combatant'
+                        },
+                        {
+                            attributeName: 'specialization'
+                        },
+                        {
+                            attributeName: 'admitDate'
+                        },
+                        {
+                            attributeName: 'commission'
+                        },
+                        {
+                            attributeName: 'admitted'
+                        },
+                        {
+                            attributeName: 'citizen'
+                        },
+                        {
+                            attributeName: 'num'
+                        },
+                        {
+                            attributeName: 'bankField',
+                            margin: '5, 15, 0, 132',
+                            fieldLabel: ''
+                        },
+                        {
+                            attributeName: 'reviewDate'
+                        },
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Взяття/зняття з військового обліку',
+                            itemId: "gridInOut",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_militaryInOut",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "type"},
+                                    {name: "inOutDate"},
+                                    {name: "whereFrom"}
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["payerID"],
+                            onDeterminateForm: function () {
+                                // return {
+                                //     formCode: "pgo_militaryInOut",
+                                //     entityName: "pgo_militaryInOut"
+                                // }
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;

@@ -1,0 +1,12 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_cognation"
+// @model "PGO"
+// @formType "auto"
+// @caption "Довідник родинних стосунків"
+// @description "Довідник родинних стосунків"
+exports.formDef = {
+	items:[
+	{ attributeName: "name" /*Назва*/}
+	]
+};

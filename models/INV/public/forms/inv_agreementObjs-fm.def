@@ -1,0 +1,58 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_agreementObjs"
+// @model "INV"
+// @formType "auto"
+// @caption "Об’єкт оренди"
+// @description "Об’єкт оренди"
+exports.formDef = {
+    requiredFields: ['agreementID', 'objectID'],
+    items: [
+        {
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                labelWidth: 160
+            },
+            flex: 4,
+            autoScroll: true,
+            items: [
+                {
+                    layout: {
+                        type: "hbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        labelWidth: 160
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            xtype: 'ubcombobox',
+                            itemId: "objects",
+                            fieldLabel: "Об’єкт оренди",
+                            displayField: 'codeAndOType',
+                            disableContextMenu: true,
+                            valueField: 'ID',
+                            width: 400,
+                            allowBlank: false,
+                            ubRequest: {
+                                entity: 'inv_subject',
+                                method: 'select',
+                                fieldList: ['ID', 'owner', 'codeAndOType', 'oType'],
+                            },
+                            listeners: {
+                                change: function (fld, newV, oldV) {
+                                    let form = this.up('form');
+                                    if(newV) form.record.set('objectID', newV);
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};

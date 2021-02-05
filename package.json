@@ -1,0 +1,49 @@
+{
+  "id": "UB",
+  "name": "ubproj",
+  "version": "1.0.0",
+  "description": "UB5 Project",
+  "scripts": {
+    "test": ".\\tsql3.cmd"
+  },
+  "dependencies": {
+    "@unitybase/adminui-pub": "^5.12.5",
+    "@unitybase/adminui-reg": "^5.2.25",
+    "@unitybase/adminui-vue": "^1.8.7",
+    "@unitybase/base": "^5.1.27",
+    "@unitybase/cdn": "^5.3.4",
+    "@unitybase/org": "^5.2.19",
+    "@unitybase/pdf": "^5.0.21",
+    "@unitybase/ub": "^5.2.36",
+    "@unitybase/ub-migrate": "^1.17.3",
+    "@unitybase/ub-pub": "^5.3.27",
+    "@unitybase/uba": "^5.3.4",
+    "@unitybase/ubcli": "^5.3.44",
+    "@unitybase/ubm": "^5.2.17",
+    "@unitybase/ubq": "^5.2.48",
+    "@unitybase/ubs": "^5.2.42",
+    "@unitybase/xlsx": "^5.1.2",
+    "base64-arraybuffer": "^0.1.5",
+    "docxtemplater": "^3.10.1",
+    "fs": "0.0.1-security",
+    "jszip": "^2.6.1",
+    "leaflet": "^1.2.0",
+    "leaflet-draw": "^0.4.13",
+    "leaflet-editable": "^1.1.0",
+    "leaflet.markercluster": "^1.2.0",
+    "leaflet.wms": "^0.2.0",
+    "moment": "^2.24.0",
+    "proj4leaflet": "^1.0.2",
+    "xlsx-template": "0.0.7"
+  },
+  "devDependencies": {
+    "@unitybase/ubcli": "^5.3.27"
+  },
+  "engines": {
+    "UnityBase": ">=5.0"
+  },
+  "keywords": [],
+  "author": "pavel.mash <pavel.mash@gmail.com> (https://unitybase.info)",
+  "license": "ISC",
+  "main": "invApp.js"
+}

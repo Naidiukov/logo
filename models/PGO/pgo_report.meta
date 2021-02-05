@@ -1,0 +1,51 @@
+{
+  "caption": "Формування статистичних звітів",
+  "description": "Формування статистичних звітів",
+  "connectionName": "main",
+  "sqlAlias": "pgo_report",
+  "descriptionAttribute": "",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "repType",
+      "dataType": "Enum",
+      "enumGroup": "REP_TYPE",
+      "caption": "Тип звіту",
+      "description": "Тип звіту",
+      "defaultValue": "JYTLO",
+      "allowNull": false
+    },
+    {
+      "name": "reportData",
+      "dataType": "Text",
+      "caption": "Дані звіту",
+      "allowNull": true
+    },
+    {
+      "name": "dateRep",
+      "dataType": "DateTime",
+      "caption": "Дата звіту",
+      "allowNull": false
+    },
+    {
+      "name": "year",
+      "dataType": "Int",
+      "caption": "Рік",
+      "allowNull": false
+    },
+    {
+      "name": "locationID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

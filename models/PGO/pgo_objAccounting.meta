@@ -1,0 +1,231 @@
+{
+  "caption": "Облік об’єктів погосподарського обліку",
+  "description": "Облік об’єктів погосподарського обліку",
+  "connectionName": "main",
+  "sqlAlias": "pgo_objacc",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "objState",
+      "dataType": "Enum",
+      "enumGroup": "OBJ_STATE",
+      "caption": "Стан об’єкта",
+      "description": "Стан об’єкта",
+      "defaultValue": "OBJ_INPGO",
+      "allowNull": false
+    },
+    {
+      "name": "pgoType",
+      "dataType": "Enum",
+      "enumGroup": "OBJ_TYPE",
+      "caption": "Тип об’єкта погосподарського обліку",
+      "description": "Тип об’єкта погосподарського обліку",
+      "defaultValue": "HOUSEHOLD_LIVE",
+      "allowNull": false
+    },
+    {
+      "name": "pgoBookPage",
+      "dataType": "Int",
+      "caption": "Сторінка книги ПГО",
+      "description": "Сторінка книги ПГО",
+      "allowNull": true
+    },
+    {
+      "name": "pgoBook",
+      "dataType": "Int",
+      "caption": "Книга ПГО",
+      "description": "Книга ПГО",
+      "allowNull": false
+    },
+    {
+      "name": "locationID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт",
+      "allowNull": false
+    },
+    {
+      "name": "streetID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_localStreet",
+      "caption": "Адреса",
+      "description": "Адреса",
+      "allowNull": false
+    },
+    {
+      "name": "streetStr",
+      "dataType": "String",
+      "size": 1000,
+      "description": "Адреса",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[streetID.street]"
+        }
+      ]
+    },
+    {
+      "name": "houseNum",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Номер будинку",
+      "description": "Номер будинку",
+      "allowNull": false
+    },
+    {
+      "name": "flatNum",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Номер квартири",
+      "description": "Номер квартири",
+      "allowNull": true
+    },
+    {
+      "name": "pgoObjNum",
+      "dataType": "String",
+      "size": 8,
+      "caption": "Номер об’єкта погосподарського обліку",
+      "description": "Номер об’єкта погосподарського обліку",
+      "allowNull": true
+    },
+    {
+      "name": "constituency",
+      "dataType": "String",
+      "size": 300,
+      "caption": "Виборчий округ",
+      "description": "Виборчий округ",
+      "allowNull": true
+    },
+    {
+      "name": "district",
+      "dataType": "String",
+      "size": 300,
+      "caption": "Дільниця",
+      "description": "Дільниця",
+      "allowNull": true
+    },
+    {
+      "name": "ownerInVillage",
+      "dataType": "boolean",
+      "caption": "Власник проживає в селі",
+      "description": "Власник проживає в селі",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "headRegAddress",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Адреса реєстрації місця проживання голови домогосподарства",
+      "description": "Адреса реєстрації місця проживання голови домогосподарства",
+      "allowNull": true
+    },
+    {
+      "name": "ownerRegAddress",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Адреса реєстрації місця проживання власника/ користувача",
+      "description": "Адреса реєстрації місця проживання власника/ користувача",
+      "allowNull": true
+    },
+    {
+      "name": "arriveDate",
+      "dataType": "Date",
+      "caption": "Місяць і рік прибуття",
+      "allowNull": true
+    },
+    {
+      "name": "arriveGoal",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Мета прибуття",
+      "description": "Мета прибуття",
+      "allowNull": true
+    },
+    {
+      "name": "membersNum",
+      "dataType": "Int",
+      "caption": "Кількість членів домогосподарства",
+      "description": "Кількість членів домогосподарства",
+      "allowNull": true
+    },
+    {
+      "name": "retireDate",
+      "dataType": "Date",
+      "caption": "Місяць, рік вибуття",
+      "allowNull": true
+    },
+    {
+      "name": "pgoInFlatNum",
+      "dataType": "String",
+      "size": 300,
+      "caption": "№ ПГО, де перебуває на квартирі",
+      "description": "№ ПГО, де перебуває на квартирі",
+      "allowNull": true
+    },
+    {
+      "name": "specialNotes",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Спеціальні відмітки",
+      "description": "Спеціальні відмітки",
+      "allowNull": true
+    },
+    {
+      "name": "headPayerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Голова домогосподарства",
+      "description": "Голова домогосподарства",
+      "allowNull": true
+    },
+    {
+      "name": "isMarked",
+      "dataType": "boolean",
+      "caption": "Позначений",
+      "description": "Позначений",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "oldID",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ID з старої системи",
+      "description": "ID з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    },
+    {
+      "name": "householdMembers",
+      "dataType": "String",
+      "size": 1000,
+      "description": "Члени домогосподарства",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT string_agg(A3.lastName || ' ' || A3.firstName || ' ' || COALESCE(A3.middleName, ''), ', ') FROM pgo_householdMember A1 LEFT JOIN pgo_objAccounting A2 ON A2.ID = A1.objAccountingID LEFT JOIN inv_payers A3 ON A3.ID = A1.payerID WHERE objAccountingID = [ID])"
+        }
+      ]
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

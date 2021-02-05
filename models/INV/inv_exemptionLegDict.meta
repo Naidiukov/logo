@@ -1,0 +1,24 @@
+{
+  "caption": "Довідник пільгових категорій юр. осіб",
+  "description": "Довідник пільгових категорій юр. осіб",
+  "connectionName": "main",
+  "sqlAlias": "inv_expleg",
+  "cacheType": "None",
+  "descriptionAttribute": "exemptionCat",
+  "attributes": [
+    {
+      "name": "exemptionCat",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Пільгова категорія",
+      "description": "Пільгова категорія",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

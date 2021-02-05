@@ -1,0 +1,141 @@
+{
+  "caption": "Податки",
+  "description": "Податки",
+  "connectionName": "main",
+  "sqlAlias": "inv_taxes",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "reportYear",
+      "dataType": "String",
+      "size": 4,
+      "caption": "Звітний рік",
+      "description": "Звітний рік",
+      "allowNull": false
+    },
+    {
+      "name": "name",
+      "dataType": "Entity",
+      "associatedEntity": "inv_objPayers",
+      "caption": "Назва платника",
+      "description": "Назва платника",
+      "allowNull": true
+    },
+    {
+      "name": "pType",
+      "dataType": "String",
+      "caption": "Тип платника",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[name.payerID.personType]"
+        }
+      ]
+    },
+    {
+      "name": "pName",
+      "dataType": "String",
+      "caption": "Назва платника",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [name.payerID.personType]='PHYSICAL' THEN COALESCE([name.payerID.lastName],'') || ' ' || COALESCE([name.payerID.firstName], '') || ' ' || COALESCE([name.payerID.middleName], '') ELSE [name.payerID.name] END"
+        }
+      ]
+    },
+    {
+      "name": "pIdn",
+      "dataType": "String",
+      "caption": "Індентифікаційний код платника",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [name.payerID.personType]='PHYSICAL' THEN COALESCE([name.payerID.idnCode],'') ELSE COALESCE([name.payerID.edrpou], '') END"
+        }
+      ]
+    },
+    {
+      "name": "payerAddress",
+      "dataType": "String",
+      "size": 400,
+      "caption": "Адреса платника",
+      "description": "Адреса платника",
+      "allowNull": true
+    },
+    {
+      "name": "payerPhone",
+      "dataType": "String",
+      "size": 15,
+      "caption": "Телефон платника",
+      "description": "Телефон платника",
+      "allowNull": true
+    },
+    {
+      "name": "privilege",
+      "dataType": "String",
+      "size": 1000,
+      "caption": "Пільга",
+      "description": "Пільга",
+      "allowNull": true
+    },
+    {
+      "name": "privilegeStartDate",
+      "dataType": "Date",
+      "caption": "Дата початку дії пільги",
+      "allowNull": true
+    },
+    {
+      "name": "sumYear",
+      "dataType": "Currency",
+      "caption": "Планова сума податку за рік",
+      "description": "Планова сума податку за рік",
+      "allowNull": false
+    },
+    {
+      "name": "debt",
+      "dataType": "Currency",
+      "caption": "Борг",
+      "description": "Борг",
+      "allowNull": true
+    },
+    {
+      "name": "fine",
+      "dataType": "Currency",
+      "caption": "Пеня",
+      "description": "Пеня",
+      "allowNull": true
+    },
+    {
+      "name": "actualSum",
+      "dataType": "Currency",
+      "caption": "Фактично сплачено",
+      "description": "Фактично сплачено",
+      "allowNull": true
+    },
+    {
+      "name": "actualDate",
+      "dataType": "Date",
+      "caption": "Дата сплати",
+      "allowNull": true
+    },
+    {
+      "name": "objectID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_subject",
+      "caption": "Об'єкти оподаткування",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    }
+  }
+}

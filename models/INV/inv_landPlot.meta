@@ -1,0 +1,226 @@
+{
+  "caption": "Земельна ділянка",
+  "description": "Земельна ділянка",
+  "connectionName": "main",
+  "sqlAlias": "inv_landPlot",
+  "cacheType": "None",
+  "descriptionAttribute": "code",
+  "attributes": [
+    {
+      "name": "koattNum",
+      "dataType": "Entity",
+      "associatedEntity": "inv_landDict",
+      "caption": "Код КОАТТУ",
+      "description": "Код КОАТУУ",
+      "allowNull": false
+    },
+    {
+      "name": "code",
+      "dataType": "Bigint",
+      "caption": "Код",
+      "description": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "landCategory",
+      "dataType": "Enum",
+      "enumGroup": "LAND_CATEGORY",
+      "caption": "Категорія земель",
+      "description": "Категорія земель",
+      "allowNull": false
+    },
+    {
+      "name": "landPurpose",
+      "dataType": "Enum",
+      "enumGroup": "LAND_PURPOSE",
+      "caption": "Угіддя",
+      "description": "Угіддя",
+      "allowNull": true
+    },
+    {
+      "name": "cadastralNumber",
+      "dataType": "String",
+      "size": 22,
+      "caption": "Кадастровий номер",
+      "description": "Кадастровий номер",
+      "allowNull": true
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа",
+      "description": "Загальна площа",
+      "allowNull": false
+    },
+    {
+      "name": "ownershipArea",
+      "dataType": "float",
+      "caption": "Заг. площа домоволодіння (м2)",
+      "allowNull": true
+    },
+    {
+      "name": "documentOwnership",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Документ права власності",
+      "description": "Документ права власності",
+      "allowNull": false
+    },
+    {
+      "name": "registryData",
+      "dataType": "Date",
+      "caption": "Дата держреєстрації",
+      "description": "Дата держреєстрації",
+      "allowNull": false
+    },
+    {
+      "name": "position",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Місцезнаходження",
+      "description": "Місцезнаходження",
+      "allowNull": true
+    },
+    {
+      "name": "owner",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Власник",
+      "description": "Власник",
+      "allowNull": true
+    },
+    {
+      "name": "location",
+      "dataType": "Enum",
+      "enumGroup": "INV_LOCATION",
+      "caption": "Розташування",
+      "description": "Розташування",
+      "allowNull": false
+    },
+    {
+      "name": "useType",
+      "dataType": "Enum",
+      "enumGroup": "INV_USETYPE",
+      "caption": "Вид використання",
+      "description": "Вид використання",
+      "allowNull": true
+    },
+    {
+      "name": "calcParamsID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_calcParamsDict",
+      "caption": "Вид цільового призначення",
+      "allowNull": true
+    },
+    {
+      "name": "terminationDate",
+      "dataType": "Date",
+      "caption": "Дата припинення права власності",
+      "description": "Дата припинення права власності",
+      "allowNull": true
+    },
+    {
+      "name": "notes",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Примітка",
+      "description": "Примітка",
+      "allowNull": true
+    },
+    {
+      "name": "acceptPrivilege",
+      "dataType": "boolean",
+      "caption": "Враховувати пільгу",
+      "description": "Враховувати пільгу",
+      "defaultValue": "1",
+      "allowNull": false
+    },
+    {
+      "name": "NGODone",
+      "dataType": "boolean",
+      "caption": "Проведено НГО",
+      "description": "проведено НГО",
+      "defaultValue": "1",
+      "allowNull": false
+    },
+    {
+      "name": "oldID",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ID LAND з старої системи",
+      "description": "ID LAND з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    },
+    {
+      "name": "url",
+      "dataType": "String",
+      "size": 300,
+      "caption": "Url",
+      "allowNull": true
+    },
+    {
+      "name": "pgoLandStr",
+      "dataType": "String",
+      "caption": "Земельна ділянка",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "COALESCE([code]::varchar,'') || ' ' || COALESCE([cadastralNumber],'') || ' ' || COALESCE([position],'')"
+        }
+      ]
+    },
+    {
+      "name": "dontUpdate",
+      "dataType": "Boolean",
+      "size": 250,
+      "caption": "Допоміжне",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "''"
+        }
+     ]
+    }
+  ],
+  "mixins": {
+    "unity": {
+      "entity": "inv_subject",
+      "attributeList": [
+        "koattNum",
+        "code",
+        "totalArea",
+        "documentOwnership",
+        "registryData",
+        "owner",
+        "address",
+        "cadastralNumber",
+        "useType",
+        "ownershipArea"
+      ],
+      "mapping": {
+        "position": "address"
+
+    },
+      "defaults": {
+        "oType": "landPlot"
+      }
+    },
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    }
+  }
+}

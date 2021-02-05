@@ -1,0 +1,525 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_localRequisites"
+// @model "PGO"
+// @formType "auto"
+// @caption "Реквізити місцевої ради"
+// @description "Реквізити місцевої ради"
+exports.formDef = {
+    items: [{
+        xtype: 'tabpanel',
+        itemId: 'cmpTabPanel',
+        flex: 1,
+        minWidth: 250,
+        plain: true,
+        items: [
+            {
+                itemId: "tabMain",
+                title: 'Реквізити місцевої ради',
+                defaults: {
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    }
+                },
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        layout: {
+                            type: "vbox",
+                            align: "stretch"
+                        },
+                        defaults: {
+                            labelWidth: 160,
+                            flex: 1
+                        },
+                        autoScroll: true,
+                        items: [
+                            {
+                                xtype: "textfield",
+                                attributeName: "edrpou",
+                                maxLength: 8,
+                                labelWidth: 138,
+                                allowExponential: false,
+                                allowDecimals: false,
+                                hideTrigger: true,
+                                validator: function (v) {
+                                    if (/^\d*$/.test(v)) return v && v.length == 8 || !v ? true : 'Кількість символів має дорівнювати 8!';
+                                    else return 'Поле має містити тільки цифри'
+                                }
+                            },
+                            {
+                                xtype: "ubcombobox",
+                                attributeName: "pgoDictID",
+                                valueField: 'ID',
+                                disableContextMenu: true,
+                                name: "localGovernment",
+                                ubID: "localGovernment",
+                                itemId: "localGovernment",
+                                fieldLabel: "Назва",
+                                displayField: 'localGovernmentFullName',
+                                labelWidth: 138,
+                                fieldList: ["ID", "localGovernmentFullName", "regionName", "areaName"],
+                                listeners: {
+                                    change: function (fld, newV, oldV) {
+                                        let form = this.up('form'),
+                                            regionCtrl = form.queryById('region'),
+                                            areaCtrl = form.queryById('area'),
+                                            settlementCtrl = form.queryById('settlementDictID');
+
+                                        if (newV) {
+
+                                            let record = fld.findRecordByValue(fld.getValue());
+                                            if (record) {
+                                                form.record.set('pgoDictID', record.get('ID'));
+                                                regionCtrl.setValue(record.get('regionName'));
+                                                areaCtrl.setValue(record.get('areaName'));
+                                                settlementCtrl.setValue(null);
+                                                settlementCtrl.setDisabled(false);
+
+                                                if (!settlementCtrl.store.ubRequest.whereList) settlementCtrl.store.ubRequest.whereList = {};
+                                                settlementCtrl.store.ubRequest.whereList.byPgoDictID = {
+                                                    expression: "[pgoDictID]",
+                                                    condition: "=",
+                                                    values: {pgoDictID: fld.getValue()}
+                                                };
+                                                settlementCtrl.store.reload();
+                                            }
+                                            if (oldV && newV != oldV) {
+                                                form.record.set('regionGenitive', null);
+                                                form.record.set('areaGenitive', null);
+                                                form.record.set('localGovGenitive', null);
+                                            }
+                                        } else {
+                                            form.record.set('pgoDictID', null);
+
+                                            regionCtrl.setValue('');
+                                            areaCtrl.setValue('');
+
+                                            form.record.set('regionGenitive', null);
+                                            form.record.set('areaGenitive', null);
+                                            form.record.set('localGovGenitive', null);
+                                            settlementCtrl.setValue(null);
+                                            settlementCtrl.setDisabled(true);
+
+                                            settlementCtrl.store.ubRequest.whereList.byPgoDictID = {
+                                                expression: "[ID]",
+                                                condition: "isNull"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                xtype: 'textfield',
+                                fieldLabel: 'Назва району',
+                                labelWidth: 138,
+                                readOnly: true,
+                                itemId: 'region',
+                                value: '',
+                                width: 400
+                            },
+                            {
+                                xtype: 'textfield',
+                                fieldLabel: 'Назва області',
+                                readOnly: true,
+                                labelWidth: 138,
+                                itemId: 'area',
+                                value: '',
+                                width: 400
+                            },
+                            {
+                                attributeName: 'localGovGenitive',
+                                labelWidth: 138
+                            },
+                            {
+                                attributeName: 'regionGenitive',
+                                labelWidth: 138
+                            },
+                            {
+                                attributeName: 'areaGenitive',
+                                labelWidth: 138
+                            },
+                            {
+                                xtype: 'fieldset',
+                                margin: "0, 15, 0, 15",
+                                title: 'Контактні дані',
+                                collapsible: true,
+                                layout: {
+                                    type: "vbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    flex: 1
+                                },
+                                items: [
+                                    {
+                                        xtype: "ubcombobox",
+                                        attributeName: 'settlementDictID',
+                                        itemId: 'settlementDictID',
+                                        valueField: 'ID',
+                                        disableContextMenu: true,
+                                        fieldLabel: "Адміністрат. центр ради",
+                                        displayField: 'governmentName',
+                                        fieldList: ["ID", "governmentName"],
+                                        listeners: {
+                                            change: function (fld, newV, oldV) {
+                                                let form = this.up('form'),
+                                                    streetCtrl = form.getField('streetID');
+                                                if (newV) {
+                                                    streetCtrl.setValue(null);
+                                                    streetCtrl.setDisabled(false);
+                                                    if (!streetCtrl.store.ubRequest.whereList) streetCtrl.store.ubRequest.whereList = {};
+                                                    streetCtrl.store.ubRequest.whereList.bySettlementDictID = {
+                                                        expression: "[settlementDictID]",
+                                                        condition: "=",
+                                                        values: {settlementDictID: newV}
+                                                    };
+                                                    streetCtrl.store.reload();
+                                                } else {
+                                                    streetCtrl.setValue(null);
+                                                    streetCtrl.setDisabled(true);
+                                                    streetCtrl.store.ubRequest.whereList = {};
+                                                }
+                                            }
+                                        }
+                                        // whereList: {byPgoDictID: {/*expression: "[ID]", condition: "isNull"*/}}
+                                    },
+                                    {
+                                        attributeName: 'streetID',
+                                        disabled: true,
+                                        disableContextMenu: true
+                                    },
+                                    {
+                                        attributeName: 'houseNum'
+                                    },
+                                    {
+                                        xtype: "textfield",
+                                        attributeName: "postIndex",
+                                        maxLength: 5,
+                                        validator: function (v) {
+                                            if (/^\d*$/.test(v)) return v && v.length == 5 || !v ? true : 'Кількість символів має дорівнювати 5!';
+                                            else return 'Поле має містити тільки цифри'
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                xtype: 'fieldset',
+                                margin: "15, 15, 20, 15",
+                                title: 'Голова (староста)',
+                                collapsible: true,
+                                layout: {
+                                    type: "vbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    flex: 1
+                                },
+                                items: [{
+                                    attributeName: 'headFullName'
+                                }, {
+                                    attributeName: 'headBirthDate',
+                                    maxValue: new Date()
+                                },
+                                    {
+                                        attributeName: 'headPhoneNumber',
+                                        validator: function (v) {
+                                            return /^\([0-9]{3}\)[0-9]{3}-?[0-9]{2}-?[0-9]{2}-?$/.test(v) || !v ? true : 'Формат має бути (xxx)ххх-хх-хх або (ххх)ххххххх';
+                                        }
+                                    }, {
+                                        attributeName: 'headEducationLVL'
+                                    },
+                                    {
+                                        attributeName: 'specialization'
+                                    },
+                                    {
+                                        attributeName: 'whoNominated'
+                                    }, {
+                                        xtype: 'numberfield',
+                                        allowExponential: false,
+                                        allowDecimals: false,
+                                        hideTrigger: true,
+                                        minValue: 0,
+                                        attributeName: 'candidatesNum'
+                                    },
+                                    {
+                                        attributeName: 'electionDate',
+                                        maxValue: new Date()
+                                    }, {
+                                        xtype: 'numberfield',
+                                        allowExponential: false,
+                                        allowDecimals: false,
+                                        hideTrigger: true,
+                                        minValue: 0,
+                                        attributeName: 'votesNum'
+                                    },
+                                    {
+                                        attributeName: 'councilHead'
+                                    }]
+                            },
+                            {
+                                xtype: 'fieldset',
+                                margin: "0, 15, 5, 15",
+                                title: 'Секретар',
+                                collapsible: true,
+                                layout: {
+                                    type: "vbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    flex: 1
+                                },
+                                items: [{
+                                    attributeName: 'clerkFullName'
+                                }, {
+                                    attributeName: 'clerkBirthDate',
+                                    maxValue: new Date()
+                                },
+                                    {
+                                        attributeName: 'clerkPhoneNumber',
+                                        validator: function (v) {
+                                            return /^\([0-9]{3}\)[0-9]{3}-?[0-9]{2}-?[0-9]{2}-?$/.test(v) || !v ? true : 'Формат має бути (xxx)ххх-хх-хх або (ххх)ххххххх';
+                                        }
+                                    },
+                                    {
+                                        attributeName: 'clerkEducationLVL'
+                                    }, {
+                                        attributeName: 'clerkElectionDate',
+                                        maxValue: new Date()
+                                    },
+                                    {
+                                        attributeName: 'councilClerk'
+                                    }]
+                            }, {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160,
+                                    flex: 1
+                                },
+                                margin: "0, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: "plannerFullName",
+                                        labelWidth: 138
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160,
+                                    flex: 1
+                                },
+                                margin: "0, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: "dilovodFullName",
+                                        labelWidth: 138
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160,
+                                    flex: 1
+                                },
+                                margin: "0, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: "email",
+                                        labelWidth: 138
+                                    }
+                                ]
+                            }]
+                    }
+                ]
+            },
+            {
+                itemId: "tabLocality",
+                disabled: true,
+                title: 'Населені пункти',
+                defaults: {
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    }
+                },
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
+                margin: "5, 0, 10, 0",
+                items: [
+                    {
+                        layout: {
+                            type: "vbox",
+                            align: "stretch"
+                        },
+                        defaults: {
+                            labelWidth: 160,
+                            flex: 1
+                        },
+                        autoScroll: true,
+                        items: [
+                            {
+                                xtype: "ubdetailgrid",
+                                title: 'Населені пункти',
+                                itemId: "gridLocality",
+                                hideToolbar: false,
+                                toolbarActionList: ['refresh', 'addNew', 'del'],
+                                //hideMenuAllActions: true,
+                                hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                                autoScroll: true,
+                                margin: "0, 0, 5, 0",  //top, right, buttom, left
+                                cmdType: "showList",
+                                selModel: {
+                                    selectionMode: "SINGLE"
+                                },
+                                entityConfig: {
+                                    entity: "pgo_localSettlement",
+                                    method: "select",
+                                    fieldList: [
+                                        {name: "ID", visibility: false},
+                                        {name: "settlementDictID", visibility: false},
+                                        {name: "code", description: 'Порядковий номер'},
+                                        {name: "settlementDictID.koattNum", description: 'Код КОАТТУ'},
+                                        {
+                                            name: "settlementDictID.governmentStatus",
+                                            description: 'Статус населеного пункту'
+                                        },
+                                        {
+                                            name: "settlementDictID.governmentName",
+                                            description: 'Назва населеного пункту'
+                                        }
+                                    ]
+                                },
+                                masterFields: ["ID"],
+                                detailFields: ["localRequisitesID"],
+                                onDeterminateForm: function () {
+
+                                    return {
+                                        formCode: "pgo_localSettlement",
+                                        entityName: "pgo_localSettlement",
+                                        cmpInitConfig: {
+                                            pgoDictID: this.up('form').record.get('pgoDictID'),
+                                            localRequisitesID: this.up('form').instanceID
+                                        }
+                                    }
+                                },
+                                onItemContextMenu: function (grid, record, item, index, event) {
+
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                itemId: "tabPassport",
+                title: 'Паспорт',
+                defaults: {
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    }
+                },
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        layout: {
+                            type: "vbox",
+                            align: "stretch"
+                        },
+                        defaults: {
+                            labelWidth: 160,
+                            flex: 1
+                        },
+                        autoScroll: true,
+                        items: [
+                            {
+                                attributeName: 'centerDistance',
+                                miValue: 0,
+                                labelWidth: 138
+                            },
+                            {
+                                xtype: 'fieldset',
+                                margin: "0, 15, 0, 15",
+                                title: 'Територія',
+                                collapsible: true,
+                                layout: {
+                                    type: "vbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    flex: 1
+                                },
+                                items: [
+                                    {
+                                        attributeName: 'totalArea',
+                                        miValue: 0,
+                                        decimalPrecision: 4
+                                    },
+                                    {
+                                        attributeName: 'stateLand',
+                                        decimalPrecision: 4
+                                    },
+                                    {
+                                        attributeName: 'communalLand',
+                                        decimalPrecision: 4
+                                    }, {
+                                        attributeName: 'privateLand',
+                                        decimalPrecision: 4
+                                    },
+                                    {
+                                        attributeName: 'settlementTotalArea',
+                                        decimalPrecision: 4
+                                    }, {
+                                        attributeName: 'stateProperty',
+                                        decimalPrecision: 4
+                                    },
+                                    {
+                                        attributeName: 'communalProperty',
+                                        decimalPrecision: 4
+                                    },
+                                    {
+                                        attributeName: 'privateProperty',
+                                        decimalPrecision: 4
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        listeners: {
+            afterlayout: function () {
+                let form = this.up('form');
+                if (form.isAdd && !form.locality) {
+                    form.locality = true;5
+                    this.setActiveTab(this.queryById('tabLocality'));
+                }
+
+            }
+        }
+    }]
+};

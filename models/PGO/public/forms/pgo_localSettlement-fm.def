@@ -1,0 +1,41 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_localSettlement"
+// @model "PGO"
+// @formType "auto"
+// @caption "Обрання населеного пункту"
+// @description "Обрання населеного пункту"
+exports.formDef = {
+	items:[
+		{
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+			items: [
+                {
+                    attributeName: "code",
+                    xtype: 'textfield',
+                    itemId: 'calcYear',
+                    validator: function (v) {
+                        let d = this.value;
+
+                        if(!d || isNaN(parseInt(d)) || parseInt(d)<1) return "Невірно заповнене поле";
+                        return true;
+                    }
+                },
+                {
+                    xtype: "ubcombobox",
+                    attributeName: "settlementDictID",
+                    valueField: 'ID',
+                    disableContextMenu: true,
+                    itemId: "localSettlement",
+                    fieldLabel: "Назва",
+                    displayField: 'governmentName',
+                    fieldList: ["ID", "koattNum", "governmentStatus", "governmentName", "pgoDictID"]
+                }
+			]
+		}
+
+	]
+};

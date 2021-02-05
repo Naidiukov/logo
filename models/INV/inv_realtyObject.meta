@@ -1,0 +1,202 @@
+{
+  "caption": "Об’єкт нерухомості",
+  "description": "Об’єкт нерухомості",
+  "connectionName": "main",
+  "sqlAlias": "inv_realtyObject",
+  "cacheType": "None",
+  "descriptionAttribute": "pgoRealtyStr",
+  "attributes": [
+    {
+      "name": "koattNum",
+      "dataType": "Entity",
+      "associatedEntity": "inv_landDict",
+      "caption": "Код КОАТТУ",
+      "description": "Код КОАТУУ",
+      "allowNull": false
+    },
+    {
+      "name": "code",
+      "dataType": "Bigint",
+      "caption": "Код",
+      "description": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "realtyType",
+      "dataType": "Enum",
+      "enumGroup": "REALTY_TYPE",
+      "caption": "Тип об’єкта нерухомості",
+      "description": "Тип об’єкта нерухомості",
+      "allowNull": false
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа",
+      "description": "Загальна площа",
+      "allowNull": false
+    },
+    {
+      "name": "summerArea",
+      "dataType": "float",
+      "caption": "З них, літніх приміщень, м2",
+      "allowNull": true
+    },
+    {
+      "name": "livingArea",
+      "dataType": "float",
+      "caption": "Житлова площа, м2",
+      "allowNull": true
+    },
+    {
+      "name": "ownershipArea",
+      "dataType": "float",
+      "caption": "Заг. площа домоволодіння (м2)",
+      "allowNull": true
+    },
+    {
+      "name": "notToLive",
+      "dataType": "boolean",
+      "caption": "Непридатна для проживання",
+      "description": "Непридатна для проживання",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "notTaxed",
+      "dataType": "boolean",
+      "caption": "Не оподатковується",
+      "description": "Не оподатковується",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "location",
+      "dataType": "Enum",
+      "enumGroup": "INV_LOCATION",
+      "caption": "Розташування",
+      "description": "Розташування",
+      "allowNull": false
+    },
+    {
+      "name": "calcParamsID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_calcRealtyParamsDict",
+      "caption": "Класифікація будівель та споруд",
+      "allowNull": true
+    },
+    {
+      "name": "documentOwnership",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Документ права власності",
+      "description": "Документ права власності",
+      "allowNull": false
+    },
+    {
+      "name": "registryData",
+      "dataType": "Date",
+      "caption": "Дата держреєстрації",
+      "description": "Дата держреєстрації",
+      "allowNull": false
+    },
+    {
+      "name": "address",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Адреса об’єкта",
+      "description": "Адреса об’єкта",
+      "allowNull": false
+    },
+    {
+      "name": "owner",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Власник",
+      "description": "Власник",
+      "allowNull": true
+    },
+    {
+      "name": "terminationDate",
+      "dataType": "Date",
+      "caption": "Дата припинення права власності",
+      "description": "Дата припинення права власності",
+      "allowNull": true
+    },
+    {
+      "name": "notes",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Примітка",
+      "description": "Примітка",
+      "allowNull": true
+    },
+    {
+      "name": "acceptPrivilege",
+      "dataType": "boolean",
+      "caption": "Враховувати пільгу",
+      "description": "Враховувати пільгу",
+      "defaultValue": "1",
+      "allowNull": false
+    },
+    {
+      "name": "oldID",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ID HOUSE з старої системи",
+      "description": "ID HOUSE з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    },
+    {
+      "name": "url",
+      "dataType": "String",
+      "size": 300,
+      "caption": "Url",
+      "allowNull": true
+    },
+    {
+      "name": "pgoRealtyStr",
+      "dataType": "String",
+      "caption": "Земельна ділянка",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "COALESCE([code]::varchar,'') ||  ' ' || COALESCE([address],'')"
+        }
+      ]
+    }
+  ],
+  "mixins": {
+    "unity": {
+      "entity": "inv_subject",
+      "attributeList": [
+        "koattNum",
+        "code",
+        "totalArea",
+        "documentOwnership",
+        "registryData",
+        "owner",
+        "address",
+        "ownershipArea"
+      ],
+      "defaults": {
+        "oType": "realtyObject"
+      }
+    },
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    }
+  }
+}

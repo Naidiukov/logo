@@ -1,0 +1,45 @@
+{
+  "caption": "Документи договорів",
+  "description": "Документи договорів",
+  "connectionName": "main",
+  "sqlAlias": "inv_contratt",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "attachment",
+      "dataType": "Document",
+      "caption": "Документ",
+      "storeName": "documents",
+      "allowNull": false
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 255,
+      "caption": "Ім`я файлу",
+      "allowNull": true
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "size": 255,
+      "caption": "Content type",
+      "allowNull": true
+    },
+    {
+      "name": "agreementID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_leaseAgreements",
+      "caption": "Договір оренди",
+      "description": "Договір оренди",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

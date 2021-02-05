@@ -1,0 +1,45 @@
+
+{
+  "caption": "Взяття/зняття з військового обліку",
+  "description": "Взяття/зняття з військового обліку",
+  "connectionName": "main",
+  "sqlAlias": "pgo_milinout",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "type",
+      "dataType": "Enum",
+      "enumGroup": "IN_OUT_TYPE",
+      "caption": "Тип",
+      "allowNull": false
+    },
+    {
+      "name": "inOutDate",
+      "dataType": "Date",
+      "caption": "Дата держреєстрації",
+      "description": "Дата держреєстрації",
+      "allowNull": false
+    },
+    {
+      "name": "whereFrom",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Куди/ Звідки",
+      "allowNull": true
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Громадянин",
+      "description": "Громадянин",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

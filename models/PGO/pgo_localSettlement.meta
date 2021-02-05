@@ -1,0 +1,42 @@
+{
+  "caption": "Населені пункти",
+  "description": "Населені пункти",
+  "connectionName": "main",
+  "sqlAlias": "pgo_localsett",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "localRequisitesID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_localRequisites",
+      "caption": "Реквізити місцевої ради",
+      "description": "Реквізити місцевої ради",
+      "allowNull": false
+    },
+    {
+      "name": "settlementDictID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Назва населеного пункту",
+      "description": "Назва населеного пункту",
+      "allowNull": false
+    },
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 2,
+      "caption": "Порядковий номер",
+      "description": "Порядковий номер",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

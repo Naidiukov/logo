@@ -1,0 +1,318 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "comm_regInfoCurr"
+// @model "COMM"
+// @formType "auto"
+// @caption "Інформація про реєстрацію (Поточна реєстрація; Скасовано у стані «Знято з реєстрації»)"
+// @description "Інформація про реєстрацію (Поточна реєстрація; Скасовано у стані «Знято з реєстрації»)"
+exports.formDef = {
+    autoScroll: true,
+    size: {
+        width: 900,
+        height: 600
+    },
+    items:[
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Поточна реєстрація',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [{
+                attributeName: 'state',
+                readOnly: true
+            },
+                {
+                    attributeName: "regUnit",
+                    readOnly: true
+                },
+                {
+                    attributeName: "regDate",
+                    readOnly: true
+                },
+                {
+                    attributeName: "area",
+                    readOnly: true
+                },
+                {
+                    attributeName: "region",
+                    readOnly: true,
+                    flex: 1
+                },
+				{
+					attributeName: "settlement",
+					fieldList: ["ID", "governmentShortName", "governmentStatus"],
+					readOnly: true,
+					listeners: {
+						change(fld, newValue, oldValue) {
+							let form = this.up('form'),
+								settlementDistrict = form.getField('settlementDistrict');
+							if (newValue) {
+								let store = fld.getStore(),
+									governmentStatus = store.getById(newValue).get('governmentStatus');
+
+								if(governmentStatus === 'Місто' || governmentStatus === 'місто'){
+									settlementDistrict.show();
+								}
+								else {
+									settlementDistrict.hide();
+								}
+
+							} else {
+								settlementDistrict.hide();
+							}
+						}
+					}
+				},
+				{
+					attributeName: "settlementDistrict",
+                    hidden: true,
+					readOnly: true
+				},
+                {
+                    attributeName: "streetType",
+                    readOnly: true
+                },
+                {
+                    attributeName: "street",
+                    readOnly: true
+                },
+                {
+                    attributeName: "houseNum",
+                    readOnly: true
+                },
+                {
+                    attributeName: "flatNum",
+                    readOnly: true
+                },
+                {
+                    attributeName: "postIndex",
+                    readOnly: true
+                },
+                {
+                    attributeName: "regReason",
+                    readOnly: true
+                }]
+        },
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Документ для реєстрації',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [{
+                attributeName: 'docType',
+                readOnly: true
+            }, {
+                attributeName: 'series',
+                readOnly: true
+            }, {
+                attributeName: 'num',
+                readOnly: true
+            }, {
+                attributeName: 'issueDate',
+                readOnly: true
+            }, {
+                attributeName: 'docRegUnit',
+                readOnly: true
+            }, {
+                attributeName: 'validTo',
+                readOnly: true
+            }]
+        },
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Скасування реєстрації',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'cancelDate',
+                    readOnly: true
+                },
+				{
+                    attributeName: 'cancelReason',
+                    readOnly: true
+                }
+            ]
+        },
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Куди вибув',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: "rRegUnit",
+                    readOnly: true
+                },
+                {
+                    attributeName: "removeDate",
+                    readOnly: true
+                },
+                {
+                    attributeName: "rCountry",
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                rLivePlaceCtrl = form.getField('rLivePlace');
+                            if (fld.getValue() != 333658698055681) {
+                                INV.services.setCtrlVisibility([
+                                    {name: 'rLivePlace', isVisible: true},
+                                    {name: 'rArea', isVisible: false, nullVal: true},
+                                    {name: 'rRegion', isVisible: false, nullVal: true},
+                                    {name: 'rSettlement', isVisible: false, nullVal: true},
+                                    {name: 'rStreetType', isVisible: false, nullVal: true},
+                                    {name: 'rStreet', isVisible: false, nullVal: true},
+                                    {name: 'rHouseNum', isVisible: false, nullVal: true},
+                                    {name: 'rFlatNum', isVisible: false, nullVal: true},
+                                    {name: 'rPostIndex', isVisible: false, nullVal: true}
+                                ], form);
+                            } else {
+                                INV.services.setCtrlVisibility([
+                                    {name: 'rLivePlace', isVisible: false, nullVal: true},
+                                    {name: 'rArea', isVisible: true},
+                                    {name: 'rRegion', isVisible: true},
+                                    {name: 'rSettlement', isVisible: true},
+                                    {name: 'rStreetType', isVisible: true},
+                                    {name: 'rStreet', isVisible: true},
+                                    {name: 'rHouseNum', isVisible: true},
+                                    {name: 'rFlatNum', isVisible: true},
+                                    {name: 'rPostIndex', isVisible: true}
+                                ], form);
+                            }
+                        }
+                    },
+                    readOnly: true
+                },
+                {
+                    attributeName: "rArea",
+                    readOnly: true
+                },
+                {
+                    attributeName: "rRegion",
+                    displayField: 'name',
+                    flex: 1,
+                    readOnly: true
+                },
+                {
+                    attributeName: "rSettlement",
+					fieldList: ["ID", "governmentShortName", "governmentStatus"],
+                    readOnly: true,
+					listeners: {
+						change(fld, newValue, oldValue) {
+							let form = this.up('form'),
+								settlementDistrict = form.getField('rSettlementDistrict');
+							if (newValue) {
+								let store = fld.getStore(),
+									governmentStatus = store.getById(newValue).get('governmentStatus');
+
+								if(governmentStatus === 'Місто' || governmentStatus === 'місто'){
+									settlementDistrict.show();
+								}
+								else {
+									settlementDistrict.hide();
+								}
+
+							} else {
+								settlementDistrict.hide();
+							}
+						}
+					}
+                },
+				{
+					attributeName: "rSettlementDistrict",
+					hidden: true,
+					readOnly: true
+				},
+                {
+                    attributeName: "rStreetType",
+                    readOnly: true
+                },
+                {
+                    attributeName: "rStreet",
+                    readOnly: true
+                },
+                {
+                    attributeName: "rHouseNum",
+                    readOnly: true
+                },
+                {
+                    attributeName: "rFlatNum",
+                    readOnly: true
+                },
+                {
+                    attributeName: "rPostIndex",
+                    readOnly: true
+                },
+                {
+                    attributeName: "rLivePlace",
+                    hidden: true,
+                    readOnly: true
+                },
+                {
+                    attributeName: "rReason",
+                    readOnly: true
+                }
+            ]
+        },
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Наданий документ',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [{
+                attributeName: 'rDocType',
+                readOnly: true
+            }, {
+                attributeName: 'rSeries',
+                readOnly: true
+            }, {
+                attributeName: 'rNum',
+                readOnly: true
+            }, {
+                attributeName: 'rIssueDate',
+                readOnly: true
+            }, {
+                attributeName: 'rDocRegUnit',
+                readOnly: true
+            }, {
+                attributeName: 'rValidTo',
+                readOnly: true
+            }]
+        }
+    ]
+};

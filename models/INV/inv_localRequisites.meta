@@ -1,0 +1,204 @@
+{
+  "caption": "Реквізити місцевої ради",
+  "description": "Реквізити місцевої ради",
+  "connectionName": "main",
+  "sqlAlias": "inv_requisites",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "landDictID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_landDict",
+      "caption": "Назва",
+      "description": "Назва",
+      "allowNull": false
+    },
+    {
+      "name": "state",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Стан",
+      "defaultValue": "Діє",
+      "allowNull": false
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Назва",
+      "allowNull": false
+    },
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код",
+      "allowNull": false
+    },
+    {
+      "name": "MFO",
+      "dataType": "String",
+      "size": 240,
+      "caption": "МФО банку",
+      "allowNull": false
+    },
+    {
+      "name": "physLandPayPurpose",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Призначення платежу",
+      "allowNull": true
+    },
+    {
+      "name": "physLandPayCode",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код платежу",
+      "allowNull": true
+    },
+    {
+      "name": "physLandAccount",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Розрахунковий рахунок",
+      "allowNull": true
+    },
+    {
+      "name": "legLandPayPurpose",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Призначення платежу",
+      "allowNull": true
+    },
+    {
+      "name": "legLandPayCode",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код платежу",
+      "allowNull": true
+    },
+    {
+      "name": "legLandAccount",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Розрахунковий рахунок",
+      "allowNull": true
+    },
+    //Параметри платежів за нерухоме майно фіз.особи, нежитлова нерухомість
+    {
+      "name": "physRealtyPayPurposeN",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Призначення платежу",
+      "allowNull": true
+    },
+    {
+      "name": "physRealtyPayCodeN",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код платежу",
+      "allowNull": true
+    },
+    {
+      "name": "physRealtyAccountN",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Розрахунковий рахунок",
+      "allowNull": true
+    },
+    //Параметри платежів за нерухоме майно юр.особи, нежитлова нерухомість
+    {
+      "name": "legRealtyPayPurposeN",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Призначення платежу",
+      "allowNull": true
+    },
+    {
+      "name": "legRealtyPayCodeN",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код платежу",
+      "allowNull": true
+    },
+    {
+      "name": "legRealtyAccountN",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Розрахунковий рахунок",
+      "allowNull": true
+    },
+    //Параметри платежів за нерухоме майно фіз.особи, житлова нерухомість
+    {
+      "name": "physRealtyPayPurpose",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Призначення платежу",
+      "allowNull": true
+    },
+    {
+      "name": "physRealtyPayCode",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код платежу",
+      "allowNull": true
+    },
+    {
+      "name": "physRealtyAccount",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Розрахунковий рахунок",
+      "allowNull": true
+    },
+    //Параметри платежів за нерухоме майно юр.особи, житлова нерухомість
+    {
+      "name": "legRealtyPayPurpose",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Призначення платежу",
+      "allowNull": true
+    },
+    {
+      "name": "legRealtyPayCode",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код платежу",
+      "allowNull": true
+    },
+    {
+      "name": "legRealtyAccount",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Розрахунковий рахунок",
+      "allowNull": true
+    },
+    {
+      "name": "leasePayPurpose",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Призначення платежу",
+      "allowNull": true
+    },
+    {
+      "name": "leasePayCode",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Код платежу",
+      "allowNull": true
+    },
+    {
+      "name": "leaseAccount",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Розрахунковий рахунок",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

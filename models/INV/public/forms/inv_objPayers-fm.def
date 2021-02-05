@@ -1,0 +1,21 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_objPayers"
+// @model "INV"
+// @formType "auto"
+// @caption "Платник"
+// @description "Платник"
+exports.formDef = {
+    requiredFields: ['objectID'],
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
+    },
+    items: [
+        {
+            attributeName: 'payerID',
+            width: 400,
+            flex: 1
+        }
+    ]
+};

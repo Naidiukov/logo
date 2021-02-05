@@ -1,0 +1,138 @@
+<!--@name "Форма № 204"-->
+<!--@report_code "formNum204"-->
+<!--@model "PGO"-->
+<!--@ID "333284176789505"-->
+
+
+
+<!--%pageOrientation:portrait--><p>&nbsp;</p>
+<table style="word-break: break-all; margin-left: 30px;" width="753" cellspacing="0" cellpadding="0px">
+<tbody>
+<tr>
+<td style="width: 502px;">&nbsp;</td>
+<td style="width: 220px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="font-size: 10pt;"> ЗАТВЕРДЖЕНО</span><br /><span style="font-size: 10pt;">Наказ Міністерства праці та</span><br /><span style="font-size: 10pt;">соціальної політики України</span><br /><span style="font-size: 10pt;">22.07.2003 № 204</span></td>
+</tr>
+<tr>
+<td style="width: 532px;" colspan="2"><span style="font-size: 14pt;"><em>Заповнюється відповідним підприємством (організацією) або виконавчим органом сільської (селищної)ради за місцем реєстрації сім&rsquo;ї</em></span></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p style="text-align: center;"><span style="font-size: 14pt;"><strong>ДОВІДКА&nbsp; ПРО СКЛАД СІМ&rsquo;Ї<br />або ЗАРЕЄСТРОВАНИХ У ЖИТЛОВОМУ ПРИМІЩЕННІ / БУДИНКУ ОСІБ</strong></span></p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: justify;"><span style="font-size: 14pt;"><strong>Видана уповноваженому власнику (співвласнику, наймачу) житлового приміщення (будинку), членові житлово-будівельного кооперативу</strong></span></p>
+<table style="word-break: break-all;" width="773" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td rowspan="2">&nbsp;</td>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: center;" colspan="2"><span style="font-size: 14pt;"><strong>{{members.applicantMember.fullName}}</strong></span></td>
+</tr>
+<tr>
+<td style="padding: 0px; text-align: center; vertical-align: top;" colspan="2"><span style="font-size: 14pt;"><strong>(прізвище, ім&rsquo;я, по батькові)</strong></span></td>
+</tr>
+<tr>
+<td style="padding: 0px; text-align: center; vertical-align: bottom;" colspan="2"><span style="font-size: 14pt;"><strong>адреса </strong></span></td>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;"><span style="font-size: 14pt;"><strong>&nbsp;&nbsp;выавыаыв</strong></span></td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;" colspan="3"><span style="font-size: 14pt;">&nbsp;&nbsp;</span></td>
+</tr>
+<tr>
+<td style="width: 30px;">&nbsp;</td>
+<td style="width: 40px;">&nbsp;</td>
+<td style="width: 712px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p><strong>про те, що до складу сім&rsquo;ї/ зареєстрованих/&nbsp; входять:</strong></p>
+<table style="word-break: break-all;" border="1px" width="773" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr style="disable-split: true;">
+<td style="width: 362px; text-align: center; vertical-align: top;"><span style="font-size: 10pt;"><strong>Прізвище, ім&rsquo;я, по батькові</strong></span></td>
+<td style="width: 150px; text-align: center; vertical-align: top;"><span style="font-size: 10pt;"><strong>Родинні<br />стосунки</strong></span></td>
+<td style="width: 110px; text-align: center; vertical-align: top;"><span style="font-size: 10pt;"><strong>Дата народження</strong></span></td>
+<td style="width: 150px; text-align: center; vertical-align: top;"><span style="font-size: 10pt;"><strong>№, серія паспорта або свідоцтва про народження</strong></span></td>
+</tr>
+<!--{{#members.applicantMember}}-->
+<tr style="disable-split: true;">
+<td style="text-align: left; vertical-align: top; font-size: 12pt;"><strong>{{fullName}}</strong></td>
+<td style="text-align: left; vertical-align: top; font-size: 12pt;"><strong>заявник</strong></td>
+<td style="text-align: center; vertical-align: top; font-size: 12pt;"><strong>{{birthDate}}</strong></td>
+<td style="text-align: left; vertical-align: top; font-size: 12pt;"><strong>{{series}}</strong></td>
+</tr>
+<!--{{/members.applicantMember}}--> <!--{{#members.houseMembers}}-->
+<tr style="disable-split: true;">
+<td style="text-align: left; vertical-align: top; font-size: 12pt;"><strong>{{p_fullName}}</strong></td>
+<td style="text-align: left; vertical-align: top; font-size: 12pt;"><strong>{{c_name}}</strong></td>
+<td style="text-align: center; vertical-align: top; font-size: 12pt;"><strong>{{birthDate}}</strong></td>
+<td style="text-align: left; vertical-align: top; font-size: 12pt;"><strong>{{series}}</strong></td>
+</tr>
+<!--{{/members.houseMembers}}-->
+<tr style="disable-split: true;">
+<td style="text-align: justify;" colspan="4"><span style="font-size: 14pt;"><strong>Загальна площа квартири &ndash; {{pgo.totalArea}}&nbsp;кв.м., житлова &ndash; {{pgo.livingArea}}&nbsp;кв.м.</strong></span></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table style="word-break: break-all; margin-left: 20px;" width="738" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td style="width: 70px; padding: 0px; text-align: left; vertical-align: bottom;"><span style="font-size: 14pt;"><strong>Усього</strong></span></td>
+<td style="width: 140px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0px; text-align: center; vertical-align: bottom;"><strong>&nbsp;{{members.count}}</strong></td>
+<td style="width: 527px; padding: 0px; text-align: left; vertical-align: bottom;"><span style="font-size: 14pt;"><strong>осіб.</strong></span></td>
+</tr>
+<tr>
+<td style="padding: 15px 5px 5px 0px;" colspan="3"><span style="font-size: 14pt;"><strong>Довідка видана для пред&rsquo;явлення до органу праці та соціального захисту населення.</strong></span></td>
+</tr>
+<tr>
+<td style="padding: 0px; text-align: center; vertical-align: bottom; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;" colspan="3"><span style="font-size: 14pt;"><strong>{{local.localGovernment}}</strong></span></td>
+</tr>
+<tr>
+<td style="padding: 0px; text-align: center; vertical-align: top;" colspan="3"><span style="font-size: 10pt;">(назва підприємства/організації, виконавчого органу)</span></td>
+</tr>
+<tr>
+<td style="padding: 0px; text-align: center; vertical-align: bottom; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;" colspan="3"><span style="font-size: 14pt;"><strong>{{local.settlement}}<!--{{#local.street}}-->, {{local.street}}<!--{{/local.street}}--><!--{{#local.houseNum}}-->, {{local.houseNum}}<!--{{/local.houseNum}}--></strong></span></td>
+</tr>
+<tr>
+<td style="padding: 0px; text-align: center; vertical-align: bottom; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;" colspan="3"><span style="font-size: 14pt;"><strong>&nbsp;&nbsp;&nbsp;</strong></span></td>
+</tr>
+<tr>
+<td style="padding: 0px; text-align: center; vertical-align: top;" colspan="3"><span style="font-size: 10pt;">(адреса підприємства/організації, виконавчого органу)</span></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="773" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td style="width: 257px; text-align: left; vertical-align: middle;">
+<p style="text-indent: 100px; font-size: 14pt;">Сільський голова</p>
+</td>
+<td style="width: 257px; text-align: left; vertical-align: middle;">
+<p style="font-size: 14pt;">{{local.headShortName}}</p>
+</td>
+<td style="width: 257px; text-align: center; vertical-align: middle;">
+<p style="font-size: 14pt;">_____________</p>
+</td>
+</tr>
+<tr>
+<td style="width: 257px; text-align: left; vertical-align: middle;">
+<p style="text-indent: 100px; font-size: 14pt;">Секретар</p>
+</td>
+<td style="width: 257px; text-align: left; vertical-align: middle;">
+<p style="font-size: 14pt;">{{local.clerkShortName}}</p>
+</td>
+<td style="width: 257px; text-align: center; vertical-align: middle;">
+<p style="font-size: 14pt;">_____________</p>
+</td>
+</tr>
+<tr>
+<td style="width: 257px; text-align: left; vertical-align: middle;"><p style="text-indent: 100px; font-size: 12pt;"><strong>"___"__________200_р.</strong></p></td>
+<td style="width: 257px; text-align: left; vertical-align: middle;">&nbsp;</td>
+<td style="width: 257px; text-align: center; vertical-align: middle;">&nbsp;</td>
+</tr>
+</tbody>
+</table>

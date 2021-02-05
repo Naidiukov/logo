@@ -1,0 +1,30 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_objCheckDate"
+// @model "PGO"
+// @formType "auto"
+// @caption "Дата обходу об’єкта"
+// @description "Дата обходу об’єкта"
+exports.formDef = {
+    requiredFields: ['objAccountingID'],
+    items: [
+        {
+            attributeName: 'checkDate',
+            width: 400,
+            maxValue: new Date()
+        },
+        {
+
+            attributeName: 'lastName',
+            width: 400
+        },
+        {
+            attributeName: 'firstName',
+            width: 400
+        },
+        {
+            attributeName: 'middleName',
+            width: 400
+        }
+    ]
+};

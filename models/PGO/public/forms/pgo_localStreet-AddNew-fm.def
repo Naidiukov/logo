@@ -1,0 +1,418 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_localStreet"
+// @model "PGO"
+// @formType "custom"
+// @caption "Довідник вулиць"
+// @description "Довідник вулиць"
+const _ = require('lodash');
+exports.formDef = 'PGO.pgoNewStreets';
+Ext.define('PGO.pgoNewStreets', {
+    extend: "Ext.form.Panel",
+    alias: "widget.pgoNewStreets",
+    autoScroll: true,
+    items: [
+        {
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            items: [
+
+                {
+                    xtype: 'ubcombobox',
+                    itemId: "locality",
+                    fieldLabel: "Населений пункт",
+                    readOnly: true,
+                    displayField: 'governmentFullName',
+                    width: 400,
+                    allowBlank: false,
+                    ubRequest: {
+                        entity: 'pgo_settlementDict',
+                        method: 'select',
+                        fieldList: ['ID', 'governmentFullName']
+                    },
+                    listeners: {
+                        change: function (fld, newV, oldV) {
+                            let form = this.up('form');
+                        }
+                    }
+                },
+                {
+                    xtype: 'panel',
+                    itemId: 'gridStreet',
+                    items: []
+
+                }
+            ]
+        }
+    ],
+    initComponent: function () {
+        this.callParent(arguments);
+        var me = this,
+            settlementDictID = me.commandConfig.settlementDictID,
+            settlementDictName = me.commandConfig.settlementDictName,
+            sender = me.commandConfig.sender,
+            localCtrl = me.queryById('locality'),
+            gridStreet = me.queryById('gridStreet');
+        localCtrl.setValueById(settlementDictID);
+
+        let streetGridStore = Ext.create('Ext.data.Store', {
+                fields: ['ID', 'settlementDictID', 'settlementDictName', 'settlementDistrictID', 'street', 'code', 'streetType', 'illuminati', 'distance', 'coverageID'],
+                data: {'items': []},
+                proxy: {
+                    type: 'memory',
+                    reader: {
+                        type: 'json',
+                        root: 'items'
+                    }
+                }
+            }),
+            rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+                clicksToEdit: 2,
+                pluginId: 'roweditingId',
+                autoCancel: false,
+                listeners: {
+                    //Событие после того как нажали "Зберегти"
+                    edit: function (editor, context, eOpts) {
+                        var grid = editor.grid,
+                            store = grid.getStore(),
+                            txtColIdx = 1,
+                            textfieldRef = context.grid.columns[txtColIdx].getEditor(context.record),
+                            tetxfieldValue = textfieldRef.getValue(),
+                            //coisa = context.record.set('name', tetxfieldValue),
+                            addNewBtn = grid.queryById('addNewBtn');
+
+                        //меняем код 1 на 0001, 10 на 0010
+                        if (context.record.data.code) {
+							while (context.record.data.code.length < 4) {
+								context.record.data.code = '0' + context.record.data.code;
+							}
+                            /*context.record.data.code.length == 2 ? context.record.data.code = '0' + context.record.data.code :
+                                context.record.data.code.length == 1 ? context.record.data.code = '00' + context.record.data.code : context.record.data.code;*/
+                        }
+
+                        //проверка на одинаковый код или улицу
+                        $App.connection.run({
+                            entity: "pgo_localStreet",
+                            method: "checkCodeStreet",
+                            execParams: {
+                                ID: context.record.data.ID,
+                                streetType: context.record.data.streetType,
+                                street: context.record.data.street,
+                                code: context.record.data.code,
+                                settlementDictID: context.record.data.settlementDictID,
+								settlementDistrictID: context.record.data.settlementDistrictID || null,
+								coverageID: context.record.data.coverageID || null,
+								illuminati: !Ext.isEmpty(context.record.data.illuminati) ? context.record.data.illuminati : null,
+								distance: !Ext.isEmpty(context.record.data.distance) ? context.record.data.distance : null
+                            }
+                        }).then(function (res) {
+                            if (res.duplField) {
+                                $App.dialogInfo(`Поле "${res.duplField}" повинно бути унікальними в межах населеного пункту!`);
+                                grid.editingPlugin.startEdit(grid.store.getAt(context.rowIdx), 2);
+                            }
+                            else {
+                                //если были изменения
+                               // if (!_.isEqual(context.newValues, context.originalValues)) {
+                                if(context.record.dirty)
+                                {
+                                    $App.connection.run({
+                                        entity: "pgo_localStreet",
+                                        method: "addUpdateStreet",
+                                        execParams: {
+                                            data: context.record.data
+                                        }
+                                    }).then(function (res) {
+                                        let instanceID = res.streetID;
+                                        //если это новая запись, то присваиваем ID
+                                        if (instanceID) {
+                                            context.record.data.ID = instanceID;
+                                        }
+                                        if (me.sender) me.sender.onRefresh();
+                                        // хз чё это
+                                        store.sync({
+                                                success: function (record, operation) {
+                                                    var a = store;
+                                                    console.log('OK');
+                                                },
+                                                failure: function (record, operation) {
+                                                    console.log('NOT OK');
+                                                    // clear the dirty state and rollback the records
+                                                    store.rejectChanges();
+                                                }
+                                            }
+                                        );
+                                    });
+                                }
+                                addNewBtn.setTooltip('');
+                                addNewBtn.setDisabled(false);
+
+                            }
+                        });
+
+
+                    },
+                    canceledit: function (editor, context, eOpts) {
+                        var grid = editor.grid,
+                            store = grid.getStore(),
+                            addNewBtn = grid.queryById('addNewBtn');
+                        context.record.reject();
+                        store.each(function (record) {
+                            if (record.phantom) {
+                                store.remove(record);
+                                return false;
+                            }
+                        }, this);
+                        store.sync();
+
+                        addNewBtn.setTooltip('');
+                        addNewBtn.setDisabled(false);
+                    },
+                    afteredit: function (editor, e) {
+                    }
+                }
+            }),
+
+            streetGrid = Ext.create('Ext.grid.Panel', {
+                store: streetGridStore,
+                padding: '10, 0, 60, 0',
+                id: 'streetGreed',
+                columns: [
+                    {
+                        text: 'ID',
+                        hidden: true,
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        width: '1px',
+                        dataIndex: 'ID'
+                    },
+                    {
+                        text: 'Населений пункт',
+                        hidden: true,
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        width: '1px',
+                        dataIndex: 'settlementDictID'
+                    },
+                    {
+                        text: 'Населений пункт',
+                        width: '350px',
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        flex: 4,
+                        dataIndex: 'settlementDictName'
+                    },
+                    {
+                        text: 'Код',
+                        width: '105px',
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        flex: 1.5,
+                        allowBlank: false,
+                        dataIndex: 'code',
+                        editor: {
+                            xtype: 'textfield',
+                            maxLength: 4,
+                            allowBlank: false,
+                            validator: function (v) {
+                                return /^[0-9]+$/.test(v) ? true : 'Не припустимий формат!';
+                            }
+                        }
+                    },
+                    {
+                        text: 'Тип вулиці',
+                        dataIndex: 'streetType',
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        flex: 3,
+                        allowBlank: false,
+                        editor: {
+                            xtype: 'ubcombobox',
+                            displayField: 'name',
+                            allowBlank: false,
+                            valueField: 'ID',
+                            ubRequest: {
+                                entity: 'pgo_streetType',
+                                method: 'select',
+                                fieldList: ['ID', 'name']
+                            }
+                        },
+                        renderer: function (value, p, r) {
+                            var editor = p.column.getEditor(),
+                                idx = editor.store.find('ID', value),
+                                rec = editor.store.getAt(idx);
+                            return (idx === -1) ? "" : rec.get('name');
+                        }
+                    },
+					{
+						text: 'Район міста',
+						dataIndex: 'settlementDistrictID',
+						padding: "5, 0, 5, 15", //top, right, buttom, left
+						flex: 3,
+						allowBlank: true,
+						editor: {
+							xtype: 'ubcombobox',
+							displayField: 'name',
+							allowBlank: true,
+							valueField: 'ID',
+							ubRequest: {
+								entity: 'pgo_settlementDistrict',
+								method: 'select',
+								fieldList: ['ID', 'name'],
+                                whereList: {
+									bySettlement: {
+										expression: "[settlementDictID]",
+										condition: "=",
+										values: {settlementDictID: settlementDictID}
+									}
+                                }
+							}
+						},
+						renderer: function (value, p, r) {
+							var editor = p.column.getEditor(),
+								idx = editor.store.find('ID', value),
+								rec = editor.store.getAt(idx);
+							return (idx === -1) ? "" : rec.get('name');
+						}
+					},
+                    {
+                        text: 'Вулиця',
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        flex: 8,
+                        dataIndex: 'street',
+                        editor: {
+                            xtype: 'textfield',
+                            allowBlank: false
+                        }
+                    },
+                    {
+                        text: 'Дорожне покриття',
+                        dataIndex: 'coverageID',
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        flex: 3,
+                        allowBlank: false,
+                        editor: {
+                            xtype: 'ubcombobox',
+                            displayField: 'name',
+                            allowBlank: true,
+                            valueField: 'ID',
+                            ubRequest: {
+                                entity: 'pgo_coverage',
+                                method: 'select',
+                                fieldList: ['ID', 'name']
+                            }
+                        },
+                        renderer: function (value, p, r) {
+                            var editor = p.column.getEditor(),
+                                idx = editor.store.find('ID', value),
+                                rec = editor.store.getAt(idx);
+                            return (idx === -1) ? "" : rec.get('name');
+                        }
+                    },
+                    {
+                        text: 'Освітлення',
+                        xtype: 'checkcolumn',
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        flex: 2,
+                        dataIndex: 'illuminati',
+                        allowBlank: false,
+                        editor: {
+                            xtype: 'checkbox'
+                        }
+                    },
+                    {
+                        text: 'Відстань',
+
+                        padding: "5, 0, 5, 15", //top, right, buttom, left
+                        width: '105px',
+                        flex: 2,
+                        dataIndex: 'distance',
+                        editor: {
+                            xtype: 'numberfield',
+                            decimalPrecision: 2,
+                            step: 0.01,
+                            minValue: 0,
+                            allowPureDecimal: true,
+
+                            allowNegative: true,
+                            allowBlank: true
+                        }
+                    }
+                ],
+                selType: 'cellmodel',
+                plugins: [rowEditing],
+                dockedItems: [
+                    {
+                        xtype: 'toolbar',
+                        dock: 'top',
+                        style: 'background: #eaeaea',
+                        ui: 'footer',
+                        items: [
+                            {
+                                xtype: 'button',
+                                iconCls: 'fa fa-plus-circle',
+                                itemId: 'addNewBtn',
+                                cls: 'add-new-action',
+                                border: '',
+                                handler: function () {
+                                    var btn = this,
+                                        store = streetGrid.getStore();
+
+                                    if (localCtrl.getValue()) {
+
+                                        streetGridStore.add({
+                                            'settlementDictID': localCtrl.getValue(),
+                                            'settlementDictName': localCtrl.getRawValue(),
+                                            'street': '',
+                                            'code': ''
+                                        });
+                                        streetGrid.setHeight(streetGrid.getHeight() + 40);
+                                        streetGrid.editingPlugin.startEdit(streetGrid.store.getAt(streetGridStore.getCount() - 1), 2);
+                                        btn.setDisabled(true);
+                                        btn.setTooltip('Спочатку необхідно закінчити дії з останнім записом');
+
+
+                                    }
+                                    else {
+                                        $App.dialogInfo('Оберіть спочатку Населений пункт!');
+                                    }
+                                }
+                            },
+                            {
+                                xtype: 'button',
+                                iconCls: 'fa fa-trash-o',
+                                cls: 'delete-action',
+                                border: '',
+                                handler: function () {
+                                    var selection = streetGrid.getView().getSelectionModel().getSelection()[0];
+                                    if (!selection) {
+                                        $App.dialogInfo('Оберіть спочатку запис!');
+                                    }
+                                    else {
+                                        $App.connection.run({
+                                            entity: "pgo_localStreet",
+                                            method: "delete",
+                                            execParams: {
+                                                ID: selection.data.ID
+                                            }
+                                        }).then(function (res) {
+                                            streetGridStore.remove(selection);
+                                            streetGrid.setHeight(streetGrid.getHeight() - 40);
+                                            if (me.sender) me.sender.onRefresh();
+                                        });
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            });
+        gridStreet.add(streetGrid);
+
+        if (Ext.grid.RowEditor) {
+            Ext.apply(Ext.grid.RowEditor.prototype, {
+                saveBtnText: "Зберегти",
+                cancelBtnText: "Відмінити",
+                errorsText: "Помилки:",
+                showToolTip: function (msg) {
+                }
+            });
+        }
+    }
+});

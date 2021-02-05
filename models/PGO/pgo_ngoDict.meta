@@ -1,0 +1,58 @@
+{
+  "caption": "Довідник населених пунктів",
+  "description": "Довідник населених пунктів",
+  "connectionName": "main",
+  "sqlAlias": "pgo_ngoDict",
+  "cacheType": "None",
+  "descriptionAttribute": "localGovernment",
+  "attributes": [
+    {
+      "name": "localGovernment",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Назва місцевої ради",
+      "description": "Назва місцевої ради",
+      "allowNull": false
+    },
+    {
+      "name": "regionName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Назва району",
+      "description": "Назва району",
+      "allowNull": false
+    },
+    {
+      "name": "localGovernmentFullName",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Назва місцевої ради",
+      "description": "Назва місцевої ради",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[localGovernment] || ', ' || [regionName]"
+        }
+      ]
+    },
+    {
+      "name": "areaName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Назва області",
+      "description": "Назва області",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

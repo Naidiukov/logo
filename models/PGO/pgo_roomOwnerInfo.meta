@@ -1,0 +1,73 @@
+{
+  "caption": "Інформація про власників житлових приміщень",
+  "description": "Інформація про власників житлових приміщень",
+  "connectionName": "main",
+  "sqlAlias": "pgo_ownerroom",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "Int",
+      "caption": "Рік обходу",
+      "description": "Рік обходу",
+      "allowNull": false
+    },
+    {
+      "name": "personType",
+      "dataType": "Enum",
+      "enumGroup": "PGO_PERSON_TYPE",
+      "caption": "Тип особи",
+      "description": "Тип особи",
+      "allowNull": false
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "ПІБ",
+      "description": "ПІБ",
+      "allowNull": false
+    },
+    {
+      "name": "realtyObjectID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_realtyObject",
+      "caption": "Об'єкт нерухомості",
+      "description": "Об'єкт нерухомості",
+      "allowNull": true
+    },
+    {
+      "name": "part",
+      "dataType": "String",
+      "caption": "Частка",
+      "size": 500,
+      "description": "Частка",
+      "allowNull": true
+    },
+    {
+      "name": "notes",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Додаткова інформація",
+      "description": "Додаткова інформація",
+      "allowNull": true
+    },
+    {
+      "name": "objAccountingID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_objAccounting",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

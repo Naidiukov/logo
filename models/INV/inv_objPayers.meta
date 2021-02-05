@@ -1,0 +1,48 @@
+{
+  "caption": "Платники",
+  "description": "Платники",
+  "connectionName": "main",
+  "sqlAlias": "inv_objPayer",
+  "descriptionAttribute": "payerID",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "state",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Стан",
+      "defaultValue": "Дійсний",
+      "allowNull": false
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Платник",
+      "allowNull": true
+    },
+    {
+      "name": "nullData",
+      "dataType": "Date",
+      "caption": "Дата визнання недійсним",
+      "description": "Дата визнання недійсним",
+      "allowNull": true
+    },
+    {
+      "name": "objectID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_subject",
+      "caption": "Об'єкти оподаткування",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

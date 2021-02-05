@@ -1,0 +1,52 @@
+{
+  "caption": "Довідник органів реєстрації",
+  "description": "Довідник органів реєстрації",
+  "connectionName": "main",
+  "sqlAlias": "inv_regunit",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "code",
+      "dataType": "Int",
+      "caption": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва",
+      "allowNull": false
+    },
+    {
+      "name": "nameNom",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва (називний відмінок)",
+      "allowNull": true
+    },
+    {
+      "name": "isRegAuth",
+      "dataType": "boolean",
+      "caption": "Є органом реєстрації",
+      "description": "Є органом реєстрації",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "type",
+      "dataType": "Enum",
+      "enumGroup": "REGUNIT",
+      "caption": "Тип",
+      "description": "Тип",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    }
+  }
+}

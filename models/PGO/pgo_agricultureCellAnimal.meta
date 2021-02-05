@@ -1,0 +1,41 @@
+{
+  "caption": "Хутрові звірі кліткового утримання",
+  "description": "Хутрові звірі кліткового утримання",
+  "connectionName": "main",
+  "sqlAlias": "pgo_animal",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Найменування",
+      "description": "Найменування",
+      "allowNull": false
+    },
+    {
+      "name": "count",
+      "dataType": "Int",
+      "caption": "Кількість",
+      "description": "Кількість",
+      "allowNull": false
+    },
+    {
+      "name": "agricultureID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_agriculture",
+      "caption": "Відомості про поголів’я",
+      "description": "Відомості про поголів’я",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

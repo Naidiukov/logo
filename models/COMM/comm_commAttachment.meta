@@ -1,0 +1,45 @@
+{
+  "caption": "Документи Громади",
+  "description": "Документи Громади",
+  "connectionName": "main",
+  "sqlAlias": "comm_cattach",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "attachment",
+      "dataType": "Document",
+      "caption": "Документ",
+      "storeName": "documents",
+      "allowNull": false
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 255,
+      "caption": "Ім`я файлу",
+      "allowNull": true
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "size": 255,
+      "caption": "Content type",
+      "allowNull": true
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Особа",
+      "description": "Особа",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

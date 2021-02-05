@@ -1,0 +1,27 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_wallMaterial"
+// @model "PGO"
+// @formType "auto"
+// @caption "Матеріал стін"
+// @description "Матеріал стін"
+exports.formDef = {
+    items: [
+        {
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            autoScroll: true,
+            items: [
+                {
+                    attributeName: 'name',
+                    labelWidth: 140
+                }
+            ]
+        }]
+};

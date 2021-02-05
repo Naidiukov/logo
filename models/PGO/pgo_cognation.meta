@@ -1,0 +1,23 @@
+{
+  "caption": "Довідник родинних стосунків",
+  "description": "Довідник родинних стосунків",
+  "connectionName": "main",
+  "sqlAlias": "pgo_cognation",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

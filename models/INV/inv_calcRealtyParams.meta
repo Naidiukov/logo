@@ -1,0 +1,45 @@
+{
+  "caption": "Параметри розрахунку податку на нерухоме майно",
+  "description": "Параметри розрахунку податку на нерухоме майно",
+  "connectionName": "main",
+  "sqlAlias": "inv_calcrparams",
+  "cacheType": "None",
+  "descriptionAttribute": "forRooms",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "String",
+      "size": 4,
+      "caption": "Рік",
+      "description": "Рік",
+      "allowNull": false
+    },
+    {
+      "name": "forRooms",
+      "dataType": "Currency",
+      "caption": "Для госп. та допом.(нежитл) приміщень",
+      "description": "Для госп. та допом.(нежитл) приміщень",
+      "allowNull": false
+    },
+    {
+      "name": "isNotInsertGrid",
+      "dataType": "Boolean",
+      "caption": "Додавати грід",
+      "defaultValue": "0",
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "''"
+        }
+      ],
+      "defaultView": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

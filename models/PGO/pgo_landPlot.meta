@@ -1,0 +1,149 @@
+{
+  "caption": "Відомості про землю",
+  "description": "Відомості про землю",
+  "connectionName": "main",
+  "sqlAlias": "pgo_landPlot",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "Int",
+      "caption": "Рік обходу",
+      "description": "Рік обходу",
+      "allowNull": false
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "ПІБ члена домогосподарства",
+      "description": "ПІБ члена домогосподарства",
+      "allowNull": false
+    },
+    {
+      "name": "landPlotID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_landPlot",
+      "caption": "Земельна ділянка",
+      "description": "Земельна ділянка",
+      "allowNull": false
+    },
+    {
+      "name": "cadastralNumber",
+      "dataType": "String",
+      "size": 22,
+      "caption": "Кадастровий номер",
+      "description": "Кадастровий номер",
+      "allowNull": true
+    },
+    {
+      "name": "landCategory",
+      "dataType": "Enum",
+      "enumGroup": "LAND_CATEGORY",
+      "caption": "Категорія земель",
+      "description": "Категорія земель",
+      "allowNull": false
+    },
+    {
+      "name": "location",
+      "dataType": "Enum",
+      "enumGroup": "INV_LOCATION",
+      "caption": "Розташування",
+      "description": "Розташування",
+      "allowNull": false
+    },
+    {
+      "name": "useType",
+      "dataType": "Enum",
+      "enumGroup": "INV_USETYPE",
+      "caption": "Вид використання",
+      "description": "Вид використання",
+      "allowNull": true
+    },
+    {
+      "name": "landPurpose",
+      "dataType": "Enum",
+      "enumGroup": "LAND_PURPOSE",
+      "caption": "Угіддя",
+      "description": "Угіддя",
+      "allowNull": true
+    },
+    {
+      "name": "leased",
+      "dataType": "boolean",
+      "caption": "Взято в оренду",
+      "description": "Взято в оренду",
+      "defaultValue": "0",
+      "allowNull": true
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа, Га",
+      "description": "Загальна площа, Га",
+      "allowNull": false
+    },
+    {
+      "name": "documentOwnership",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Документ права власності",
+      "description": "Документ права власності",
+      "allowNull": false
+    },
+    {
+      "name": "registryData",
+      "dataType": "Date",
+      "caption": "Дата держреєстрації",
+      "description": "Дата держреєстрації",
+      "allowNull": false
+    },
+    {
+      "name": "position",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Місцезнаходження",
+      "description": "Місцезнаходження",
+      "allowNull": true
+    },
+    {
+      "name": "notes",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Примітка",
+      "description": "Примітка",
+      "allowNull": true
+    },
+    {
+      "name": "objAccountingID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_objAccounting",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    },
+    {
+      "name": "dontUpdate",
+      "dataType": "Boolean",
+      "size": 250,
+      "caption": "Допоміжне",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "''"
+        }
+      ]
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

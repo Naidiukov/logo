@@ -1,0 +1,30 @@
+{
+  "caption": "Довідник типів вулиці",
+  "description": "Довідник типів вулиці",
+  "connectionName": "main",
+  "sqlAlias": "pgo_strtype",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 20,
+      "caption": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

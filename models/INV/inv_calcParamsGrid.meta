@@ -1,0 +1,83 @@
+{
+  "caption": "Параметри розрахунку земельного податку",
+  "description": "Параметри розрахунку земельного податку",
+  "connectionName": "main",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "calcParamsDictID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_calcParamsDict",
+      "caption": "Параметри розрахунку податку на нерухоме майно",
+      "allowNull": false
+    },
+    {
+      "name": "calcParamsCode",
+      "dataType": "String",
+      "caption": "Код",
+      "size": 10,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[calcParamsDictID.code]"
+        }
+      ]
+    },
+    {
+      "name": "calcParamsName",
+      "dataType": "String",
+      "caption": "Назва",
+      "size": 150,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[calcParamsDictID.name]"
+        }
+      ]
+    },
+    {
+      "name": "ngoLegal",
+      "dataType": "Float",
+      "caption": "Для юр. осіб з НГО (незал. від місцезнаходження)",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "ngoPhys",
+      "dataType": "Float",
+      "caption": "Для фіз. осіб з НГО (незал. від місцезнаходження)",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "outLegal",
+      "dataType": "Float",
+      "caption": "Для юр. осіб без НГО (за межами нас. пунктів)",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "outPhys",
+      "dataType": "Float",
+      "caption": "Для фіз. осіб без НГО (за межами нас. пунктів)",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "calcParamsID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_calcParams",
+      "caption": "Параметри розрахунку земельного податку",
+      "allowNull": false,
+      "cascadeDelete": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

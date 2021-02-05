@@ -1,0 +1,193 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_rentPayment"
+// @model "INV"
+// @formType "auto"
+// @caption "Орендна плата"
+// @description "Орендна плата"
+exports.formDef = {
+    items: [{
+        layout: {
+            type: 'vbox',
+            align: 'stretch'
+        },
+        //bodyStyle: 'padding:10px 10px 0',
+        items: [
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        xtype: 'numberfield',
+                        attributeName: 'year',
+                        itemId: 'calcYear',
+                        allowExponential: false,
+                        allowDecimals: false,
+                        hideTrigger: true,
+                        maxLength: 4,
+                        minValue: 1000
+
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        width: 400,
+                        attributeName: 'name',
+                        displayField: "fullName",
+                        readOnly: true,
+                        valueField: 'ID'
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'payerAddress',
+                        width: 400
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'payerPhone',
+                        maxLength: 15,
+                        width: 400
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'sumYear',
+                        xtype: 'numberfield',
+                        allowExponential: false,
+                        maxLength: 24,
+                        validator: function (v) {
+                            return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+                        }
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'debt',
+                        itemId: 'debt',
+                        xtype: 'numberfield',
+                        allowExponential: false,
+                        maxLength: 24,
+                        width: 400,
+                        validator: function (v) {
+                            return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+                        }
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'fine',
+                        itemId: 'fine',
+                        xtype: 'numberfield',
+                        allowExponential: false,
+                        maxLength: 24,
+                        width: 400,
+                        validator: function (v) {
+                            return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+                        }
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: 'actualSum',
+                        itemId: 'actualSum',
+                        xtype: 'numberfield',
+                        allowExponential: false,
+                        maxLength: 24,
+                        width: 400,
+                        validator: function (v) {
+                            return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+                        }
+                    }
+                ]
+            },
+        ]
+    }
+    ]
+
+};

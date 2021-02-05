@@ -1,0 +1,333 @@
+<!--@name "Заява про реєстрацію місця проживання"-->
+<!--@report_code "applRegLPlace"-->
+<!--@model "COMM"-->
+<!--@ID "333803711004673"-->
+
+
+
+<!--%pageOrientation:portrait--><p style="text-align: right; margin-right: 70px;">Додаток&nbsp;6<br />до Правил</p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: bottom; text-align: left; padding: 0;">Органу реєстрації</td>
+</tr>
+<tr>
+<td style="width: 45%; font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="width: 55%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: left;">{{unitName1}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: center; padding: 0; padding-top: 1px;">(найменування органу реєстрації)</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{unitName2}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;"></td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{fullName}} {{birthDate}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: center; padding: 0; padding-top: 1px;">(прізвище, ім’я та по батькові особи (представника),</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;"></td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{addrBPlace1}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;">&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: center; padding: 0; padding-top: 1px;">дата і місце народження, громадянство/підданство)</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;"></td>
+<td style="font-size: 12px; text-align: center; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0;">{{addrBPlace2}}</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 14px; font-weight: bold;">&nbsp;</p>
+<p style="text-align: center; font-size: 14px; font-weight: bold;">ЗАЯВА<br />про реєстрацію місця проживання</p>
+<p></p>
+<p></p>
+<table style="width: 728px; line-height: 1.5; margin-left: 20px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td colspan="2" style="padding: 0; vertical-align: bottom; width: 60px">прізвище</td>
+<td colspan="2" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;">{{lastName}}</td>
+</tr>
+<tr>
+<td style="padding: 0; vertical-align: bottom; width: 28px;">ім'я</td>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; width: 700px;" colspan="3">{{firstName}}</td>
+</tr>
+<tr>
+<td colspan="2" style="padding: 0; vertical-align: bottom">по батькові</td>
+<td colspan="2" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;">{{middleName}}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 728px; line-height: 1.5; margin-left: 20px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td colspan="2" style="padding: 0; vertical-align: bottom; width: 150px;">дата і місце народження</td>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2">{{birthDate}} {{addrBPlace1}}</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;">{{addrBPlace2}}</td>
+</tr>
+<tr>
+<td colspan="2" style="padding: 0; vertical-align: bottom">громадянство/підданство</td>
+<td colspan="2" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;">{{nationality}}</td>
+</tr>
+<tr>
+<td style="padding: 0; vertical-align: bottom">за адресою</td>
+<td colspan="3" style="padding: 0; vertical-align: bottom;">{{addrLPlace}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; padding: 0;"></td>
+<td style="border-top-width: 1px; border-top-color: black; border-top-style: solid; font-size: 10px; vertical-align: top; text-align: center; padding: 0;" colspan="3">(адреса житла або адреса (місцезнаходження) спеціалізованої соціальної</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">установи, закладу соціального обслуговування та соціального захисту або військової частини, за</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">якою реєструється місце проживання)</td>
+</tr>
+<tr>
+<td style="padding-left: 0; text-indent: 60px;" colspan="2">адреса &nbsp;&nbsp;&nbsp;&nbsp; реєстрації &nbsp;&nbsp;&nbsp;місця проживання &nbsp;&nbsp;&nbsp;на &nbsp;&nbsp;&nbsp;дату &nbsp;&nbsp;&nbsp;звернення &nbsp;&nbsp;&nbsp;&nbsp;(попереднього місця</td>
+</tr>
+<tr>
+<td style="width: 70px;vertical-align: bottom; padding: 0;">проживання)</td>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2">{{addrFromPlace}}</td>
+</tr>
+<tr>
+<td></td>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">(адреса житла</td>
+</tr>
+<tr>
+<td></td>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">або адреса (місцезнаходження) спеціалізованої соціальної установи, закладу соціального обслуговування</td>
+</tr>
+<tr>
+<td></td>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">та соціального захисту або військової частини, назва іншої країни, звідки прибув)</td>
+</tr>
+<tr>
+<td style="padding: 0; text-indent: 60px;" colspan="2">Унікальний&nbsp;&nbsp;&nbsp; номер&nbsp;&nbsp;&nbsp; запису&nbsp;&nbsp;&nbsp; в&nbsp;&nbsp;&nbsp; Єдиному&nbsp;&nbsp;&nbsp;&nbsp; державному&nbsp;&nbsp;&nbsp; демографічному&nbsp;&nbsp;&nbsp; реєстрі*</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2">{{EDDRecordNum}}</td>
+</tr>
+<tr>
+<td style="padding-left: 0; padding-right: 0; text-indent: 60px;" colspan="2">Документ, до якого вносяться відомості про реєстрацію місця перебування особи</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2">{{regDoc}}</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">(вид, серія, номер, дата видачі, найменування органу, який його видав)</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="padding-left: 0; padding-right: 0; text-indent: 60px;" colspan="2">Документ, що посвідчує особу законного представника/представника за довіреністю</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">(вид, серія, номер, дата видачі, найменування органу, який його видав,</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">унікальний номер запису в Єдиному державному демографічному реєстрі*)</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; margin-top: 8px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 40px;  border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 5px;"></td>
+<td style="width: 150px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 30px; padding: 0; padding-bottom: 1px; vertical-align: bottom;">20</td>
+<td style="width: 30px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 272px; padding: 0; vertical-align: bottom;">&nbsp;р.</td>
+<td style="width: 238px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td colspan="6"></td>
+<td style="font-size: 10px; vertical-align: top; padding: 0; text-align: center;">(підпис)</td>
+</tr>
+</tbody>
+</table>
+<p style="text-indent: 60px; margin-top: 15px;">До заяви додаю: квитанцію про сплату адміністративного збору.</p>
+<p style="text-align: center;">Підстава для реєстрації місця проживання  особи - документи, що<br />підтверджують (необхідне заповнити)</p>
+<p></p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; text-indent: 60px; text-align: justify;">1. Право на проживання в житлі (заповнюється при реєстрації за адресою житла)</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">(ордер, свідоцтво про право власності, договір найму<br/>(піднайму, оренди), або інші документи)</td>
+</tr>
+<tr>
+<td style="padding: 0; text-indent: 60px; text-align: justify;">2. Згода власника/співвласників житла або їх уповноважених органів, наймача та членів його сім’ї на реєстрацію місця проживання особи у разі відсутності документів, що підтверджують право на проживання в житлі</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">(згоден/не згоден)</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">(прізвище, ім&rsquo;я та по батькові, підпис особи/осіб, що надає/надають згоду, вид документа,</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">що посвідчує особу, серія, номер, дата видачі, найменування органу, який його видав)</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; margin-top: 8px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 40px;  border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 5px;"></td>
+<td style="width: 150px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 30px; padding: 0; padding-bottom: 1px; vertical-align: bottom;">20</td>
+<td style="width: 30px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 510px; padding: 0; vertical-align: bottom;">&nbsp;р.</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; padding-top: 8px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 0; text-indent: 60px; text-align: justify;" colspan="2">3. Перебування або взяття на облік у спеціалізованій соціальній установі, закладі соціального обслуговування та соціального захисту (заповнюється у разі реєстрації за адресою відповідної установи/закладу)</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; padding-top: 3px; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">(посвідчення про взяття особи на облік у закладі або установі,</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; padding-top: 3px; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">довідка про прийняття на обслуговування, реквізити)</td>
+</tr>
+<tr>
+<td style="padding: 0; text-indent: 60px; text-align: justify;" colspan="2">4. Проходження служби у військовій частині (заповнюється при реєстрації за адресою</td>
+</tr>
+<tr>
+<td style="padding: 0; vertical-align: bottom; width: 110px;">військової частини)</td>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; padding-top: 3px; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td></td>
+<td style="vertical-align: top; text-align: center; font-size: 10px;">(реквізити довідки, виданої</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; padding-top: 3px; vertical-align: bottom;" colspan="2"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="2">командиром військової частини)</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; margin-bottom: 10px;">Службові відмітки</p>
+<table style="width: 100%; margin-top: 8px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-indent: 60px; text-align: justify; padding: 0;" colspan="8">Заяву прийняв, наявність та правильність необхідних документів перевірив</td>
+</tr>
+<tr>
+<td colspan="8" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="8">(посада, підпис, прізвище та ініціали особи, що прийняла документи)</td>
+</tr>
+<tr>
+<td style="width: 32px;"></td>
+<td style="width: 55px; padding: 0; vertical-align: bottom;">М.П.</td>
+<td style="width: 40px;  border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 5px;"></td>
+<td style="width: 150px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 30px; padding: 0; padding-bottom: 1px; vertical-align: bottom;">20</td>
+<td style="width: 30px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 423px; padding: 0; vertical-align: bottom;">&nbsp;р.</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; margin-top: 8px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 32px;"></td>
+<td style="width: 380px; padding: 0; vertical-align: bottom;">У реєстрації місця проживання відмовлено</td>
+<td style="width: 50px;border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 20px;"></td>
+<td style="width:200px;border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width:40px;text-align: center; vertical-align: bottom; padding: 0;">20</td>
+<td style="width:20px;border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width:28px; text-align: right; vertical-align: bottom; padding: 0;">р.</td>
+</tr>
+<tr>
+<td colspan="8" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="8">(найменування органу реєстрації, посада, підпис, прізвище та<br/>ініціали працівника, що прийняв рішення)</td>
+</tr>
+<tr>
+<td colspan="8" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="8">(зазначаються підстави, визначені пунктом 11 Правил реєстрації місця проживання)</td>
+</tr>
+<tr>
+<td colspan="8" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="width: 32px;"></td>
+<td style="width: 380px; padding: 0; vertical-align: bottom;"><span style="font-size: 8px;"></span><br/> Місце проживання зареєстровано</td>
+<td style="width: 50px;border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 20px;"></td>
+<td style="width:200px;border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width:40px;text-align: center; vertical-align: bottom; padding: 0;">20</td>
+<td style="width:20px;border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width:28px; text-align: right; vertical-align: bottom; padding: 0;">р.</td>
+</tr>
+<tr>
+<td colspan="8" style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: center; font-size: 10px;" colspan="8">(найменування органу реєстрації, посада, підпис, прізвище та ініціали<br/>працівника, що здійснив реєстрацію)
+</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size: 10px;">__________</p>
+<p style="text-indent: 70px; font-size: 10px;">* Для осіб, яким оформлено паспорт громадянина України чи паспорт громадянина України для виїзду за кордон засобами Єдиного державного демографічного реєстру.</p>

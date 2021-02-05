@@ -1,0 +1,287 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_taxes"
+// @model "INV"
+// @formType "auto"
+// @caption "Податки"
+// @description "Податки"
+exports.formDef = {
+	requiredFields: ['objectID', 'name.payerID'],
+	dockedItems: [
+		{
+			xtype: "toolbar",
+			dock: "top",
+			itemId: 'toolbarTax',
+			items: [
+				{
+					orderId: 5,
+					actionId: "calculateTax"
+				},
+			]
+		}
+	],
+	items: [
+		{
+			layout: {
+				type: "vbox",
+				align: "stretch"
+			},
+			defaults: {
+				labelWidth: 160
+			},
+			flex: 4,
+			autoScroll: true,
+			items: [
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'reportYear',
+							xtype: 'numberfield',
+							allowExponential: false,
+							allowDecimals: false,
+							hideTrigger: true,
+							width: 400
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							xtype: 'ubcombobox',
+							width: 400,
+							attributeName: 'name',
+							displayField: "payerID.fullName",
+							valueField: 'ID',
+							itemId: 'pName',
+							disableContextMenu: true,
+							store: Ext.create('UB.ux.data.UBStore', {
+								ubRequest: {
+									entity: 'inv_objPayers',
+									method: UB.core.UBCommand.methodName.SELECT,
+									fieldList: ["ID", "payerID.fullName", "payerID.addressFull", "payerID.privilegePhysID", "payerID.privilegeLegID", "payerID.privilegePhysID.exemptionCat", "payerID.privilegeLegID.exemptionCat", "payerID.privilegeStartDate", "payerID.privilegeEndDate", "payerID.personType"],
+									whereList: {}
+								},
+								autoLoad: false,
+								autoDestroy: true
+							}),
+							allowBlank: true,
+							listeners: {
+								change: function (fld, newV, oldV) {
+									if (!newV && oldV) {
+										let form = this.up('form');
+										form.record.set('payerAddress', null);
+										form.record.set('privilege', null);
+									}
+								}
+							}
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'payerAddress',
+							width: 400
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'payerPhone',
+							xtype: 'textfield',
+							maxLength: 15,
+							width: 400
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'privilege',
+							readOnly: true,
+							width: 400,
+							validator: function (v) {
+								var form = this.up('form'),
+									isPrivSum = form.privilegeSum,
+									privSumCtrl = form.queryById('privSum');
+								if (v.length && isPrivSum) {
+									if (privSumCtrl) privSumCtrl.setAllowBlank(false);
+								}
+								else if (privSumCtrl) privSumCtrl.setAllowBlank(true);
+								return true;
+							}
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'privilegeStartDate',
+							itemId: 'privStartDate',
+							readOnly: true,
+							width: 400
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'sumYear',
+							xtype: 'numberfield',
+							allowExponential: false,
+							maxLength: 24,
+							width: 400,
+							validator: function (v) {
+								return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) ? true : 'Не припустимий формат!';
+							}
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'debt',
+							itemId: 'debt',
+							xtype: 'numberfield',
+							allowExponential: false,
+							maxLength: 24,
+							width: 400,
+							validator: function (v) {
+								return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+							}
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'fine',
+							itemId: 'fine',
+							xtype: 'numberfield',
+							allowExponential: false,
+							maxLength: 24,
+							width: 400,
+							validator: function (v) {
+								return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+							}
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'actualSum',
+							itemId: 'actualSum',
+							xtype: 'numberfield',
+							allowExponential: false,
+							maxLength: 24,
+							width: 400,
+							validator: function (v) {
+								return /^[0-9]{1,20}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+							}
+						}
+					]
+				},
+				{
+					layout: {
+						type: "hbox",
+						align: "stretch"
+					},
+					defaults: {
+						labelWidth: 160
+					},
+					margin: "5, 0, 0, 0",
+					items: [
+						{
+							attributeName: 'actualDate',
+							itemId: 'actualDate',
+							width: 400
+						}
+					]
+				}
+
+			]
+		}
+	]
+};

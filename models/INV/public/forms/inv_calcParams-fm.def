@@ -1,0 +1,142 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_calcParams"
+// @model "INV"
+// @formType "auto"
+// @caption "Параметри розрахунку земельного податку"
+// @description "Параметри розрахунку земельного податку"
+exports.formDef = {
+	parentConfig: {
+		layout: {
+			type: 'vbox',
+			align: 'stretch'
+		},
+		defaults: {
+			labelWidth: 160
+
+		}
+	},
+	items: [
+		{
+			xtype: 'numberfield',
+			attributeName: 'year',
+			itemId: 'calcYear',
+			allowExponential: false,
+			allowDecimals: false,
+			hideTrigger: true,
+			maxLength: 4,
+			minValue: 1000
+
+		},
+		{
+			attributeName: 'SGindex',
+			xtype: 'numberfield',
+			allowExponential: false,
+			maxLength: 9,
+			validator: function (v) {
+				return /^[0-9]{1,5}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+			}
+		},
+		{
+			attributeName: 'notSGindex',
+			xtype: 'numberfield',
+			allowExponential: false,
+			maxLength: 9,
+			validator: function (v) {
+				return /^[0-9]{1,5}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+			}
+		},
+		{
+			attributeName: 'permanentUse',
+			xtype: 'numberfield',
+			allowExponential: false,
+			maxLength: 14,
+			validator: function (v) {
+				return /^[0-9]{1,10}(,[0-9]{1,2})?$/.test(v) || !v ? true : 'Не припустимий формат!';
+			}
+		},
+		{
+			layout: "fit",
+			flex: 4,
+			autoScroll: true,
+			items: [{
+				xtype: "ubdetailgrid",
+				itemId: "gridCalc",
+				autoScroll: false,
+				hideToolbar: false,
+				toolbarActionList: ['refresh'],
+				hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink", 'addNew', 'del'],
+				margin: "0, 0, 5, 0",
+				cmdType: "showList",
+				selModel: {
+					selectionMode: "SINGLE"
+				},
+				entityConfig: {
+					entity: "inv_calcParamsGrid",
+					method: "select",
+					fieldList: [
+						{name: "ID", visibility: false},
+						{name: "calcParamsID", visibility: false},
+						{name: "calcParamsCode", description: "Код", editor: {readOnly: true}},
+						{name: "calcParamsName", description: "Назва", editor: {readOnly: true}},
+						{
+							name: "ngoLegal", format: '.000',
+							editor: {
+								minValue: 0,
+								allowExponential: false,
+								decimalPrecision: 3,
+								hideTrigger: true
+							}
+						},
+						{
+							name: "ngoPhys", format: '.000',
+							editor: {
+								minValue: 0,
+								allowExponential: false,
+								decimalPrecision: 3,
+								hideTrigger: true
+							}
+						},
+						{
+							name: "outLegal", format: '.000',
+							editor: {
+								minValue: 0,
+								allowExponential: false,
+								decimalPrecision: 3,
+								hideTrigger: true
+							}
+						},
+						{
+							name: "outPhys", format: '.000',
+							editor: {
+								minValue: 0,
+								allowExponential: false,
+								decimalPrecision: 3,
+								hideTrigger: true
+							}
+						}
+					]
+				},
+				masterFields: ["ID"],
+				detailFields: ["calcParamsID"],
+				rowEditing: true,
+				afterInit: function () {
+					let grid = this,
+						editingPlugin = this.plugins[0];
+					editingPlugin.clicksToEdit = 2;
+				},
+				listeners: {
+					cellkeydown: function (grid, td, cellIndex, record, tr, rowIndex, e) {
+						if (e.getKey() == e.ENTER && record) {
+							grid.alreadyEdit ? grid.editingPlugin.startEdit(rowIndex, 2) : grid.alreadyEdit = true;
+						}
+					},
+					cellclick: function (grid, td, cellIndex, record, tr, rowIndex, e) {
+						if (!grid.alreadyEdit) grid.alreadyEdit = true;
+					}
+				}
+			}]
+		}
+	]
+
+};

@@ -1,0 +1,143 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_calcRealtyParams"
+// @model "INV"
+// @formType "auto"
+// @caption "Параметри розрахунку податку на нерухоме майно"
+// @description "Параметри розрахунку податку на нерухоме майно"
+exports.formDef = {
+	parentConfig: {
+		layout: {
+			type: 'vbox',
+			align: 'stretch'
+		},
+	},
+	items: [
+		{
+			xtype: 'numberfield',
+			attributeName: 'year',
+			itemId: 'calcYear',
+			allowExponential: false,
+			allowDecimals: false,
+			hideTrigger: true,
+			minValue: 1000,
+			labelWidth: 160
+
+		},
+		{
+			attributeName: 'forRooms',
+			xtype: 'numberfield',
+			allowExponential: false,
+			maxLength: 14,
+			labelWidth: 160,
+			validator: function (v) {
+				return /^[0-9]{1,10}(,[0-9]{1,2})?$/.test(v) ? true : 'Не припустимий формат!';
+			}
+		},
+
+		{
+			layout: "fit",
+			flex: 4,
+			autoScroll: true,
+			items: [
+				{
+					xtype: "ubdetailgrid",
+					itemId: "gridCalc",
+					autoScroll: false,
+					hideToolbar: false,
+					toolbarActionList: ['refresh'],
+					hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink", 'addNew', 'del'],
+					margin: "0, 0, 5, 0",
+					cmdType: "showList",
+					selModel: {
+						selectionMode: "SINGLE"
+					},
+					entityConfig: {
+						entity: "inv_calcRealtyParamsGrid",
+						method: "select",
+						fieldList: [
+							{name: "ID", visibility: false},
+							{name: "calcParamsID", visibility: false},
+							{name: "calcParamsCode", description: "Код", editor: {readOnly: true}},
+							{name: "calcParamsName", description: "Назва", editor: {readOnly: true, maxWidth: 450, width: 450}, config: {maxWidth: 450, width: 450}},
+							{
+								name: "legalZ1", format: '.00',
+								editor: {
+									minValue: 0,
+									allowExponential: false,
+									decimalPrecision: 2,
+									hideTrigger: true
+								}
+							},
+							{
+								name: "legalZ2", format: '.00',
+								editor: {
+									minValue: 0,
+									allowExponential: false,
+									decimalPrecision: 2,
+									hideTrigger: true
+								}
+							},
+							{
+								name: "legalZ3", format: '.00',
+								editor: {
+									minValue: 0,
+									allowExponential: false,
+									decimalPrecision: 2,
+									hideTrigger: true
+								}
+							},
+							{
+								name: "physZ1", format: '.00',
+								editor: {
+									minValue: 0,
+									allowExponential: false,
+									decimalPrecision: 2,
+									hideTrigger: true
+								}
+							},
+							{
+								name: "physZ2", format: '.00',
+								editor: {
+									minValue: 0,
+									allowExponential: false,
+									decimalPrecision: 2,
+									hideTrigger: true
+								}
+							},
+							{
+								name: "physZ3", format: '.00',
+								editor: {
+									minValue: 0,
+									allowExponential: false,
+									decimalPrecision: 2,
+									hideTrigger: true
+								}
+							}
+						]
+					},
+					masterFields: ["ID"],
+					detailFields: ["calcParamsID"],
+					rowEditing: true,
+					afterInit: function () {
+						let grid = this,
+							editingPlugin = this.plugins[0];
+						editingPlugin.clicksToEdit = 2;
+					},
+					listeners: {
+						cellkeydown: function (grid, td, cellIndex, record, tr, rowIndex, e) {
+							if (e.getKey() == e.ENTER && record) {
+								grid.alreadyEdit ? grid.editingPlugin.startEdit(rowIndex, 2) : grid.alreadyEdit = true;
+							}
+						},
+						cellclick: function (grid, td, cellIndex, record, tr, rowIndex, e) {
+							if (!grid.alreadyEdit) grid.alreadyEdit = true;
+						}
+					}
+				}
+			]
+		}
+
+	]
+
+};

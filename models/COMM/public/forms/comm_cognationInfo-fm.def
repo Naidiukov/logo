@@ -1,0 +1,74 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "comm_cognationInfo"
+// @model "COMM"
+// @formType "auto"
+// @caption "Інформація про споріднених осіб"
+// @description "Інформація про споріднених осіб"
+exports.formDef = {
+    layout: {
+        type: "vbox",
+        align: "stretch"
+    },
+	items:[
+		{
+            attributeName: 'cognation',
+            width: 420
+		},
+        {
+            layout: {
+                type: "hbox",
+                align: "stretch"
+            },
+            flex: 1,
+            items: [
+                {
+                    attributeName: 'fullName',
+                    disableContextMenu: true,
+                    maxHeight: 25,
+                    minHeight: 25,
+                    width: 420,
+                    whereList: {
+                        byPersonType: {
+                            expression: "[personType]",
+                            condition: "=",
+                            values: {personType: 'PHYSICAL'}
+                        }
+                    }
+                },
+                {
+                    xtype: 'button',
+                    itemId: 'addButton',
+                    maxHeight: 40,
+                    maxWidth: 40,
+                    minHeight: 40,
+                    minWidth: 40,
+                    margin: '0, 4, 0, 0',
+                    tooltip: 'Додати особу',
+                    style: 'background-color: white; border: 0px;',
+                    iconCls: 'fa fa-plus-circle fa-2x',
+                    handler: function (btn) {
+                        var form = this.up('form'),
+                            payerIDCtrl = form.getField('fullName');
+                        $App.doCommand({
+                            cmdType: "showForm",
+                            formCode: "inv_payers-comm",
+                            entityName: "inv_payers",
+                            entity: "inv_payers",
+                            isModal: true,
+                            target: $App.viewport.centralPanel,
+                            tabId: "payer" + Ext.id(),
+                            initialFieldValues: {
+                                personType: 'PHYSICAL'
+                            },
+                            cmpInitConfig: {
+                                payerIDCtrl: payerIDCtrl
+                            }
+                        });
+
+                    }
+                }
+            ]
+        }
+    ]
+};

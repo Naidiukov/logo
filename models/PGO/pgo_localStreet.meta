@@ -1,0 +1,107 @@
+{
+  "caption": "Довідник вулиць",
+  "description": "Довідник вулиць",
+  "connectionName": "main",
+  "sqlAlias": "pgo_locstreet",
+  "cacheType": "None",
+  "descriptionAttribute": "street",
+  "attributes": [
+    {
+      "name": "settlementDictID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Назва населеного пункту",
+      "description": "Назва населеного пункту",
+      "allowNull": false
+    },
+    {
+      "name": "settlementDistrictID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDistrict",
+      "caption": "Район міста",
+      "description": "Район міста",
+      "allowNull": true
+    },
+    {
+      "name": "street",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Вулиця",
+      "description": "Вулиця",
+      "allowNull": false
+    },
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 4,
+      "caption": "Код",
+      "description": "Код",
+      "allowNull": false
+    },
+    {
+      "name": "streetType",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_streetType",
+      "caption": "Тип вулиці",
+      "description": "Тип вулиці",
+      "allowNull": false
+    },
+    {
+      "name": "streetFull",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ПІБ",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[streetType.name] || ' ' || [street]"
+        }
+      ]
+    },
+    {
+      "name": "coverageID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_coverage",
+      "caption": "Назва дорожного покриття",
+      "description": "Назва дорожного покриття",
+      "allowNull": true
+    },
+    {
+      "name": "illuminati",
+      "dataType": "Boolean",
+      "caption": "Освітлення",
+      "allowNull": false,
+      "defaultValue": "0"
+    },
+    {
+      "name": "distance",
+      "dataType": "float",
+      "caption": "Відстань",
+      "allowNull": true
+    },
+    {
+      "name": "oldID",
+      "dataType": "Int",
+      "caption": "ID STREET з старої системи",
+      "description": "ID STREET з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

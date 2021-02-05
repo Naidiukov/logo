@@ -1,0 +1,125 @@
+{
+  "caption": "subj",
+  "description": "subj",
+  "connectionName": "main",
+  "sqlAlias": "inv_subject",
+  "descriptionAttribute": "koattNum",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "koattNum",
+      "dataType": "Entity",
+      "associatedEntity": "inv_landDict",
+      "caption": "Код КОАТТУ",
+      "description": "Код КОАТТУ",
+      "allowNull": false
+    },
+    {
+      "name": "code",
+      "dataType": "Bigint",
+      "caption": "Код",
+      "description": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа",
+      "description": "Загальна площа",
+      "allowNull": false
+    },
+    {
+      "name": "ownershipArea",
+      "dataType": "float",
+      "caption": "Заг. площа домоволодіння (м2)",
+      "allowNull": true
+    },
+    {
+      "name": "documentOwnership",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Документ права власності",
+      "description": "Документ права власності",
+      "allowNull": false
+    },
+    {
+      "name": "registryData",
+      "dataType": "Date",
+      "caption": "Дата держреєстрації",
+      "description": "Дата держреєстрації",
+      "allowNull": false
+    },
+    {
+      "name": "owner",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Власник",
+      "description": "Власник",
+      "allowNull": true
+    },
+    {
+      "name": "oType",
+      "dataType": "String",
+      "size": 20,
+      "caption": "Тип об’єкта",
+      "description": "Тип об’єкта",
+      "allowNull": false
+    },
+    {
+      "name": "oTypeStr",
+      "dataType": "String",
+      "caption": "Тип об’єкта",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [oType]='realtyObject' THEN 'Об’єкт нерухомості' ELSE 'Земельна ділянка' END"
+        }
+      ]
+    },
+    {
+      "name": "address",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Адреса",
+      "description": "Адреса",
+      "allowNull": true
+    },
+    {
+      "name": "cadastralNumber",
+      "dataType": "String",
+      "size": 22,
+      "caption": "Кадастровий номер",
+      "description": "Кадастровий номер",
+      "allowNull": true
+    },
+    {
+      "name": "useType",
+      "dataType": "Enum",
+      "enumGroup": "INV_USETYPE",
+      "caption": "Вид використання",
+      "description": "Вид використання",
+      "allowNull": true
+    },
+    {
+      "name": "codeAndOType",
+      "dataType": "String",
+      "caption": "Тип об’єкта",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [oType]='realtyObject' THEN [code]::varchar || ' ' || 'Об’єкт нерухомості' ELSE [code]::varchar || ' ' || 'Земельна ділянка' END"
+        }
+      ]
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

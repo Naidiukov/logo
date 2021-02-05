@@ -1,0 +1,2395 @@
+﻿// @! "do not remove comments below unless you know what you do!"
+// @isDefault "true"
+// @entity "pgo_objAccounting"
+// @model "PGO"
+// @formType "auto"
+// @caption "Об’єкт погосподарського обліку"
+// @description "Об’єкт погосподарського обліку"
+
+exports.formDef = {
+    items: [
+        {
+            xtype: 'tabpanel',
+            itemId: 'cmpTabPanel',
+            minWidth: 250,
+            plain: true,
+            items: [
+                {
+                    itemId: "tabMain",
+                    title: 'Загальні дані',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'objState',
+                                            readOnly: true,
+                                            itemId: 'objState',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'pgoType',
+                                            flex: 1,
+                                            listeners: {
+                                                select: function (fld, record) {
+                                                    let form = this.up('form'),
+                                                        newV = record[0].getData()['code'],
+                                                        locationIDVal = form.record.get('locationID'),
+                                                        pgoObjNumCtrl = form.getField('pgoObjNum'),
+                                                        pgoObjNumVal = form.record.get('pgoObjNum'),
+                                                        qButton = form.queryById('qButton'),
+                                                        pgoType = 1;
+                                                    let setFieldsVisibility = function (field, isVisible, allowBlank) {
+                                                        if (isVisible) {
+                                                            field.show();
+                                                            if (allowBlank != undefined && !allowBlank) field.setAllowBlank(false);
+                                                            else if (allowBlank != undefined && allowBlank) field.setAllowBlank(true);
+                                                        } else {
+                                                            field.hide();
+                                                            field.setAllowBlank(true);
+                                                            field.setValue(null);
+                                                        }
+                                                    };
+
+                                                    if (newV) {
+                                                        switch (newV) {
+                                                            case 'HOUSEHOLD_LIVE':
+                                                                pgoType = 1;
+                                                                break;
+                                                            case 'HOUSEHOLD_STAY':
+                                                                pgoType = 2;
+                                                                break;
+                                                            case 'HOUSE_OWN':
+                                                                pgoType = 3;
+                                                                break;
+                                                            case 'LAND_OWN':
+                                                                pgoType = 4;
+                                                                break;
+                                                            case 'ADANDONED_OBJ':
+                                                                pgoType = 5;
+                                                                break;
+                                                        }
+                                                        let pgoIntFlatNumCtrl = form.getField('pgoInFlatNum'),
+                                                            arriveDateCtrl = form.getField('arriveDate'),
+                                                            retireDateCtrl = form.getField('retireDate'),
+                                                            headRegAddressCtrl = form.getField('headRegAddress'),
+                                                            ownerRegAddressCtrl = form.getField('ownerRegAddress'),
+                                                            ownerInVillageCtrl = form.getField('ownerInVillage'),
+                                                            membersNumCtrl = form.getField('membersNum');
+
+                                                        if (pgoType == 2) {
+                                                            setFieldsVisibility(pgoIntFlatNumCtrl, true, false);
+                                                            setFieldsVisibility(arriveDateCtrl, true, true);
+                                                            setFieldsVisibility(retireDateCtrl, true, true);
+                                                            setFieldsVisibility(headRegAddressCtrl, true, false);
+                                                            setFieldsVisibility(ownerRegAddressCtrl, false);
+
+                                                            ownerInVillageCtrl.hide();
+                                                        }
+                                                        else {
+                                                            setFieldsVisibility(pgoIntFlatNumCtrl, false);
+                                                            setFieldsVisibility(retireDateCtrl, false);
+                                                            setFieldsVisibility(headRegAddressCtrl, false);
+                                                            setFieldsVisibility(arriveDateCtrl, false);
+                                                            pgoType == 4 || pgoType == 5 ? membersNumCtrl.setAllowBlank(true) : membersNumCtrl.setAllowBlank(false);
+                                                            pgoType == 4 ? ownerInVillageCtrl.show() : ownerInVillageCtrl.hide();
+                                                            pgoType != 1 ? setFieldsVisibility(ownerRegAddressCtrl, true, false) : setFieldsVisibility(ownerRegAddressCtrl, false);
+                                                        }
+
+                                                    }
+
+
+                                                    if (newV && locationIDVal) {
+
+
+                                                        $App.connection.run({
+                                                            entity: "pgo_objAccounting",
+                                                            method: "getObjCode",
+                                                            execParams: {
+                                                                settlementDictID: locationIDVal,
+                                                                pgoType: pgoType
+                                                            },
+                                                            __skipSelectAfterUpdate: true,
+                                                            __skipOptimisticLock: true
+                                                        }).then(function (res) {
+                                                            // pgoObjNumCtrl.setValue(null);
+                                                            let pgoObjNum = pgoObjNumCtrl.getValue();
+                                                            if (pgoObjNum) {
+                                                                pgoObjNumCtrl.setValue(pgoObjNum.slice(0, -1) + pgoType);
+                                                            }
+                                                            if (res['objCode']) {
+                                                                qButton.setTooltip(res['objCode']);
+                                                                qButton.objCode = res['objCode'];
+                                                            } else {
+                                                                $App.dialogError(`Для даного населеного пункту необхідно назначити порядковий номер`);
+                                                            }
+                                                        });
+
+                                                    } else {
+                                                        qButton.setTooltip('Оберіть спочатку місцезнаходження');
+                                                        pgoObjNumCtrl.setValue(null);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'pgoBookPage',
+                                            itemId: 'pgoBookPage',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'pgoBook',
+                                            itemId: 'pgoBook',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'locationID',
+                                            disableContextMenu: true,
+                                            fieldList: ["ID", "governmentFullName"],
+                                            flex: 1,
+                                            listeners: {
+                                                select: function (fld, record) {
+
+                                                    let form = this.up('form'),
+                                                        newV = record[0].getData()['ID'],
+                                                        streetIDCtrl = form.getField('streetID'),
+                                                        pgoObjNumCtrl = form.getField('pgoObjNum'),
+                                                        qButton = form.queryById('qButton'),
+                                                        pgoType = 1;
+
+                                                    if (newV) {
+                                                        streetIDCtrl.setReadOnly(false);
+                                                        if (!streetIDCtrl.store.ubRequest.whereList) streetIDCtrl.store.ubRequest.whereList = {};
+                                                        streetIDCtrl.store.ubRequest.whereList.byLocation = {
+                                                            expression: '[settlementDictID]',
+                                                            condition: 'equal',
+                                                            values: {settlementDictID: fld.findRecordByValue(fld.getValue()).get('ID')}
+                                                        };
+                                                        streetIDCtrl.store.reload();
+                                                        switch (form.record.get('pgoType')) {
+                                                            case 'HOUSEHOLD_LIVE':
+                                                                pgoType = 1;
+                                                                break;
+                                                            case 'HOUSEHOLD_STAY':
+                                                                pgoType = 2;
+                                                                break;
+                                                            case 'HOUSE_OWN':
+                                                                pgoType = 3;
+                                                                break;
+                                                            case 'LAND_OWN':
+                                                                pgoType = 4;
+                                                                break;
+                                                            case 'ADANDONED_OBJ':
+                                                                pgoType = 5;
+                                                                break;
+                                                        }
+
+                                                        $App.connection.run({
+                                                            entity: "pgo_objAccounting",
+                                                            method: "getObjCode",
+                                                            execParams: {
+                                                                settlementDictID: newV,
+                                                                pgoType: pgoType
+                                                            },
+                                                            __skipSelectAfterUpdate: true,
+                                                            __skipOptimisticLock: true
+                                                        }).then(function (res) {
+                                                            pgoObjNumCtrl.setValue(null);
+                                                            streetIDCtrl.setValue(null);
+                                                            if (res['objCode']) {
+                                                                qButton.setTooltip(res['objCode']);
+                                                                qButton.objCode = res['objCode'];
+                                                            } else {
+                                                                //streetIDCtrl.setValue(null);
+                                                                fld.setValue(null);
+                                                                qButton.setTooltip('Спочатку оберіть місцезнаходження');
+                                                                qButton.objCode = '';
+
+                                                                if (res.localReqID) {
+
+                                                                    $App.dialogYesNo("Порядковий номер", 'Для даного населеного пункту необхідно назначити порядковий номер. Бажаєте встановити його зараз?').then(function (r) {
+                                                                        if (!r) {
+                                                                            return;
+                                                                        }
+
+                                                                        $App.doCommand({
+                                                                            cmdType: "showForm",
+                                                                            formCode: 'pgo_localRequisites',
+                                                                            entity: "pgo_localRequisites",
+                                                                            entityName: 'pgo_localRequisites',
+                                                                            target: $App.viewport.centralPanel,
+                                                                            tabId: "local" + res.localReqID,
+                                                                            instanceID: res.localReqID,
+                                                                            cmpInitConfig: {
+                                                                                isAdd: true,
+                                                                                streetIDCtrl: streetIDCtrl,
+                                                                                instanceID: res.localReqID
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                } else {
+                                                                    $App.dialogError(`Для даного населеного пункту не існує запису в "Реквізити місцевої ради"`);
+                                                                }
+
+
+                                                            }
+                                                        });
+                                                    } else {
+                                                        qButton.setTooltip('Оберіть спочатку місцезнаходження');
+                                                        pgoObjNumCtrl.setValue(null);
+                                                        streetIDCtrl.setReadOnly(true);
+                                                        streetIDCtrl.setValue(null);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'streetID',
+                                            disableContextMenu: true,
+                                            maxHeight: 30,
+                                            minHeight: 30,
+                                            flex: 1
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            itemId: 'addButton',
+                                            maxHeight: 40,
+                                            flex: 2,
+                                            maxWidth: 40,
+                                            minHeight: 40,
+                                            minWidth: 40,
+                                            margin: '2, 4, 0, 0',
+                                            tooltip: 'Додати вулицю',
+                                            style: 'background-color: white; border: 0px;',
+                                            iconCls: 'fa fa-plus-circle fa-2x',
+                                            handler: function (btn) {
+                                                var form = this.up('form'),
+                                                    streetIDCtrl = form.getField('streetID'),
+                                                    settlementDictID = form.record.get('locationID');
+
+                                                if (settlementDictID) {
+                                                    $App.doCommand({
+                                                        cmdType: "showForm",
+                                                        formCode: "pgo_localStreet",
+                                                        entityName: "pgo_localStreet",
+                                                        entity: "pgo_localStreet",
+                                                        isModal: true,
+                                                        //target: $App.viewport.centralPanel,
+                                                        //tabId: "street" + Ext.id(),
+                                                        initialFieldValues: {
+                                                            settlementDictID: settlementDictID
+                                                        },
+                                                        cmpInitConfig: {
+                                                            streetIDCtrl: streetIDCtrl
+                                                        }
+                                                    });
+                                                    streetIDCtrl.store.reload();
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'houseNum',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'flatNum',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'pgoObjNum',
+                                            xtype: 'textfield',
+                                            allowBlank: false,
+                                            width: 340,
+                                            itemId: 'pgoObjNum',
+                                            validator: function (v) {
+                                                return /^[0-9]{6}-[1-9]{1}$/.test(v) || !v ? true : 'Формат має бути "ХХХХХХ-Х"!';
+                                            },
+                                            listeners: {
+                                                change: function (fld, newV, oldV) {
+                                                    if (!newV) {
+                                                        let qButton = fld.up('form').queryById('qButton');
+                                                        qButton.setTooltip(oldV);
+                                                        qButton.objCode = oldV;
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            itemId: 'qButton',
+                                            maxHeight: 40,
+                                            maxWidth: 40,
+                                            minHeight: 40,
+                                            minWidth: 40,
+                                            margin: '14, 0, 0, 0',
+                                            style: 'background-color: white; border: 0px; top: 15px;',
+                                            iconCls: 'fa fa-question-circle-o fa-2x',
+                                            tooltip: '',
+                                            handler: function (btn) {
+                                                let form = this.up('form'),
+                                                    pgoObjNum = form.getField('pgoObjNum');
+                                                if (btn.objCode) {
+                                                    pgoObjNum.setValue(btn.objCode);
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'constituency',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'district',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'ownerInVillage',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'headRegAddress',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'ownerRegAddress',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    items: [
+                                        {
+                                            attributeName: 'arriveGoal',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'arriveDate',
+                                            width: 320,
+                                            xtype: 'monthfield',
+                                            format: 'F, Y'
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'membersNum',
+                                            xtype: 'numberfield',
+                                            allowExponential: false,
+                                            allowDecimals: false,
+                                            hideTrigger: true,
+                                            minValue: 0,
+                                            negativeText: "Число не може бути від'ємним!",
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'retireDate',
+                                            width: 320,
+                                            xtype: 'monthfield',
+                                            format: 'F, Y'
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'pgoInFlatNum',
+                                            flex: 1,
+                                            validator: function (v) {
+                                                if (!this.hidden) return /^[0-9]{6}-[1-9]{1}$/.test(v) || !v ? true : 'Формат має бути "ХХХХХХ-Х"!';
+                                                else return true;
+                                            }
+                                        }
+                                    ]
+                                }]
+                        },
+                        {
+                            layout: {
+                                type: "vbox",
+                                align: "stretch"
+                            },
+                            defaults: {
+                                labelWidth: 160
+                            },
+                            flex: 1,
+                            items: [
+                                {
+                                    layout: {
+                                        type: "hbox",
+                                        align: "stretch"
+                                    },
+                                    defaults: {
+                                        labelWidth: 160
+                                    },
+                                    margin: "5, 0, 0, 0",
+                                    items: [
+                                        {
+                                            attributeName: 'specialNotes',
+                                            flex: 1
+                                        }
+                                    ]
+                                }]
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabHousehold",
+                    title: 'Члени домогосподарства',
+                    disabled: true,
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Члени домогосподарства',
+                            itemId: "gridHousehold",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            // hideMenuAllActions: true,
+                            hideActions: ["showPreview", "audit", "showDetail",  "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_householdMember",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "objAccountingID", visibility: false},
+                                    {name: "orderNum"},
+                                    {name: "payerID"},
+                                    {name: "isHead"},
+                                    {name: "birthDate"},
+                                    {name: "cognationID"}
+
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objAccountingID"],
+                            onDeterminateForm: function () {
+                                // return {
+                                //     formCode: "pgo_householdMember",
+                                //     entityName: "pgo_householdMember"
+                                // }
+                            },
+                            onItemDblClick: function () {
+                                var me = this,
+                                    record = me.store.getById(me.selectedRecordID);
+
+                                $App.doCommand({
+                                    cmdType: "showForm",
+                                    formCode: 'pgo_householdMember',
+                                    entityName: 'pgo_householdMember',
+                                    entity: 'pgo_householdMember',
+                                    target: $App.viewport.centralPanel,
+                                    tabId: "member" + Ext.id(),
+                                    sender: this,
+                                    instanceID: record.get('ID')
+
+                                });
+                            },
+                            onAddNew: function () {
+                                $App.doCommand({
+                                    cmdType: "showForm",
+                                    formCode: 'pgo_householdMember',
+                                    entityName: 'pgo_householdMember',
+                                    entity: 'pgo_householdMember',
+                                    target: $App.viewport.centralPanel,
+                                    tabId: "member" + Ext.id(),
+                                    sender: this,
+                                    initialFieldValues: {
+                                        objAccountingID: this.up('form').instanceID
+                                    }
+                                });
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            },
+                            addBaseDockedItems: function () {
+
+                                let me = this;
+
+                                me.__proto__.addBaseDockedItems.apply(this, arguments);
+                                let menu = Ext.create("Ext.menu.Menu");
+                                let menuBtn = Ext.create("Ext.menu.Menu");
+
+                                menuBtn.add({
+                                    text: "Витяг з погосподарської книги про право власності",
+                                    name: "excerptsOutBookRights",
+                                    handler: function (ctx) {
+                                        $App.doCommand({
+                                            cmdType: "showForm",
+                                            formCode: 'pgo_objAccounting-reportParams',
+                                            entity: 'pgo_objAccounting',
+                                            cmpInitConfig: {
+                                                reportType: 'excerptsOutBookRights',
+                                                objAccountingID: me.up('form').instanceID,
+                                                locationID: me.up('form').record.get('locationID')
+                                            }
+                                        });
+                                    }});
+                                menuBtn.add({
+                                    text: "Витяг про склад сім\'ї",
+                                    name: "excerptsOutFamilyMembers",
+                                    handler: function (ctx) {
+                                        $App.doCommand({
+                                            cmdType: "showForm",
+                                            formCode: 'pgo_objAccounting-reportParams',
+                                            entity: 'pgo_objAccounting',
+                                            cmpInitConfig: {
+                                                reportType: 'excerptsOutFamilyMembers',
+                                                objAccountingID: me.up('form').instanceID,
+                                                locationID: me.up('form').record.get('locationID')
+                                            }
+                                        });
+                                    }});
+
+                                menuBtn.add({
+                                    text: "Про оформлення права власності",
+                                    name: "excerptsPropRight",
+                                    handler: function (ctx) {
+                                        $App.doCommand({
+                                            cmdType: "showForm",
+                                            formCode: 'pgo_objAccounting-reportParams',
+                                            entity: 'pgo_objAccounting',
+                                            cmpInitConfig: {
+                                                reportType: 'excerptsPropRight',
+                                                objAccountingID: me.up('form').instanceID,
+                                                locationID: me.up('form').record.get('locationID')
+                                            }
+                                        });
+
+                                    }});
+                                me.dockedItems[0].items.splice(3,1 , {
+                                    text: 'Витяги',
+                                    itemId: 'excerptsBtn',
+                                    cls: 'btn-replace',
+                                    menu: menuBtn,
+                                });
+                                me.dockedItems[0].items[3].menu.protoEl.classList.push("menu-replace");
+
+                                menu.add({
+                                    text: "Форма № 3",
+                                    name: "formNum3",
+                                    handler: function (ctx) {
+                                        $App.connection.select({
+                                            entity: "pgo_householdMember",
+                                            fieldList: ['payerID.fullName'],
+                                            whereList: {
+                                                byObjAccountingID: {
+                                                    expression: "[objAccountingID]",
+                                                    condition: "equal",
+                                                    values: {objAccountingID: me.up('form').instanceID}
+                                                },
+                                                byHead: {
+                                                    expression: "[isHead]",
+                                                    condition: "equal",
+                                                    values: {isHead: 1}
+                                                }
+                                            }
+                                        }).then(function (r) {
+                                            let res = UB.LocalDataStore.selectResultToArrayOfObjects(r)[0];
+                                            $App.doCommand({
+                                                cmdType: "showForm",
+                                                formCode: 'pgo_objAccounting-reportParams',
+                                                entity: 'pgo_objAccounting',
+                                                cmpInitConfig: {
+                                                    reportType: 'formNum3',
+                                                    objAccountingID: me.up('form').instanceID,
+                                                    locationID: me.up('form').record.get('locationID'),
+                                                    head: res ? res['payerID.fullName'] : ''
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+
+                                menu.add({
+                                    text: "Склад сім’ї",
+                                    name: "familyMembers",
+                                    handler: function (ctx) {
+                                        $App.connection.select({
+                                            entity: "pgo_householdMember",
+                                            fieldList: ['payerID.fullName'],
+                                            whereList: {
+                                                byObjAccountingID: {
+                                                    expression: "[objAccountingID]",
+                                                    condition: "equal",
+                                                    values: {objAccountingID: me.up('form').instanceID}
+                                                },
+                                                byHead: {
+                                                    expression: "[isHead]",
+                                                    condition: "equal",
+                                                    values: {isHead: 1}
+                                                }
+                                            }
+                                        }).then(function (r) {
+                                            let res = UB.LocalDataStore.selectResultToArrayOfObjects(r)[0];
+                                            $App.doCommand({
+                                                cmdType: "showForm",
+                                                formCode: 'pgo_objAccounting-reportParams',
+                                                entity: 'pgo_objAccounting',
+                                                cmpInitConfig: {
+                                                    reportType: 'familyMembers',
+                                                    objAccountingID: me.up('form').instanceID,
+                                                    locationID: me.up('form').record.get('locationID'),
+                                                    head: res ? res['payerID.fullName'] : ''
+                                                }
+
+                                            });
+                                        });
+
+
+                                    }
+                                });
+
+                                menu.add({
+                                    text: "Проживання в селі",
+                                    name: "villageLive",
+                                    handler: function (ctx) {
+                                        $App.doCommand({
+                                            cmdType: "showForm",
+                                            formCode: 'pgo_objAccounting-reportParams',
+                                            entity: 'pgo_objAccounting',
+                                            cmpInitConfig: {
+                                                reportType: 'villageLive',
+                                                objAccountingID: me.up('form').instanceID,
+                                                locationID: me.up('form').record.get('locationID')
+                                            }
+
+                                        });
+                                    }
+                                });
+
+                                menu.add({
+                                    text: "Форма № 204",
+                                    name: "formNum204",
+                                    handler: function (ctx) {
+                                        $App.doCommand({
+                                            cmdType: "showForm",
+                                            formCode: 'pgo_objAccounting-reportParams',
+                                            entity: 'pgo_objAccounting',
+                                            cmpInitConfig: {
+                                                reportType: 'formNum204',
+                                                objAccountingID: me.up('form').instanceID,
+                                                locationID: me.up('form').record.get('locationID')
+                                            }
+
+                                        });
+                                    }
+                                });
+
+                                me.dockedItems[0].items.splice(4, 0, {
+                                    itemId: "certifMenu",
+                                    text: "Довідки",
+                                    menu: menu,
+                                    disabled: !ADM.AccessManager.checkAccess('PGO_04_01_02')
+                                });
+
+                            },
+                            onDel: function () {
+                                var me = this,
+                                    selection = me.getSelectionModel().getSelection()[0];
+                                if (selection) {
+                                    $App.dialogYesNo("Підтвердження видалення", 'Ви дійсно хочете видалити цей запис?').then(function (res) {
+
+                                        if (!res) {
+                                            return;
+                                        }
+
+                                        $App.connection.run({
+                                            entity: 'pgo_householdMember',
+                                            method: "delete",
+                                            __skipSelectAfterUpdate: true,
+                                            __skipOptimisticLock: true,
+                                            execParams: {
+                                                ID: selection.data['ID']
+                                            }
+                                        }).then(function () {
+                                            me.onRefresh();
+                                        }, function (error) {
+                                            $App.dialogInfo(error.message);
+                                        });
+                                    });
+                                }
+                                else {
+                                    $App.dialogError('Не обрано запис!');
+                                }
+
+                            }
+                        },
+                    ]
+                },
+                {
+                    itemId: "tabLivingRoom",
+                    disabled: true,
+                    title: 'Інформація про житлові приміщення',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Інформація про власників',
+                            itemId: "gridOwners",
+                            hideToolbar: false,
+                            collapsible: true,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            // hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_roomOwnerInfo",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "objAccountingID", visibility: false},
+                                    {name: "year", format: '0000'},
+                                    {name: "personType"},
+                                    {name: "payerID"},
+                                    {name: "part"},
+                                    {name: "notes"}
+
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objAccountingID"],
+                            onDeterminateForm: function () {
+                                return {
+                                    formCode: "pgo_roomOwnerInfo",
+                                    entityName: "pgo_roomOwnerInfo"
+                                }
+                            },
+                            onAddNew: function () {
+                                var me = this;
+                                var win = Ext.create("Ext.window.Window", {
+                                    autoShow: true,
+                                    title: 'Інформація про житлові приміщення',
+                                    border: 0,
+                                    layout: "fit",
+                                    modal: true,
+                                    items: [
+                                        {
+                                            xtype: 'numberfield',
+                                            itemId: "year",
+                                            fieldLabel: "Рік обходу",
+                                            allowExponential: false,
+                                            allowDecimals: false,
+                                            allowBlank: false,
+                                            //hideTrigger: true,
+                                            minLength: 4,
+                                            validator: '/^[0-9]?$/',
+                                            minValue: 2000,
+                                            flex: 1,
+                                            listeners: {
+                                                afterrender: function (fld) {
+                                                    fld.setValue((new Date).getFullYear());
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    buttons: [
+                                        {
+                                            text: 'Обрати',
+                                            handler: function (btn) {
+                                                var yearVal = btn.up('window').queryById('year').getValue();
+                                                if (this.up('window').items.items[0].isValid()) {
+
+                                                    var form = me.up('form');
+                                                    var addnewForm = function (instanceID, yearVal, sender) {
+                                                        $App.doCommand({
+                                                            cmdType: "showForm",
+                                                            formCode: 'pgo_roomOwnerInfo',
+                                                            entityName: 'pgo_roomOwnerInfo',
+                                                            entity: 'pgo_roomOwnerInfo',
+                                                            sender: sender,
+                                                            //target: $App.viewport.centralPanel,
+                                                            initialFieldValues: {
+                                                                objAccountingID: instanceID,
+                                                                year: yearVal
+                                                            }
+                                                        });
+                                                    };
+                                                    $App.connection.run({
+                                                        entity: "pgo_roomOwnerInfo",
+                                                        method: "searchRoomOwner",
+                                                        execParams: {
+                                                            objAccountingID: form.instanceID,
+                                                            year: yearVal
+                                                        },
+                                                        __skipSelectAfterUpdate: true,
+                                                        __skipOptimisticLock: true
+                                                    }).then(function (searchRes) {
+                                                        switch (searchRes.searchRes) {
+                                                            case '!roomsPrevYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                            case 'roomsPrevYear':
+                                                                $App.dialogYesNo("Імпорт", 'Чи бажаєте Ви проімпортувати дані про перелік типів осіб минулого року з можливістю редагування записів?').then(function (res) {
+                                                                    if (!res) {
+                                                                        addnewForm(form.instanceID, yearVal, me);
+                                                                        return
+                                                                    } else {
+                                                                        $App.connection.run({
+                                                                            entity: "pgo_roomOwnerInfo",
+                                                                            method: "insertPrevYear",
+                                                                            execParams: {
+                                                                                objAccountingID: form.instanceID,
+                                                                                year: yearVal
+                                                                            },
+                                                                            __skipSelectAfterUpdate: true,
+                                                                            __skipOptimisticLock: true
+                                                                        }).then(function (insertPrevYear) {
+                                                                            me.onRefresh();
+                                                                        });
+                                                                    }
+                                                                });
+                                                                break;
+                                                            case 'roomsSearchYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                        }
+                                                    });
+                                                    win.close();
+                                                } else {
+                                                    $App.dialogError(`Рік не вказано!`);
+                                                }
+
+                                            }
+                                        }
+                                    ]
+                                });
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        },
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Відомості про житловий об’єкт',
+                            itemId: "gridRoomsInfo",
+                            hideToolbar: false,
+                            collapsible: true,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            //hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_livingRoomInfo",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "year", format: '0000'},
+                                    {name: "buildYear", format: '0000'},
+                                    {name: "roomType"},
+                                    {name: "checkDate"},
+                                    {name: "totalArea", format: '.00'},
+                                    {name: "summerArea", format: '.00'},
+                                    {name: "livingArea", format: '.00'},
+                                    {name: "livingRoomCount"},
+                                    {name: "aqueduct"},
+                                    {name: "sewerage"},
+                                    {name: "heating"},
+                                    {name: "hotWater"},
+                                    {name: "bath"},
+                                    {name: "naturalGas"},
+                                    {name: "liquefiedGas"},
+                                    {name: "electricPlate"},
+                                    {name: "oldFund"},
+                                    {name: "emergencyFund"}
+
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objAccountingID"],
+                            onDeterminateForm: function () {
+                                return {
+                                    formCode: "pgo_livingRoomInfo",
+                                    entityName: "pgo_livingRoomInfo"
+                                }
+                            },
+                            onAddNew: function () {
+                                var me = this;
+                                var win = Ext.create("Ext.window.Window", {
+                                    autoShow: true,
+                                    title: 'Інформація про житлові приміщення',
+                                    border: 0,
+                                    layout: "fit",
+                                    modal: true,
+                                    items: [
+                                        {
+                                            xtype: 'numberfield',
+                                            itemId: "year",
+                                            fieldLabel: "Рік обходу",
+                                            allowExponential: false,
+                                            allowDecimals: false,
+                                            allowBlank: false,
+                                            //hideTrigger: true,
+                                            minLength: 4,
+                                            validator: '/^[0-9]?$/',
+                                            minValue: 2000,
+                                            flex: 1,
+                                            listeners: {
+                                                afterrender: function (fld) {
+                                                    fld.setValue((new Date).getFullYear());
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    buttons: [
+                                        {
+                                            text: 'Обрати',
+                                            handler: function (btn) {
+                                                var yearVal = btn.up('window').queryById('year').getValue();
+                                                if (this.up('window').items.items[0].isValid()) {
+
+                                                    var form = me.up('form');
+                                                    var addnewForm = function (instanceID, yearVal, sender) {
+                                                        $App.doCommand({
+                                                            cmdType: "showForm",
+                                                            formCode: 'pgo_livingRoomInfo',
+                                                            entityName: 'pgo_livingRoomInfo',
+                                                            entity: 'pgo_livingRoomInfo',
+                                                            sender: sender,
+                                                            //target: $App.viewport.centralPanel,
+                                                            initialFieldValues: {
+                                                                objAccountingID: instanceID,
+                                                                year: yearVal
+                                                            }
+                                                        });
+                                                    };
+                                                    $App.connection.run({
+                                                        entity: "pgo_livingRoomInfo",
+                                                        method: "searchRoom",
+                                                        execParams: {
+                                                            objAccountingID: form.instanceID,
+                                                            year: yearVal
+                                                        },
+                                                        __skipSelectAfterUpdate: true,
+                                                        __skipOptimisticLock: true
+                                                    }).then(function (searchRes) {
+                                                        switch (searchRes.searchRes) {
+                                                            case '!roomsPrevYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                            case 'roomsPrevYear':
+                                                                $App.dialogYesNo("Імпорт", 'Чи бажаєте Ви проімпортувати дані про жилтові приміщення минулого року з можливістю редагування записів?').then(function (res) {
+                                                                    if (!res) {
+                                                                        addnewForm(form.instanceID, yearVal, me);
+                                                                        return
+                                                                    } else {
+                                                                        $App.connection.run({
+                                                                            entity: "pgo_livingRoomInfo",
+                                                                            method: "insertPrevYear",
+                                                                            execParams: {
+                                                                                objAccountingID: form.instanceID,
+                                                                                year: yearVal
+                                                                            },
+                                                                            __skipSelectAfterUpdate: true,
+                                                                            __skipOptimisticLock: true
+                                                                        }).then(function (insertPrevYear) {
+                                                                            me.onRefresh();
+                                                                        });
+                                                                    }
+                                                                });
+                                                                break;
+                                                            case 'roomsSearchYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                        }
+                                                    });
+                                                    win.close();
+                                                } else {
+                                                    $App.dialogError(`Рік не вказано!`);
+                                                }
+
+                                            }
+                                        }
+                                    ]
+                                });
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabLand",
+                    disabled: true,
+                    title: 'Земля',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            xtype: 'panel',
+                            autoScroll: true,
+                            flex: 1,
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'stretch'
+                                    },
+                                    items: [
+                                        {
+                                            xtype: 'panel',
+                                            flex: 3,
+                                            padding: '0, 5, 0 ,0',
+                                            layout: 'fit',
+                                            items: [{
+                                                xtype: "ubdetailgrid",
+                                                title: 'Відомості про землю',
+                                                itemId: "gridLand",
+                                                hideToolbar: false,
+                                                toolbarActionList: ['refresh', 'addNew', 'del'],
+                                                //hideMenuAllActions: true,
+                                                hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                                                autoScroll: true,
+                                                margin: "0, 0, 5, 0",  //top, right, buttom, left
+                                                cmdType: "showList",
+                                                selModel: {
+                                                    selectionMode: "SINGLE"
+                                                },
+                                                entityConfig: {
+                                                    entity: "pgo_landPlot",
+                                                    method: "select",
+                                                    fieldList: [
+                                                        {name: "ID", visibility: false},
+                                                        {name: "objAccountingID", visibility: false},
+                                                        {name: "landPlotID", visibility: false},
+                                                        {name: "year", format: '0000'},
+                                                        {name: "payerID"},
+                                                        {name: "landCategory"},
+                                                        {name: "useType"},
+                                                        {name: "leased"},
+                                                        {name: "totalArea"},
+                                                        {name: "cadastralNumber"}
+
+                                                    ]
+                                                },
+                                                masterFields: ["ID"],
+                                                detailFields: ["objAccountingID"],
+                                                onDeterminateForm: function () {
+                                                    return {
+                                                        formCode: "pgo_landPlot",
+                                                        entityName: "pgo_landPlot"
+                                                    }
+                                                },
+                                                onAddNew: function () {
+                                                    var me = this;
+                                                    var win = Ext.create("Ext.window.Window", {
+                                                        autoShow: true,
+                                                        title: 'Оберіть рік',
+                                                        border: 0,
+                                                        layout: "fit",
+                                                        modal: true,
+                                                        items: [
+                                                            {
+                                                                xtype: 'numberfield',
+                                                                itemId: "year",
+                                                                fieldLabel: "Рік обходу",
+                                                                allowExponential: false,
+                                                                allowDecimals: false,
+                                                                allowBlank: false,
+                                                                //hideTrigger: true,
+                                                                minLength: 4,
+                                                                validator: '/^[0-9]?$/',
+                                                                minValue: 2000,
+                                                                flex: 1,
+                                                                listeners: {
+                                                                    afterrender: function (fld) {
+                                                                        fld.setValue((new Date).getFullYear());
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        buttons: [
+                                                            {
+                                                                text: 'Обрати',
+                                                                handler: function (btn) {
+                                                                    var yearVal = btn.up('window').queryById('year').getValue();
+                                                                    if (this.up('window').items.items[0].isValid()) {
+
+                                                                        var form = me.up('form');
+                                                                        var addNewForm = function (instanceID, yearVal, sender) {
+                                                                            $App.doCommand({
+                                                                                cmdType: "showForm",
+                                                                                formCode: 'pgo_landPlot',
+                                                                                entityName: 'pgo_landPlot',
+                                                                                entity: 'pgo_landPlot',
+                                                                                sender: sender,
+                                                                                //target: $App.viewport.centralPanel,
+                                                                                initialFieldValues: {
+                                                                                    objAccountingID: instanceID,
+                                                                                    year: yearVal
+                                                                                }
+                                                                            });
+                                                                        };
+                                                                        $App.connection.run({
+                                                                            entity: "pgo_landPlot",
+                                                                            method: "searchLandOwner",
+                                                                            execParams: {
+                                                                                objAccountingID: form.instanceID,
+                                                                                year: yearVal
+                                                                            },
+                                                                            __skipSelectAfterUpdate: true,
+                                                                            __skipOptimisticLock: true
+                                                                        }).then(function (searchRes) {
+                                                                            switch (searchRes.searchRes) {
+                                                                                case '!landPrevYear':
+                                                                                    addNewForm(form.instanceID, yearVal, me);
+                                                                                    break;
+                                                                                case 'landPrevYear':
+                                                                                    $App.dialogYesNo("Імпорт", 'Чи бажаєте Ви проімпортувати дані про землеволодіння минулого року з можливістю редагування записів?').then(function (res) {
+                                                                                        if (!res) {
+                                                                                            addNewForm(form.instanceID, yearVal, me);
+                                                                                            return
+                                                                                        } else {
+                                                                                            $App.connection.run({
+                                                                                                entity: "pgo_landPlot",
+                                                                                                method: "insertPrevYear",
+                                                                                                execParams: {
+                                                                                                    objAccountingID: form.instanceID,
+                                                                                                    year: yearVal
+                                                                                                },
+                                                                                                __skipSelectAfterUpdate: true,
+                                                                                                __skipOptimisticLock: true
+                                                                                            }).then(function (insertPrevYear) {
+                                                                                                me.onRefresh();
+                                                                                            });
+                                                                                        }
+                                                                                    });
+                                                                                    break;
+                                                                                case 'landSearchYear':
+                                                                                    addNewForm(form.instanceID, yearVal, me);
+                                                                                    break;
+                                                                            }
+                                                                        });
+                                                                        win.close();
+                                                                    } else {
+                                                                        $App.dialogError(`Рік не вказано!`);
+                                                                    }
+
+                                                                }
+                                                            }
+                                                        ]
+                                                    });
+                                                },
+                                                addBaseDockedItems: function () {
+                                                    var me = this;
+                                                    me.__proto__.addBaseDockedItems.apply(this, arguments);
+                                                    var menu = Ext.create("Ext.menu.Menu");
+
+                                                    menu.add({
+                                                        text: "Про розмір земельної ділянки",
+                                                        name: "landPlotSize",
+                                                        handler: function (ctx) {
+                                                            $App.doCommand({
+                                                                cmdType: "showForm",
+                                                                formCode: 'pgo_objAccounting-reportParams',
+                                                                entity: 'pgo_objAccounting',
+                                                                cmpInitConfig: {
+                                                                    reportType: 'landPlotSize',
+                                                                    objAccountingID: me.up('form').instanceID,
+                                                                    locationID: me.up('form').record.get('locationID')
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+
+                                                    menu.add({
+                                                        text: "Про розташування будинку на ділянці",
+                                                        name: "houseOnPlot",
+                                                        handler: function (ctx) {
+                                                            let selection = me.getSelectionModel().getSelection()[0];
+                                                            if (!selection) {
+                                                                $App.dialogError('Спочатку необхідно обрати запис з таблиці');
+                                                                return;
+                                                            }
+                                                            let selectedData = selection.data || {};
+
+                                                            $App.doCommand({
+                                                                cmdType: "showForm",
+                                                                formCode: 'pgo_objAccounting-reportParams',
+                                                                entity: 'pgo_objAccounting',
+                                                                cmpInitConfig: {
+                                                                    reportType: 'houseOnPlot',
+                                                                    objAccountingID: me.up('form').instanceID,
+                                                                    locationID: me.up('form').record.get('locationID'),
+                                                                    landID: selectedData.ID
+                                                                }
+
+                                                            });
+                                                        }
+                                                    });
+
+                                                    menu.add({
+                                                        text: "Про ділянку осг що не є паєм, вільна від забудови",
+                                                        name: "osgConstrFree",
+                                                        handler: function (ctx) {
+                                                            let selection = me.getSelectionModel().getSelection()[0];
+                                                            if (!selection) {
+                                                                $App.dialogError('Спочатку необхідно обрати запис з таблиці');
+                                                                return;
+                                                            }
+                                                            let selectedData = selection.data || {};
+                                                            if (selectedData.useType != 'OSGMANAGE') {
+                                                                $App.dialogError('Дія можлива якщо обрано запис з видом використання: Для ведення ОСГ!');
+                                                                return;
+                                                            }
+
+                                                            $App.doCommand({
+                                                                cmdType: "showForm",
+                                                                formCode: 'pgo_objAccounting-reportParams',
+                                                                entity: 'pgo_objAccounting',
+                                                                cmpInitConfig: {
+                                                                    reportType: 'osgConstrFree',
+                                                                    objAccountingID: me.up('form').instanceID,
+                                                                    locationID: me.up('form').record.get('locationID'),
+                                                                    landID: selectedData.ID
+                                                                }
+
+                                                            });
+                                                        }
+                                                    });
+
+                                                    menu.add({
+                                                        text: "Про вільну від забудови ділянку",
+                                                        name: "constrFree",
+                                                        handler: function (ctx) {
+                                                            let selection = me.getSelectionModel().getSelection()[0];
+                                                            if (!selection) {
+                                                                $App.dialogError('Спочатку необхідно обрати запис з таблиці');
+                                                                return;
+                                                            }
+                                                            let selectedData = selection.data || {};
+
+                                                            $App.doCommand({
+                                                                cmdType: "showForm",
+                                                                formCode: 'pgo_objAccounting-reportParams',
+                                                                entity: 'pgo_objAccounting',
+                                                                cmpInitConfig: {
+                                                                    reportType: 'constrFree',
+                                                                    objAccountingID: me.up('form').instanceID,
+                                                                    locationID: me.up('form').record.get('locationID'),
+                                                                    landID: selectedData.ID
+                                                                }
+
+                                                            });
+                                                        }
+                                                    });
+
+                                                    menu.add({
+                                                        text: "Про присвоєння поштової адреси нерухомого майна",
+                                                        name: "objPostIndex",
+                                                        handler: function (ctx) {
+                                                            let selection = me.getSelectionModel().getSelection()[0];
+                                                            if (!selection) {
+                                                                $App.dialogError('Спочатку необхідно обрати запис з таблиці');
+                                                                return;
+                                                            }
+                                                            let selectedData = selection.data || {};
+
+                                                            $App.doCommand({
+                                                                cmdType: "showForm",
+                                                                formCode: 'pgo_objAccounting-reportParams',
+                                                                entity: 'pgo_objAccounting',
+                                                                cmpInitConfig: {
+                                                                    reportType: 'objPostIndex',
+                                                                    objAccountingID: me.up('form').instanceID,
+                                                                    locationID: me.up('form').record.get('locationID'),
+                                                                    landID: selectedData.ID
+                                                                }
+
+                                                            });
+                                                        }
+                                                    });
+
+                                                    menu.add({
+                                                        text: "Про присвоєння будівельної адреси",
+                                                        name: "objHouseIndex",
+                                                        handler: function (ctx) {
+                                                            let selection = me.getSelectionModel().getSelection()[0];
+                                                            if (!selection) {
+                                                                $App.dialogError('Спочатку необхідно обрати запис з таблиці');
+                                                                return;
+                                                            }
+                                                            let selectedData = selection.data || {};
+
+                                                            $App.doCommand({
+                                                                cmdType: "showForm",
+                                                                formCode: 'pgo_objAccounting-reportParams',
+                                                                entity: 'pgo_objAccounting',
+                                                                cmpInitConfig: {
+                                                                    reportType: 'objHouseIndex',
+                                                                    objAccountingID: me.up('form').instanceID,
+                                                                    locationID: me.up('form').record.get('locationID'),
+                                                                    landID: selectedData.ID
+                                                                }
+
+                                                            });
+                                                        }
+                                                    });
+
+                                                    menu.add({
+                                                        text: "Про наявність у фізичної особи земельних ділянок",
+                                                        name: "physLandPlot",
+                                                        handler: function (ctx) {
+                                                            let selection = me.getSelectionModel().getSelection()[0];
+                                                            if (!selection) {
+                                                                $App.dialogError('Спочатку необхідно обрати запис з таблиці');
+                                                                return;
+                                                            }
+                                                            let selectedData = selection.data || {};
+                                                            $App.connection.get(`rest/pgo_objAccounting/createReport?params=${JSON.stringify({
+                                                                objAccountingID: me.up('form').instanceID,
+                                                                locationID: me.up('form').record.get('locationID'),
+                                                                reportType: 'physLandPlot',
+                                                                payerID: selectedData.payerID
+                                                            })}`, {responseType: 'arraybuffer'})
+                                                                .then(function (response) {
+                                                                    var blobData,
+                                                                        byteArray = response.data;
+                                                                    blobData = new Blob(
+                                                                        [byteArray],
+                                                                        {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+                                                                    );
+
+                                                                    saveAs(blobData, 'physLandPlot.docx');
+                                                                });
+                                                            /* $App.connection.run({
+                                                             entity: "pgo_objAccounting",
+                                                             method: "createReport",
+                                                             execParams: {
+                                                             objAccountingID: me.up('form').instanceID,
+                                                             locationID: me.up('form').record.get('locationID'),
+                                                             reportType: 'physLandPlot',
+                                                             payerID: selectedData.payerID
+                                                             },
+                                                             __skipSelectAfterUpdate: true,
+                                                             __skipOptimisticLock: true
+                                                             }).then(function (res) {
+
+                                                             let reportParams = JSON.parse(res.reportParams);
+                                                             $App.doCommand({
+                                                             cmdType: 'showReport',
+                                                             cmdData: {
+                                                             reportCode: 'physLandPlot',
+                                                             reportType: 'pdf',
+                                                             reportParams: JSON.stringify(reportParams)
+                                                             }
+                                                             });
+                                                             });*/
+                                                        }
+                                                    });
+
+                                                    me.dockedItems[0].items.splice(4, 0, {
+                                                        itemId: "certifMenu",
+                                                        text: "Довідки",
+                                                        menu: menu,
+                                                        disabled: !ADM.AccessManager.checkAccess('PGO_04_01_02')
+                                                    });
+                                                },
+                                                onItemContextMenu: function (grid, record, item, index, event) {
+
+                                                }
+                                            }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'panel',
+                                            itemId: 'yearsGrid',
+                                            flex: 1,
+                                            layout: 'fit',
+                                            items: []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabAgriculture",
+                    disabled: true,
+                    title: 'Сільське господарство',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Відомості про поголів’я',
+                            itemId: "gridAnimals",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            //hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_agriculture",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "objAccountingID", visibility: false},
+                                    {name: "year", format: '0000'},
+                                    {name: "cattleTotal"},
+                                    {name: "pigsTotal"},
+                                    {name: "sheepTotal"},
+                                    {name: "goatTotal"},
+                                    {name: "horseTotal"},
+                                    {name: "birdTotal"},
+                                    {name: "rabbitTotal"},
+                                    {name: "animalsTotal"},
+                                    {name: "beesTotal"}
+
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objAccountingID"],
+                            onDeterminateForm: function () {
+                                return {
+                                    formCode: "pgo_agriculture",
+                                    entityName: "pgo_agriculture"
+                                }
+                            },
+                            onAddNew: function () {
+                                var me = this;
+                                var win = Ext.create("Ext.window.Window", {
+                                    autoShow: true,
+                                    title: 'Оберіть рік',
+                                    border: 0,
+                                    layout: "fit",
+                                    modal: true,
+                                    items: [
+                                        {
+                                            xtype: 'numberfield',
+                                            itemId: "year",
+                                            fieldLabel: "Рік обходу",
+                                            allowExponential: false,
+                                            allowDecimals: false,
+                                            allowBlank: false,
+                                            //hideTrigger: true,
+                                            minLength: 4,
+                                            validator: '/^[0-9]?$/',
+                                            minValue: 2000,
+                                            flex: 1,
+                                            listeners: {
+                                                afterrender: function (fld) {
+                                                    fld.setValue((new Date).getFullYear());
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    buttons: [
+                                        {
+                                            text: 'Обрати',
+                                            handler: function (btn) {
+                                                var yearVal = btn.up('window').queryById('year').getValue();
+                                                if (this.up('window').items.items[0].isValid()) {
+
+                                                    var form = me.up('form');
+                                                    var addnewForm = function (instanceID, yearVal, sender) {
+                                                        $App.doCommand({
+                                                            cmdType: "showForm",
+                                                            formCode: 'pgo_agriculture',
+                                                            entityName: 'pgo_agriculture',
+                                                            entity: 'pgo_agriculture',
+                                                            sender: sender,
+                                                            //target: $App.viewport.centralPanel,
+                                                            initialFieldValues: {
+                                                                objAccountingID: instanceID,
+                                                                year: yearVal
+                                                            }
+                                                        });
+                                                    };
+                                                    $App.connection.run({
+                                                        entity: "pgo_agriculture",
+                                                        method: "searchAgriculture",
+                                                        execParams: {
+                                                            objAccountingID: form.instanceID,
+                                                            year: yearVal
+                                                        },
+                                                        __skipSelectAfterUpdate: true,
+                                                        __skipOptimisticLock: true
+                                                    }).then(function (searchRes) {
+                                                        switch (searchRes.searchRes) {
+                                                            case '!agrPrevYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                            case 'agrPrevYear':
+                                                                $App.dialogYesNo("Імпорт", 'Чи бажаєте Ви проімпортувати дані про поголів’я у приватній власності минулого року з можливістю редагування записів?').then(function (res) {
+
+                                                                    if (!res) {
+                                                                        addnewForm(form.instanceID, yearVal, me);
+                                                                        return
+                                                                    } else {
+                                                                        $App.connection.run({
+                                                                            entity: "pgo_agriculture",
+                                                                            method: "insertPrevYear",
+                                                                            execParams: {
+                                                                                objAccountingID: form.instanceID,
+                                                                                year: yearVal
+                                                                            },
+                                                                            __skipSelectAfterUpdate: true,
+                                                                            __skipOptimisticLock: true
+                                                                        }).then(function (insertPrevYear) {
+                                                                            me.onRefresh();
+                                                                        });
+                                                                    }
+                                                                });
+                                                                break;
+                                                            case 'agrSearchYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                        }
+                                                    });
+                                                    win.close();
+                                                } else {
+                                                    $App.dialogError(`Рік не вказано!`);
+                                                }
+
+                                            }
+                                        }
+                                    ]
+                                });
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabAgricultureMachine",
+                    disabled: true,
+                    title: 'Сільськогосподарська техніка',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Відомості про сільськогосподарську техніку',
+                            itemId: "gridMachines",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            //hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_agricultureMachine",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "objAccountingID", visibility: false},
+                                    {name: "year", format: '0000'},
+                                    {name: "tractorTotal"},
+                                    {name: "truck"},
+                                    {name: "combineTotal"}
+
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objAccountingID"],
+                            onDeterminateForm: function () {
+                                return {
+                                    formCode: "pgo_agricultureMachine",
+                                    entityName: "pgo_agricultureMachine"
+                                }
+                            },
+                            onAddNew: function () {
+                                var me = this;
+                                var win = Ext.create("Ext.window.Window", {
+                                    autoShow: true,
+                                    title: 'Оберіть рік',
+                                    border: 0,
+                                    layout: "fit",
+                                    modal: true,
+                                    items: [
+                                        {
+                                            xtype: 'numberfield',
+                                            itemId: "year",
+                                            fieldLabel: "Рік обходу",
+                                            allowExponential: false,
+                                            allowDecimals: false,
+                                            allowBlank: false,
+                                            //hideTrigger: true,
+                                            minLength: 4,
+                                            validator: '/^[0-9]?$/',
+                                            minValue: 2000,
+                                            flex: 1,
+                                            listeners: {
+                                                afterrender: function (fld) {
+                                                    fld.setValue((new Date).getFullYear());
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    buttons: [
+                                        {
+                                            text: 'Обрати',
+                                            handler: function (btn) {
+                                                var yearVal = btn.up('window').queryById('year').getValue();
+                                                if (this.up('window').items.items[0].isValid()) {
+
+                                                    var form = me.up('form');
+                                                    var addnewForm = function (instanceID, yearVal, sender) {
+                                                        $App.doCommand({
+                                                            cmdType: "showForm",
+                                                            formCode: 'pgo_agricultureMachine',
+                                                            entityName: 'pgo_agricultureMachine',
+                                                            entity: 'pgo_agricultureMachine',
+                                                            sender: sender,
+                                                            //target: $App.viewport.centralPanel,
+                                                            initialFieldValues: {
+                                                                objAccountingID: instanceID,
+                                                                year: yearVal
+                                                            }
+                                                        });
+                                                    };
+                                                    $App.connection.run({
+                                                        entity: "pgo_agricultureMachine",
+                                                        method: "searchAgricultureMachine",
+                                                        execParams: {
+                                                            objAccountingID: form.instanceID,
+                                                            year: yearVal
+                                                        },
+                                                        __skipSelectAfterUpdate: true,
+                                                        __skipOptimisticLock: true
+                                                    }).then(function (searchRes) {
+                                                        switch (searchRes.searchRes) {
+                                                            case '!agrMachinePrevYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                            case 'agrMachinePrevYear':
+                                                                $App.dialogYesNo("Імпорт", 'Чи бажаєте Ви проімпортувати дані про сільськогосподарську техніку в приватній власності минулого року з можливістю редагування записів?').then(function (res) {
+
+                                                                    if (!res) {
+                                                                        addnewForm(form.instanceID, yearVal, me);
+                                                                        return
+                                                                    } else {
+                                                                        $App.connection.run({
+                                                                            entity: "pgo_agricultureMachine",
+                                                                            method: "insertPrevYear",
+                                                                            execParams: {
+                                                                                objAccountingID: form.instanceID,
+                                                                                year: yearVal
+                                                                            },
+                                                                            __skipSelectAfterUpdate: true,
+                                                                            __skipOptimisticLock: true
+                                                                        }).then(function (insertPrevYear) {
+                                                                            me.onRefresh();
+                                                                        });
+                                                                    }
+                                                                });
+                                                                break;
+                                                            case 'agrMachineSearchYear':
+                                                                addnewForm(form.instanceID, yearVal, me);
+                                                                break;
+                                                        }
+                                                    });
+                                                    win.close();
+                                                } else {
+                                                    $App.dialogError(`Рік не вказано!`);
+                                                }
+
+                                            }
+                                        }
+                                    ]
+                                });
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabCheckDate",
+                    disabled: true,
+                    title: 'Дати обходу об’єкта',
+                    autoScroll: true,
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch',
+                            labelWidth: 160
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Дати обходу об’єкта',
+                            itemId: "gridDates",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh', 'addNew'],
+                            collapsible: true,
+                            //hideMenuAllActions: true,
+                            hideActions: ['del', "showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_objCheckDate",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "objAccountingID", visibility: false},
+                                    {name: "checkDate"},
+                                    {name: "fullName"}
+
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objAccountingID"],
+                            onDeterminateForm: function () {
+                                return {
+                                    formCode: "pgo_objCheckDate",
+                                    entityName: "pgo_objCheckDate"
+                                }
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        },
+                        {
+                            xtype: "ubdetailgrid",
+                            title: 'Історія зміни типів ПГО',
+                            itemId: "gridHistory",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh'],
+                            collapsible: true,
+                            hideActions: ['addNew', 'del', "showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 5, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_objHistory",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "checkDate", format: 'd.m.Y H:i:s'},
+                                    {name: "actionType"},
+                                    {name: "objState"},
+                                    {name: "pgoType"},
+                                    {name: "pgoObjNum"},
+                                    {name: "employeeID.description", description: 'Змінено'}
+
+                                ],
+                                orderList: {
+                                    orderByDecisionOrder: {"expression": "checkDate", "order": "esc"}
+                                }
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objAccountingID"],
+                            onDeterminateForm: function () {
+                                return true;
+                            },
+                            onItemDblClick: function () {
+
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        }
+                    ]
+                },
+                {
+                    itemId: "tabDocus",
+                    disabled: true,
+                    title: 'Документи',
+                    defaults: {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch'
+                        }
+                    },
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            itemId: "gridAttachments",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh'],
+                            //hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink", 'addNew', 'del'],
+                            autoScroll: true,
+                            pageSize: 8,
+                            minRowsPagingBarVisibled: 8,
+                            margin: "0, 0, 5, 0",  //top, right, bottom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_objAttachment",
+                                method: "select",
+                                fieldList: [
+                                    {"name": "ID", "visibility": false},
+                                    {"name": "objectID", "visibility": false},
+                                    {"name": "name"}
+                                ]
+                            },
+                            beforeRender: function () {
+                                let me = this;
+
+                                me.columns[0].renderer = function (value, a) {
+                                    return "<a href='#' style='color:red'  data-id=" + a.record.get('ID') + "><i class='fa fa-times' aria-hidden='true'></i></a>&nbsp;&nbsp;" + value;
+                                };
+                            },
+                            afterInit: function () {
+                                var grid = this;
+                                grid.actions.del.setHidden(true);
+
+                                grid.on('deselect', function () {
+                                    grid.actions.del.setHidden(true);
+                                });
+
+                                grid.on('select', function () {
+                                    grid.actions.del.setHidden(true);
+                                });
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["objectID"],
+                            onItemContextMenu: function () {
+                            },
+                            onDeterminateForm: function () {
+                                let form = this.up("form");
+
+                                return {
+                                    formCode: "pgo_objAttachment",
+                                    entityName: "pgo_objAttachment",
+                                    cmpInitConfig: {
+                                        state: form.record.get('objState')
+                                    }
+                                };
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};

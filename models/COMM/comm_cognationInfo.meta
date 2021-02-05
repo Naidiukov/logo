@@ -1,0 +1,42 @@
+{
+  "caption": "Інформація про споріднених осіб",
+  "description": "Інформація про споріднених осіб",
+  "connectionName": "main",
+  "sqlAlias": "comm_coginfo",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "cognation",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_cognation",
+      "caption": "Родинна приналежність",
+      "description": "Родинна приналежність",
+      "allowNull": true
+    },
+    {
+      "name": "fullName",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "ПІБ особи",
+      "description": "ПІБ особи",
+      "allowNull": true
+    },
+    {
+      "name": "payerID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Платник",
+      "description": "Платник",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

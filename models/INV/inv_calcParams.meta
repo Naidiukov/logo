@@ -1,0 +1,59 @@
+{
+  "caption": "Параметри розрахунку податку на нерухоме майно",
+  "description": "Параметри розрахунку податку на нерухоме майно",
+  "connectionName": "main",
+  "sqlAlias": "inv_calcparams",
+  "cacheType": "None",
+  "descriptionAttribute": "SGindex",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "String",
+      "size": 4,
+      "caption": "Рік",
+      "description": "Рік",
+      "allowNull": false
+    },
+    {
+      "name": "SGindex",
+      "dataType": "Currency",
+      "caption": "Коефіцієнт індексації для СГ угідь",
+      "description": "Коефіцієнт індексації для СГ угідь",
+      "allowNull": false
+    },
+    {
+      "name": "notSGindex",
+      "dataType": "Currency",
+      "caption": "Коефіцієнт індексації для неСГ угідь",
+      "description": "Коефіцієнт індексації для неСГ угідь",
+      "allowNull": false
+    },
+    {
+      "name": "permanentUse",
+      "dataType": "Currency",
+      "caption": "Постійного користування",
+      "description": "Постійного користування",
+      "allowNull": false
+    },
+    {
+      "name": "isNotInsertGrid",
+      "dataType": "Boolean",
+      "caption": "Додавати грід",
+      "defaultValue": "0",
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "''"
+        }
+      ],
+      "defaultView": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

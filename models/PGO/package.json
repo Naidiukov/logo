@@ -1,0 +1,25 @@
+{
+  "name": "pgo",
+  "version": "1.0.0",
+  "description": "INV PGO",
+  "config": {
+    "ubmodel": {
+      "name": "PGO"
+    }
+  },
+  "scripts": {
+  },
+  "public": false,
+  "main": "inv-pgo.js",
+  "browser": "/clientRequire/models/PGO/initModel.js",
+  "dependencies": {
+    "@unitybase/base": "^5.0.0"
+  },
+  "devDependencies": {
+    "@unitybase/stubs": "^5.0.0"
+  },
+  "keywords": [
+  ],
+  "author": "IQusion team",
+  "license": "(GPL-3.0 OR LGPL-3.0 OR MPL-2.0)"
+}

@@ -1,0 +1,426 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_agriculture"
+// @model "PGO"
+// @formType "auto"
+// @caption "Відомості про поголів’я"
+// @description "Відомості про поголів’я"
+exports.formDef = {
+    size: {
+        width: 500,
+        height: 700
+    },
+    requiredFields: ['objAccountingID'],
+    items: [
+        {
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            autoScroll: true,
+            items: [
+                {
+                    attributeName: 'year',
+                    labelWidth: 140,
+                    readOnly: true
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Велика рогата худоба',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            attributeName: 'cattleTotal',
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    bullCtrl = form.getField('bull').getValue(),
+                                    cowCount = form.getField('cow').getValue(),
+                                    heiferOneTwoCount = form.getField('heiferOneTwo').getValue(),
+                                    heiferTwoMoreCount = form.getField('heiferTwoMore').getValue(),
+                                    calveOneYearCount = form.getField('calveOneYear').getValue(),
+                                    total = bullCtrl+cowCount+heiferOneTwoCount+heiferTwoMoreCount+calveOneYearCount;
+                                if(v) return v>=total ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'label',
+                            text: 'У тому числі:'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'bull'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'cow'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'heiferOneTwo'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'heiferTwoMore'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'calveOneYear'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Свині',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'pigsTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    sowsNineMoreCount = form.getField('sowsNineMore').getValue(),
+                                    repairPigFourMoreCount = form.getField('repairPigFourMore').getValue(),
+                                    pigletTwoLessCount = form.getField('pigletTwoLess').getValue(),
+                                    total = sowsNineMoreCount+repairPigFourMoreCount+pigletTwoLessCount;
+                                if(v) return v>=total ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'label',
+                            text: 'У тому числі:'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'sowsNineMore'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'repairPigFourMore'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'pigletTwoLess'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Вівці',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'sheepTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    sheepYearMoreCount = form.getField('sheepYearMore').getValue();
+                                if(v) return v>=sheepYearMoreCount ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'sheepYearMore'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Кози',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'goatTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    goatYearMoreCount = form.getField('goatYearMore').getValue();
+                                if(v) return v>=goatYearMoreCount ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'goatYearMore'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Коні',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'horseTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    mareThreeYearMoreCount = form.getField('mareThreeYearMore').getValue(),
+                                    horseYearMoreCount = form.getField('horseYearMore').getValue(),
+                                    total = mareThreeYearMoreCount+horseYearMoreCount;
+                                if(v) return v>=total ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'mareThreeYearMore'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'horseYearMore'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Птиця',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'birdTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    henCount = form.getField('hen').getValue();
+                                if(v) return v>=henCount ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'hen'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Кролі',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'rabbitTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    rabbitsCount = form.getField('rabbits').getValue();
+                                if(v) return v>=rabbitsCount ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'rabbits'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Бджолосім’ї',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'beesTotal'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    padding: '0, 0, 0, 0',
+                    title: 'Хутрові звірі кліткового утримання',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: "ubdetailgrid",
+                            //title: 'Відомості про землю',
+                            itemId: "gridAnimal",
+                            hideToolbar: false,
+                            toolbarActionList: ['refresh', 'addNew', 'del'],
+                            //hideMenuAllActions: true,
+                            hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                            autoScroll: true,
+                            margin: "0, 0, 0, 0",  //top, right, buttom, left
+                            cmdType: "showList",
+                            selModel: {
+                                selectionMode: "SINGLE"
+                            },
+                            entityConfig: {
+                                entity: "pgo_agricultureCellAnimal",
+                                method: "select",
+                                fieldList: [
+                                    {name: "ID", visibility: false},
+                                    {name: "agricultureID", visibility: false},
+                                    {name: "name"},
+                                    {name: "count"}
+                                ]
+                            },
+                            masterFields: ["ID"],
+                            detailFields: ["agricultureID"],
+                            onDeterminateForm: function () {
+                                return true;
+                                // return {
+                                //     formCode: "pgo_agricultureCellAnimal",
+                                //     entityName: "pgo_agricultureCellAnimal"
+                                // }
+                            },
+                            onItemContextMenu: function (grid, record, item, index, event) {
+
+                            }
+                        }
+                    ]
+                },
+                {
+                    attributeName: 'notes',
+                    labelWidth: 140,
+                    margin: "10, 15, 0, 15"
+                }
+            ]
+        }
+    ]
+};

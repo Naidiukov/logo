@@ -1,0 +1,121 @@
+<!--@name "Receipt"-->
+<!--@report_code "Receipt"-->
+<!--@model "INV"-->
+<!--@ID "332486400442369"-->
+
+
+
+<!--%pageOrientation:portrait--><table style="font-size: 9px; word-break: break-all;" width="773" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="cursor: w-resize; border: 1px solid black;" rowspan="12">Заявка на переказ готівки</td>
+<td style="cursor: w-resize; border: 1px solid black; height: 5px;" colspan="5">Дата здійснення операції&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 5px; text-align: center;" colspan="2">Загальна сума:</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="3">&nbsp; &nbsp; {{sumGrn}}&nbsp;&nbsp;<strong>грн.</strong>&nbsp; &nbsp; {{sumCop}} &nbsp; &nbsp;<strong>коп.</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 5px; text-align: left;" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Нараховано: {{sumYear}} грн. &nbsp; Борг {{debt}} грн. &nbsp; Пеня {{fine}} грн.</td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 5px; text-align: center;" colspan="2">Платник:</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="3">{{name}}<!--{{#idnCode}}-->&nbsp;&nbsp;&nbsp;&nbsp;Ідент. код/ЄДРПОУ {{idnCode}}<!--{{/idnCode}}--></td>
+</tr>
+<tr>
+<td style="cursor: default; border-color: black; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-style: solid; height: 5px; text-align: center;" colspan="2">місце</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="3" rowspan="2">{{payerAddress}}</td>
+</tr>
+<tr>
+<td style="cursor: default; border-color: black; border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-style: solid; height: 5px; text-align: center;" colspan="2">проживання:</td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 10px; text-align: center;">Отримувач:&nbsp;</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="4">Назва: <strong>{{receiver}}</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 5px; text-align: center; border: 1px solid black;" colspan="2">Код:&nbsp;</td>
+<td style="cursor: default; height: 5px; text-align: center; border: 1px solid black;" colspan="2">Розрахунковий рахунок</td>
+<td style="cursor: default; height: 5px; text-align: center; border: 1px solid black;">МФО банку:</td>
+</tr>
+<tr>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="2"><strong>{{recCode}}</strong>&nbsp;&nbsp;</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="2"><strong>{{account}}</strong></td>
+<td style="cursor: default; height: 5px; border: 1px solid black;"><strong>{{MFO}}</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 15px; border: 1px solid black;" colspan="2" rowspan="2">Призначення платежу:&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="3"><strong>{{purpose}} / {{payCode}}</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 10px; border: 1px solid black;" colspan="3"><strong><br /></strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="2">Платник:&nbsp;&nbsp;</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;">Контролер:</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;">Бухгалтер:</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;">&nbsp;Касир:</td>
+</tr>
+<tr>
+<td style="cursor: w-resize; border: 1px solid black; height: 5px;">&nbsp;</td>
+<td style="cursor: w-resize; border: 1px solid black; height: 5px;" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="cursor: w-resize; border: 1px solid black;" rowspan="12">Квитанція</td>
+<td style="cursor: w-resize; border: 1px solid black; height: 5px;" colspan="5">Дата здійснення операції&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 5px; text-align: center;" colspan="2">Загальна сума:</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="3">&nbsp; &nbsp; {{sumGrn}}&nbsp;&nbsp;<strong>грн.</strong>&nbsp; &nbsp; {{sumCop}} &nbsp; &nbsp;<strong>коп.</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 5px; text-align: left;" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Нараховано: {{sumYear}} грн. &nbsp; Борг {{debt}} грн. &nbsp; Пеня {{fine}} грн.</td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 5px; text-align: center;" colspan="2">Платник:</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="3">{{name}}<!--{{#idnCode}}-->&nbsp;&nbsp;&nbsp;&nbsp;Ідент. код/ЄДРПОУ {{idnCode}}<!--{{/idnCode}}--></td>
+</tr>
+<tr>
+<td style="cursor: default; border-color: black; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-style: solid; height: 5px; text-align: center;" colspan="2">місце</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="3" rowspan="2">{{payerAddress}}</td>
+</tr>
+<tr>
+<td style="cursor: default; border-color: black; border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-style: solid; height: 5px; text-align: center;" colspan="2">проживання:</td>
+</tr>
+<tr>
+<td style="cursor: default; border: 1px solid black; height: 10px; text-align: center;">Отримувач:&nbsp;</td>
+<td style="cursor: default; border: 1px solid black; height: 5px;" colspan="4">Назва: <strong>{{receiver}}</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 5px; text-align: center; border: 1px solid black;" colspan="2">Код:&nbsp;</td>
+<td style="cursor: default; height: 5px; text-align: center; border: 1px solid black;" colspan="2">Розрахунковий рахунок</td>
+<td style="cursor: default; height: 5px; text-align: center; border: 1px solid black;">МФО банку:</td>
+</tr>
+<tr>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="2"><strong>{{recCode}}</strong>&nbsp;&nbsp;</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="2"><strong>{{account}}</strong></td>
+<td style="cursor: default; height: 5px; border: 1px solid black;"><strong>{{MFO}}</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 15px; border: 1px solid black;" colspan="2" rowspan="2">Призначення платежу:&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="3"><strong>{{purpose}} / {{payCode}}</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 10px; border: 1px solid black;" colspan="3"><strong><br /></strong></td>
+</tr>
+<tr>
+<td style="cursor: default; height: 5px; border: 1px solid black;" colspan="2">Платник:&nbsp;&nbsp;</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;">Контролер:</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;">Бухгалтер:</td>
+<td style="cursor: default; height: 5px; border: 1px solid black;">&nbsp;Касир:</td>
+</tr>
+<tr>
+<td style="height: 5px;width: 200px; cursor: default;">&nbsp;</td>
+<td style="height: 5px;width: 100px; cursor: default;">&nbsp;</td>
+<td style="height: 5px;width: 28px; cursor: default;">&nbsp;</td>
+<td style="height: 5px;width: 150px; cursor: default;">&nbsp;</td>
+<td style="height: 5px;width: 140px; cursor: default;">&nbsp;</td>
+<td style="height: 5px;width: 140px; cursor: default;">&nbsp;</td>
+</tr>
+</tbody>
+</table>

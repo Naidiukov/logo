@@ -1,0 +1,133 @@
+<!--@name "Дані про новонароджену дитину"-->
+<!--@report_code "applBaby"-->
+<!--@model "COMM"-->
+<!--@ID "333792619102209"-->
+
+
+
+<!--%pageOrientation:portrait--><p style="text-align: right; margin-right: 70px;">Додаток 12<br />до Правил</p>
+<p style="text-align: center; font-size: 14px; font-weight: bold;">&nbsp;</p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td style="vertical-align: bottom; text-align: left; padding: 0;">Органу реєстрації</td>
+</tr>
+<tr>
+<td style="width: 45%;">&nbsp;</td>
+<td style="width: 55%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: left;">{{unitName.unitName1}}</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: left; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; height: 18px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(найменування органу реєстрації)<br/><span style="font-size: 12px;">{{unitName.unitName2}}</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 8px; font-weight: bold;">&nbsp;</p>
+<p style="text-align: center; font-size: 8px; font-weight: bold;">&nbsp;</p>
+<p style="text-align: center; font-size: 14px; font-weight: bold;">ДАНІ<br /><strong>про новонароджену дитину</strong></p>
+<p style="text-align: center; font-size: 8px; font-weight: bold;">&nbsp;</p>
+<p style="text-align: center; font-size: 8px; font-weight: bold;">&nbsp;</p>
+<table style="width: 100%;" border="1px" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td style="font-weight: bold; text-align: center;" colspan="2">Дані про новонароджену дитину</td>
+</tr>
+<tr>
+<td style="width: 50%;">Прізвище</td>
+<td style="width: 50%;">&nbsp;</td>
+</tr>
+<tr>
+<td>Ім&rsquo;я</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>По батькові</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Дата народження</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Місце народження</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Стать</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Місце проживання із зазначенням адреси</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Серія, номер свідоцтва про народження, дата видачі і найменування органу, що його видав</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="2"><strong>Дані про одного з батьків дитини або її законного представника</strong></td>
+</tr>
+<tr>
+<td>Прізвище</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Ім&rsquo;я</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>По батькові</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Дата народження</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Зареєстроване місце проживання</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Серія, номер документа, що посвідчує особу одного з батьків дитини або її законного представника, унікальний номер запису в Єдиному державному демографічному реєстрі*, номер документа, дата видачі і найменування органу, що його видав</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: justify; margin-top: 10px;">Правильність внесених про себе та свою дитину даних перевірив(ла) та повідомив(ла) про те, що місце проживання новонародженої дитини визначено за згодою її батьків або законних представників. Мені також відомо те, що у разі реєстрації місця проживання батьків новонародженої дитини або її законних представників за різними адресами житла місце її проживання може бути зареєстровано лише разом з одним із них.</p>
+<p><!-- pagebreak --></p>
+<p style="text-indent: 60px; text-align: justify;">Довідку про реєстрацію місця проживання новонародженої дитини, оформлену органом реєстрації, прошу видати у відповідному органі реєстрації/центрі надання адміністративних послуг/надіслати поштою (необхідне підкреслити).</p>
+<p>&nbsp;</p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 20%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;">&nbsp;</td>
+<td style="width: 3%;">&nbsp;</td>
+<td style="width: 77%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;">&nbsp;</td>
+</tr>
+<tr>
+<td style="font-size: 10px; vertical-align: top; text-align: center;">(підпис)</td>
+<td>&nbsp;</td>
+<td style="font-size: 10px; vertical-align: top; text-align: center;">(прізвище, ім&rsquo;я, по батькові одного з батьків дитини або її законного представника)</td>
+</tr>
+</tbody>
+</table>
+<p style="text-indent: 60px; text-align: justify;">Додаток: квитанція про сплату адміністративного збору (подається одним із батьків дитини або її законним представником).</p>
+<p>_____ ____________ 20 ___ р.</p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 40%;">&nbsp;</td>
+<td style="width: 60%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; text-align: center; padding: 0; vertical-align: bottom;">{{currUser}}</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="font-size: 10px; vertical-align: top; text-align: center;">(підпис, прізвище, ініціали посадової особи<br />органу соціального захисту населення, який прийняв заяву)</td>
+</tr>
+</tbody>
+</table>
+<p>М.П.</p>
+<p>_____ ____________ 20 ___ р.</p>
+<p>&nbsp;</p>
+<p style="font-size: 10px;">__________</p>
+<p style="text-indent: 70px; font-size: 10px;">* Для осіб, яким оформлено паспорт громадянина України чи паспорт громадянина України для виїзду за кордон засобами Єдиного державного демографічного реєстру.</p>

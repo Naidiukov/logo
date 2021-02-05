@@ -1,0 +1,596 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_objAccounting"
+// @model "PGO"
+// @formType "custom"
+// @caption "Форма задання параметрів"
+// @description "Форма задання параметрів"
+exports.formDef = 'PGO.paramsThree';
+Ext.define('PGO.paramsThree', {
+    extend: "Ext.form.Panel",
+    alias: "widget.paramsThree",
+    autoScroll: true,
+    size: {
+        width: 460,
+        height: 240
+    },
+    items: [],
+    buttons: [
+        {
+            text: 'Сформувати',
+            handler: function (btn) {
+                let form = btn.up('form');
+                if (!form.isValid()) {
+                    $App.dialogError("Необхідно заповнити усі обов'язкові поля");
+                } else {
+                    let reportParams = {},
+                        reportCode;
+
+                    switch (form.reportType) {
+                        case "formNum3": {
+                            reportCode = 'formNumThree';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                account: form.queryById('account') && form.queryById('account').getValue() || '',
+                                houseState: form.queryById('houseState') && form.queryById('houseState').getValue() || '',
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'familyMembers': {
+                            reportCode = 'familyMembers';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                year: form.queryById('year').getValue(),
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'villageLive': {
+                            reportCode = 'villageLive';
+                            let year = form.queryById('issued').lastSelection[0].getData()['birthDate'];
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getRawValue(),
+                                year: year ? Ext.Date.format(new Date(year), 'd.m.Y') : '',
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'houseOnPlot': {
+                            reportCode = 'houseOnPlot';
+                            reportParams.land = {totalArea: form.totalArea, cadastral: form.cadastral};
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'osgConstrFree': {
+                            reportCode = 'osgConstrFree';
+                            reportParams.formParams = {
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'constrFree': {
+                            reportCode = 'constrFree';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                index: form.queryById('index').getValue(),
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'objPostIndex': {
+                            reportCode = 'objPostIndex';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                regNum: form.queryById('regNum').getValue(),
+                                postIndex: form.queryById('postIndex').getValue(),
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'objHouseIndex': {
+                            reportCode = 'objHouseIndex';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                regNum: form.queryById('regNum').getValue(),
+                                houseIndex: form.queryById('houseIndex').getValue(),
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'landPlotSize': {
+                            reportCode = 'landPlotSize';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue()
+                            };
+                            break;
+                        }
+                        case 'formNum204': {
+                            reportCode = 'formNum204';
+                            break;
+                        }
+                        case 'excerptsOutBookRights': {
+                            reportCode = 'excerptsOutBookRights';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'excerptsOutFamilyMembers': {
+                            reportCode = 'excerptsOutFamilyMembers';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                certif: form.queryById('certif').getValue()
+                            };
+                            break;
+                        }
+                        case 'excerptsPropRight': {
+                            let currDate = form.queryById('decisionDate').lastValue;
+                            reportCode = 'excerptsPropRight';
+                            reportParams.formParams = {
+                                issued: form.queryById('issued').getValue(),
+                                decisionNum: form.queryById('decisionNum').getValue(),
+                                decisionDate: Ext.Date.format(currDate, 'd.m.Y')
+                            };
+                            break;
+                        }
+                    }
+                    form.mask();
+                     $App.connection.get(`rest/pgo_objAccounting/createReport?&reportParams=${JSON.stringify(reportParams)}&params=${JSON.stringify({
+                        objAccountingID: +form.objAccountingID,
+                        locationID: form.locationID,
+                        reportType: form.reportType,
+                        landID: form.landID,
+                        applicantID: form.reportType === 'formNum204' ? form.queryById('issued').getValue() : null,
+                        applicant: form.reportType === 'formNum204' ? form.queryById('applicant').getValue() : null
+                    })}`, {responseType: 'arraybuffer'})
+                        .catch(function (err) {
+                            form.unmask();
+                            throw new UB.UBError(err.message);
+                        }).then(function (response) {
+                            form.unmask();
+                            let blobData,
+                                byteArray = response.data;
+                            blobData = new Blob(
+                                [byteArray],
+                                {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+                            );
+                            saveAs(blobData, form.reportType + '.docx');
+                            form.up().doClose();
+                        });
+                    // $App.connection.run({
+                    //  entity: "pgo_objAccounting",
+                    //  method: "createReport",
+                    //  execParams: {
+                    //  objAccountingID: form.objAccountingID,
+                    //  locationID: form.locationID,
+                    //  reportType: form.reportType,
+                    //  landID: form.landID,
+                    //  applicantID: form.reportType == 'formNum204' ? form.queryById('issued').getValue() : null,
+                    //  applicant: form.reportType == 'formNum204' ? form.queryById('applicant').getValue() : null
+                    //  },
+                    //  __skipSelectAfterUpdate: true,
+                    //  __skipOptimisticLock: true
+                    //  }).done(function (res) {
+                    //  $App.doCommand({
+                    //  cmdType: 'showReport',
+                    //  cmdData: {
+                    //  reportCode: reportCode,
+                    //  reportType: 'pdf',
+                    //  reportParams: JSON.stringify(reportParams)
+                    //  }
+                    //  });
+                    //  form.up().doClose();
+                    //  });
+                }
+            }
+        }
+    ],
+    initComponent: function () {
+        this.callParent(arguments);
+        let me = this,
+            settings = JSON.parse(UBS.Settings.findByKey('PGO.pgo_objAccounting.getSignerType').settingValue);
+        switch (me.reportType) {
+            case 'formNum3': {
+                me.add({
+                        xtype: 'textfield',
+                        fieldLabel: 'Видана гр.',
+                        itemId: 'issued',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                !settings.hideAccountForReport && me.add(
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Особовий рахунок значиться за',
+                        itemId: 'account',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Технічний стан будинку',
+                        itemId: 'houseState',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                me.queryById('issued').setValue(me.head);
+                break;
+            }
+            case 'familyMembers': {
+                me.add({
+                        xtype: 'textfield',
+                        fieldLabel: 'Видана гр.',
+                        itemId: 'issued',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'numberfield',
+                        fieldLabel: 'Рік народження',
+                        labelWidth: 170,
+                        width: 420,
+                        itemId: 'year',
+                        allowExponential: false,
+                        allowDecimals: false,
+                        allowBlank: false,
+                        hideTrigger: true,
+                        maxLength: 4,
+                        minValue: 1000
+
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                me.queryById('issued').setValue(me.head);
+                break;
+            }
+            case 'villageLive': {
+                me.add(
+                    {
+                        xtype: 'ubcombobox',
+                        disableContextMenu: true,
+                        fieldLabel: 'Громадянин',
+                        itemId: 'issued',
+                        displayField: 'payerID.fullName',
+                        valueField: 'ID',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420,
+                        ubRequest: {
+                            entity: 'pgo_householdMember',
+                            method: 'select',
+                            fieldList: ['ID', 'payerID.fullName', 'objAccountingID', 'birthDate'],
+                            whereList: {
+                                byObjAccountingID: {
+                                    expression: '[objAccountingID]',
+                                    condition: 'equal',
+                                    values: {objAccountingID: me.objAccountingID}
+                                }
+                            }
+                        }
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'houseOnPlot': {
+                me.add({
+                        xtype: 'textfield',
+                        fieldLabel: 'Громадянин',
+                        itemId: 'issued',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'osgConstrFree': {
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'constrFree': {
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Громадянин',
+                        itemId: 'issued',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Індексний номер',
+                        labelWidth: 170,
+                        width: 420,
+                        itemId: 'index',
+                        maxLength: 5
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'objPostIndex': {
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Громадянин',
+                        itemId: 'issued',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'numberfield',
+                        fieldLabel: 'Реєстраційний номер',
+                        labelWidth: 170,
+                        width: 420,
+                        itemId: 'regNum',
+                        allowExponential: false,
+                        allowDecimals: false,
+                        allowBlank: false,
+                        hideTrigger: true
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Присвоєна поштова адреса',
+                        itemId: 'postIndex',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'objHouseIndex': {
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Громадянин',
+                        itemId: 'issued',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Реєстраційний номер',
+                        labelWidth: 170,
+                        width: 420,
+                        itemId: 'regNum',
+                        validator: function (v) {
+                            return /^[0-9]*$/.test(v) ? true : 'Не припустимий формат!';
+                        }
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Присвоєна будівельна адреса',
+                        itemId: 'houseIndex',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Довідка видана',
+                        itemId: 'certif',
+                        value: "для пред’явлення за місцем вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'landPlotSize': {
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Видана гр.',
+                        itemId: 'issued',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'formNum204': {
+                me.add(
+                    {
+                        xtype: 'ubcombobox',
+                        disableContextMenu: true,
+                        fieldLabel: 'Член домогосподарства',
+                        itemId: 'issued',
+                        displayField: 'payerID.fullName',
+                        valueField: 'ID',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420,
+                        ubRequest: {
+                            entity: 'pgo_householdMember',
+                            method: 'select',
+                            fieldList: ['ID', 'payerID.fullName'],
+                            whereList: {
+                                byObjAccountingID: {
+                                    expression: '[objAccountingID]',
+                                    condition: 'equal',
+                                    values: {objAccountingID: me.objAccountingID}
+                                }
+                            }
+                        },
+                        listeners: {
+                            change(fld, newValue, oldValue) {
+                                let form = this.up('form'),
+                                    applicantCtrl = form.queryById('applicant');
+                                applicantCtrl.setValue(fld.getRawValue());
+                            }
+                        }
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Член домогосподарства (Д.в.)',
+                        itemId: 'applicant',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    });
+                break;
+            }
+            case 'excerptsOutBookRights': {
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        itemId: 'issued',
+                        fieldLabel: 'Видана гр.',
+                        allowBlank: false,
+                        labelWidth: 120,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        itemId: 'certif',
+                        fieldLabel: 'Витяг виданий',
+                        value: "Витяг виданий для подання по місцю вимоги",
+                        allowBlank: false,
+                        labelWidth: 120,
+                        width: 420
+                    },
+                );
+                break;
+            }
+            case 'excerptsOutFamilyMembers': {
+                me.add(
+                    {
+                        xtype: 'ubcombobox',
+                        disableContextMenu: true,
+                        fieldLabel: 'Член домогосподарства',
+                        itemId: 'issued',
+                        displayField: 'payerID.fullName',
+                        valueField: 'payerID.fullName',
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420,
+                        ubRequest: {
+                            entity: 'pgo_householdMember',
+                            method: 'select',
+                            fieldList: ['ID', 'payerID.fullName', 'objAccountingID', 'birthDate'],
+                            whereList: {
+                                byObjAccountingID: {
+                                    expression: '[objAccountingID]',
+                                    condition: 'equal',
+                                    values: {objAccountingID: me.objAccountingID}
+                                }
+                            }
+                        }
+                    },
+                    {
+                        xtype: 'textfield',
+                        itemId: 'certif',
+                        fieldLabel: 'Витяг виданий',
+                        value: "Витяг виданий для подання по місцю вимоги",
+                        allowBlank: false,
+                        labelWidth: 170,
+                        width: 420
+                    }
+                    );
+                break;
+            }
+            case 'excerptsPropRight': {
+                me.add(
+                    {
+                        xtype: 'textfield',
+                        itemId: 'decisionNum',
+                        fieldLabel: 'Номер рішення',
+                        allowBlank: false,
+                        labelWidth: 120,
+                        width: 420,
+                        validator: function (v) {
+                            return v.search(/^[0-9]*$/) == 0 ? true : 'Не припустимий формат! Тільки цифри.';
+                        },
+                    },
+                    {
+                        xtype: 'datefield',
+                        itemId: 'decisionDate',
+                        fieldLabel: 'Дата рішення',
+                        allowBlank: false,
+                        labelWidth: 120,
+                        width: 420
+                    },
+                    {
+                        xtype: 'textfield',
+                        itemId: 'issued',
+                        fieldLabel: 'Заявник',
+                        allowBlank: false,
+                        labelWidth: 120,
+                        width: 420
+                    },
+                );
+                break;
+            }
+        }
+    }
+});

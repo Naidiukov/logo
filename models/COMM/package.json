@@ -1,0 +1,25 @@
+{
+  "name": "comm",
+  "version": "1.0.0",
+  "description": "INV COMM",
+  "config": {
+    "ubmodel": {
+      "name": "COMM"
+    }
+  },
+  "scripts": {
+  },
+  "public": false,
+  "main": "inv-comm.js",
+  "browser": "/clientRequire/models/COMM/initModel.js",
+  "dependencies": {
+    "@unitybase/base": "^5.0.0"
+  },
+  "devDependencies": {
+    "@unitybase/stubs": "^5.0.0"
+  },
+  "keywords": [
+  ],
+  "author": "IQusion team",
+  "license": "(GPL-3.0 OR LGPL-3.0 OR MPL-2.0)"
+}

@@ -1,0 +1,726 @@
+// @! "do not remove comments below unless you know what you do!"
+// @mi_modifyDate "undefined"
+// @isDefault "false"
+// @entity "inv_payers"
+// @model "INV"
+// @formType "custom"
+// @caption "Громада"
+// @description "Громада"
+const _ = require('lodash');
+exports.formDef = 'INV.newPayers';
+Ext.define('INV.newPayers', {
+	extend: "Ext.form.Panel",
+	alias: "widget.newPayers",
+	autoScroll: true,
+	items: [
+		{
+			layout: {
+				type: 'vbox',
+				align: 'stretch'
+			},
+			items: [
+				{
+					xtype: 'panel',
+					itemId: 'gridPayer',
+					items: []
+
+				}
+			]
+		}
+	],
+	initComponent: function () {
+		this.callParent(arguments);
+		var me = this,
+			sender = me.commandConfig.sender,
+			gridPayer = me.queryById('gridPayer'),
+			fields = ['ID', 'personType', 'lastName', 'firstName', 'middleName', 'prevLastName', 'nationality', "birthDate", 'gender', "birthCertificate", "birthCertifDate", "birthCertifIssuedBy", "deathCertificate",
+				"deathCertifDate", "deathCertifIssuedBy", "personNum", 'deathDate', 'EDDRecordNum', 'idnCode', 'passportSeries', 'passportNumber', 'passportIssueDate', 'passportIssuedBy', "idCardNumber",
+				'passportValidToDate'],
+			fieldsBirth = ["countryB", "areaB", "regionB", "settlementB", "natalPlaceB"],
+			fieldsReg = ["areaAddR", "regionAddR", "settlementAddR", "streetTypeAddR", "streetAddR", "houseNumAddR", "flatNumAddR", "postIndex"],
+			fieldsLive = ["areaAddL", "settlementAddL", "streetTypeAddL", "streetAddL", "houseNumAddL", "flatNumAddL"],
+			fieldsLast = ["email", "phone", "privilegeStartDate", "privilegeEndDate", "privilegePhysID", "notes"];
+
+		let payerGridStore = Ext.create('Ext.data.Store', {
+				fields: fields.concat(fieldsBirth, fieldsReg, fieldsLive, fieldsLast),
+				data: {'items': []},
+				proxy: {
+					type: 'memory',
+					reader: {
+						type: 'json',
+						root: 'items'
+					}
+				}
+			}),
+			rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+				clicksToEdit: 2,
+				pluginId: 'roweditingId',
+				autoCancel: false,
+				listeners: {
+					//Событие после того как нажали "Зберегти"
+					edit: function (editor, context, eOpts) {
+						var grid = editor.grid,
+							store = grid.getStore(),
+							addNewBtn = grid.queryById('addNewBtn');
+
+						if (context.record.dirty) {
+							if (!context.record.data.ID) {
+								$App.connection.run({
+									entity: "inv_payers",
+									method: "addnew", fieldList: ['ID']
+								}).then(function (res) {
+									let resData = UB.LocalDataStore.selectResultToArrayOfObjects(res)[0];
+									context.record.data.ID = resData.ID;
+
+									$App.connection.run({
+										entity: "inv_payers",
+										method: "insert",
+										execParams: context.record.data
+									}).then(() => {
+										if (me.sender) me.sender.onRefresh();
+										// хз чё это
+										store.sync({
+												success: function (record, operation) {
+													var a = context.record;
+													console.log('OK');
+												},
+												failure: function (record, operation) {
+													console.log('NOT OK');
+													// clear the dirty state and rollback the records
+													store.rejectChanges();
+												}
+											}
+										);
+									})
+								});
+							}
+							else {
+								let modifiedData = {ID: context.record.data.ID};
+								for (let mod in context.record.modified) {
+									modifiedData[mod] = context.record.modified[mod];
+								}
+								$App.connection.run({
+									entity: "inv_payers",
+									method: "update",
+									execParams: modifiedData,
+									__skipOptimisticLock: true
+								}).then(() => {
+									if (me.sender) me.sender.onRefresh();
+									// хз чё это
+									store.sync({
+											success: function (record, operation) {
+												var a = store;
+												console.log('OK');
+											},
+											failure: function (record, operation) {
+												console.log('NOT OK');
+												// clear the dirty state and rollback the records
+												store.rejectChanges();
+											}
+										}
+									);
+								})
+							}
+						}
+						addNewBtn.setTooltip('');
+						addNewBtn.setDisabled(false);
+
+
+					},
+					canceledit: function (editor, context, eOpts) {
+						var grid = editor.grid,
+							store = grid.getStore(),
+							addNewBtn = grid.queryById('addNewBtn');
+						context.record.reject();
+						store.each(function (record) {
+							if (record.phantom) {
+								store.remove(record);
+								return false;
+							}
+						}, this);
+						store.sync();
+
+						addNewBtn.setTooltip('');
+						addNewBtn.setDisabled(false);
+					},
+					afteredit: function (editor, e) {
+					}
+				}
+			}),
+			addColumns = function (cols, colsBirth, colsReg, colsLive, colsLast) {
+				let entityAttrs = $App.domainInfo.entities.inv_payers.attributes,
+					columns = [],
+					config = {
+						countryB: {
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["areaB", "regionB", "settlementB", "natalPlaceB"].includes(item.name)),
+										isUkr = (fld.getRawValue() === 'Україна') || (fld.getValue() && !fld.getStore().getById(fld.getValue()) || false);
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+										ctrl.name === 'natalPlaceB' ? ctrl.setReadOnly(isUkr) : ctrl.setReadOnly(!isUkr);
+									});
+								}
+							}
+
+						},
+						areaB: {
+							xtype: 'ubcombobox',
+							valueField: 'areaName',
+							displayField: 'areaName',
+							disableContextMenu: true,
+							ubRequest: {
+								entity: "pgo_ngoDict",
+								method: "select",
+								fieldList: ['areaName'],
+								groupList: ['areaName'],
+								orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+							},
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["regionB", "settlementB"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								},
+								beforeRender: function () {
+									this.store.ubRequest.fieldList = ['areaName']
+								}
+							}
+						},
+						regionB: {
+							xtype: 'ubcombobox',
+							valueField: 'regionName',
+							displayField: 'regionName',
+							disableContextMenu: true,
+							ubRequest: {
+								entity: "pgo_ngoDict",
+								method: "select",
+								fieldList: ['regionName'],
+								groupList: ['regionName'],
+								orderList: {sortOrder: {expression: "regionName", order: 'asc'}}
+							},
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["settlementB"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								},
+								beforeQuerySend: function () {
+									INV.services.setWhereList(this, 'byAreaName', 'areaName', this.up().queryById('areaB').getRawValue());
+									this.store.reload();
+								},
+								beforeRender: function () {
+									this.store.ubRequest.fieldList = ['regionName']
+								}
+							}
+						},
+						settlementB: {
+							listeners: {
+								beforeQuerySend: function () {
+									INV.services.setWhereList(this, 'byAreaName', 'pgoDictID.areaName', this.up().queryById('areaB').getRawValue());
+									INV.services.setWhereList(this, 'byRegionName', 'pgoDictID.regionName', this.up().queryById('regionB').getRawValue());
+									this.store.reload();
+								}
+							}
+						},
+						areaAddR: {
+							xtype: 'ubcombobox',
+							valueField: 'areaName',
+							displayField: 'areaName',
+							disableContextMenu: true,
+							ubRequest: {
+								entity: "pgo_ngoDict",
+								method: "select",
+								fieldList: ['areaName'],
+								groupList: ['areaName'],
+								orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+							},
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["regionAddR", "settlementAddR", "streetTypeAddR", "streetAddR", "houseNumAddR", "flatNumAddR", "postIndex"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								},
+								beforeRender: function () {
+									this.store.ubRequest.fieldList = ['areaName']
+								}
+							}
+						},
+						regionAddR: {
+							xtype: 'ubcombobox',
+							valueField: 'regionName',
+							displayField: 'regionName',
+							disableContextMenu: true,
+							ubRequest: {
+								entity: "pgo_ngoDict",
+								method: "select",
+								fieldList: ['regionName'],
+								groupList: ['regionName'],
+								orderList: {sortOrder: {expression: "regionName", order: 'asc'}}
+							},
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["settlementAddR", "streetTypeAddR", "streetAddR", "houseNumAddR", "flatNumAddR", "postIndex"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								},
+								beforeQuerySend: function () {
+									INV.services.setWhereList(this, 'byAreaName', 'areaName', this.up().queryById('areaAddR').getRawValue());
+									this.store.reload();
+								},
+								beforeRender: function () {
+									this.store.ubRequest.fieldList = ['regionName']
+								}
+							}
+						},
+						settlementAddR: {
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["streetTypeAddR", "streetAddR", "houseNumAddR", "flatNumAddR", "postIndex"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								},
+								beforeQuerySend: function () {
+									INV.services.setWhereList(this, 'byAreaName', 'pgoDictID.areaName', this.up().queryById('areaAddR').getRawValue());
+									INV.services.setWhereList(this, 'byRegionName', 'pgoDictID.regionName', this.up().queryById('regionAddR').getRawValue());
+									this.store.reload();
+								}
+							}
+						},
+						streetTypeAddR: {
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["streetAddR", "houseNumAddR", "flatNumAddR", "postIndex"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								}
+							}
+						},
+						streetAddR: {
+							listeners: {
+								beforeQuerySend: function () {
+									INV.services.setWhereList(this, 'byStreetType', 'streetType', this.up().queryById('streetTypeAddR').getValue());
+									INV.services.setWhereList(this, 'bySettlement', 'settlementDictID', this.up().queryById('settlementAddR').getValue());
+									this.store.reload();
+								}
+							}
+						},
+						areaAddL: {
+							xtype: 'ubcombobox',
+							valueField: 'areaName',
+							displayField: 'areaName',
+							disableContextMenu: true,
+							ubRequest: {
+								entity: "pgo_ngoDict",
+								method: "select",
+								fieldList: ['areaName'],
+								groupList: ['areaName'],
+								orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+							},
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["settlementAddL", "streetTypeAddL", "streetAddL", "houseNumAddL", "flatNumAddL"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								},
+								beforeRender: function () {
+									this.store.ubRequest.fieldList = ['areaName']
+								}
+							}
+						},
+						settlementAddL: {
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["streetTypeAddL", "streetAddL", "houseNumAddL", "flatNumAddL"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								},
+								beforeQuerySend: function () {
+									INV.services.setWhereList(this, 'byAreaName', 'pgoDictID.areaName', this.up().queryById('areaAddL').getRawValue());
+									this.store.reload();
+								}
+							}
+						},
+						streetTypeAddL: {
+							listeners: {
+								change: function (fld) {
+									let items = fld.up().getRefItems(),
+										bControls = items.filter(item => ["streetAddL", "houseNumAddL", "flatNumAddL"].includes(item.name));
+									bControls.forEach((ctrl) => {
+										ctrl.setValue(null);
+									});
+								}
+							}
+						},
+						streetAddL: {
+							listeners: {
+								beforeQuerySend: function () {
+									INV.services.setWhereList(this, 'byStreetType', 'streetType', this.up().queryById('streetTypeAddL').getValue());
+									INV.services.setWhereList(this, 'bySettlement', 'settlementDictID', this.up().queryById('settlementAddL').getValue());
+									this.store.reload();
+								}
+							}
+						},
+						privilegeStartDate: {
+							maxValue: new Date()
+						}
+					},
+					createEditor = function (entityInfo, col, disableArr) {
+						let disableCtrl = disableArr ? disableArr.includes(col.dataIndex) : false;
+
+						switch (entityInfo.dataType) {
+							case 'String':
+							case 'Text':
+								Object.assign(col, {
+									width: 200,
+									padding: "5, 5, 5, 15",
+									editor: Object.assign({
+										width: 200,
+										xtype: 'textfield',
+										maxLength: entityInfo.size,
+										allowBlank: entityInfo.allowNull,
+										readOnly: disableCtrl,
+										itemId: entityInfo.name
+									}, config[entityInfo.name])
+								});
+								break;
+							case 'Date':
+								Object.assign(col, {
+									width: 150,
+									resizable: false,
+									format: "d.m.Y",
+									renderer: Ext.util.Format.dateRenderer("d.m.Y"),
+									editor: Object.assign({
+										xtype: 'ubdatefield',
+										allowBlank: entityInfo.allowNull,
+										format: "d.m.Y",
+										width: 130,
+										readOnly: disableCtrl,
+										itemId: entityInfo.name
+									}, config[entityInfo.name])
+								});
+								break;
+							case 'Entity':
+								let associatedEntity = $App.domainInfo.entities[entityInfo.associatedEntity];
+								Object.assign(col, {
+									width: 250,
+									padding: "5, 5, 5, 15",
+									renderer: function (value, p, r) {
+										var editor = p.column.getEditor(),
+											idx = editor.store.find('ID', value),
+											rec = editor.store.getAt(idx);
+
+										return (idx === -1) ? null : rec.get(config && config.displayField || associatedEntity.descriptionAttribute);
+									},
+									editor: Object.assign({
+										xtype: 'ubcombobox',
+										displayField: associatedEntity.descriptionAttribute,
+										allowBlank: entityInfo.allowNull,
+										valueField: 'ID',
+										width: 250,
+										ubRequest: {
+											entity: entityInfo.associatedEntity,
+											method: 'select',
+											fieldList: ['ID', associatedEntity.descriptionAttribute]
+										},
+										readOnly: disableCtrl,
+										itemId: entityInfo.name
+									}, config[entityInfo.name])
+								});
+								break;
+							case 'Enum':
+								Object.assign(col, {
+									width: 200,
+									padding: "5, 5, 5, 15",
+									renderer: function (value, p, r) {
+										var editor = p.column.getEditor(),
+											idx = editor.store.find('ID', value),
+											rec = editor.store.getAt(idx);
+										return (idx === -1) ? "" : rec.get('code');
+									},
+									editor: Object.assign({
+										xtype: "ubcombobox",
+										disableContextMenu: true,
+										displayField: "name",
+										allowBlank: entityInfo.allowNull,
+										valueField: 'code',
+										width: 200,
+										ubRequest: {
+											entity: 'ubm_enum',
+											idProperty: "code",
+											method: 'select',
+											fieldList: ["eGroup", "code", "name", "shortName", "sortOrder", "ID", "mi_modifyDate"],
+											orderList: {
+												byOrder: {
+													expression: "sortOrder",
+													order: "asc"
+												}
+											},
+											whereList: {
+												enumGroupFilter: {
+													condition: "equal",
+													expression: "[eGroup]",
+													values: {eGroup: entityInfo.enumGroup}
+												}
+											}
+										},
+										readOnly: disableCtrl,
+										itemId: entityInfo.name
+									}, config[entityInfo.name])
+								});
+								break;
+
+						}
+					};
+				let group = [];
+				cols.forEach((col) => {
+					let currEntityCol = entityAttrs[col],
+						currCol = {
+							text: currEntityCol.caption,
+							dataIndex: col
+						};
+					createEditor(currEntityCol, currCol);
+					if (col === 'ID' || col === 'personType') {
+						currCol.hidden = true;
+					}
+
+					if (col === 'lastName' || col === 'firstName') {
+						currCol.editor.allowBlank = false;
+					}
+					group.push(currCol);
+				});
+				columns.push({text: '',
+					border: 0.5,
+					style: {
+						borderColor: 'grey',
+						borderStyle: 'solid'
+					}, columns: group});
+
+				group = [];
+				colsBirth.forEach((col) => {
+					let currEntityCol = entityAttrs[col],
+						currCol = {
+							text: currEntityCol.caption,
+							dataIndex: col
+						};
+
+					createEditor(currEntityCol, currCol/*, ["areaB", "regionB", "settlementB"]*/);
+					group.push(currCol);
+				});
+				columns.push({text: 'Місце народження',
+					border: 0.5,
+					style: {
+						borderColor: 'grey',
+						borderStyle: 'solid'
+					}, columns: group});
+
+				group = [];
+				colsReg.forEach((col) => {
+					let currEntityCol = entityAttrs[col],
+
+						currCol = {
+							text: currEntityCol.caption,
+							dataIndex: col
+						};
+					createEditor(currEntityCol, currCol);
+					group.push(currCol);
+				});
+				columns.push({text: 'Адреса реєстрації',
+					border: 0.5,
+					style: {
+						borderColor: 'grey',
+						borderStyle: 'solid'
+					}, columns: group});
+
+				group = [];
+				colsLive.forEach((col) => {
+					let currEntityCol = entityAttrs[col],
+
+						currCol = {
+							text: currEntityCol.caption,
+							dataIndex: col
+						};
+					createEditor(currEntityCol, currCol);
+					group.push(currCol);
+				});
+				columns.push({text: 'Адреса проживання',
+					border: 0.5,
+					style: {
+						borderColor: 'grey',
+						borderStyle: 'solid'
+					}, columns: group});
+
+				group = [];
+				colsLast.forEach((col) => {
+					let currEntityCol = entityAttrs[col],
+						currCol = {
+							text: currEntityCol.caption,
+							dataIndex: col
+						};
+					createEditor(currEntityCol, currCol);
+					group.push(currCol);
+				});
+				columns.push({text: '',
+					border: 0.5,
+					style: {
+						borderColor: 'grey',
+						borderStyle: 'solid'
+					}, columns: group});
+
+				return columns;
+			},
+			payerGrid = Ext.create('Ext.grid.Panel', {
+				store: payerGridStore,
+				padding: '10, 10, 60, 0',
+				id: 'payerGreed',
+				columns: addColumns(fields, fieldsBirth, fieldsReg, fieldsLive, fieldsLast),
+				selType: 'cellmodel',
+				plugins: [rowEditing],
+				enableColumnHide: false,
+				enableColumnMove: false,
+				enableColumnResize: false,
+				dockedItems: [
+					{
+						xtype: 'toolbar',
+						dock: 'top',
+						style: 'background: #eaeaea',
+						ui: 'footer',
+						items: [
+							{
+								xtype: 'button',
+								iconCls: 'fa fa-plus-circle',
+								itemId: 'addNewBtn',
+								cls: 'add-new-action',
+								border: '',
+								handler: function () {
+									var btn = this,
+										store = payerGrid.getStore();
+
+									payerGridStore.add({
+										personType: 'PHYSICAL',
+										"lastName": null,
+										"firstName": null,
+										"middleName": null,
+										"prevLastName": null,
+										"nationality": null,
+										"birthDate": null,
+										"gender": null,
+										"birthCertificate": null,
+										"birthCertifDate": null,
+										"birthCertifIssuedBy": null,
+										"deathCertificate": null,
+										"deathCertifDate": null,
+										"deathCertifIssuedBy": null,
+										"personNum": null,
+										"deathDate": null,
+										"EDDRecordNum": null,
+										"idnCode": null,
+										"passportSeries": null,
+										"passportNumber": null,
+										"passportIssueDate": null,
+										"passportIssuedBy": null,
+										"idCardNumber": null,
+										"passportValidToDate": null,
+										"countryB": null,
+										"areaB": null,
+										"regionB": null,
+										"settlementB": null,
+										"natalPlaceB": null,
+										"areaAddR": null,
+										"regionAddR": null,
+										"settlementAddR": null,
+										"streetTypeAddR": null,
+										"streetAddR": null,
+										"houseNumAddR": null,
+										"flatNumAddR": null,
+										"postIndex": null,
+										"areaAddL": null,
+										"settlementAddL": null,
+										"streetTypeAddL": null,
+										"streetAddL": null,
+										"houseNumAddL": null,
+										"flatNumAddL": null,
+										"email": null,
+										"phone": null,
+										"privilegeStartDate": null,
+										"privilegeEndDate": null,
+										"privilegePhysID": null,
+										"notes": null
+									});
+									//}
+									payerGrid.setHeight(payerGrid.getHeight() + 40);
+									payerGrid.editingPlugin.startEdit(payerGrid.store.getAt(payerGridStore.getCount() - 1), 2);
+
+									payerGrid.editingPlugin.editor.items.items[6].setValue(me.Ukraine);
+									payerGrid.editingPlugin.editor.items.items[6].store.reload();
+									payerGrid.editingPlugin.editor.items.items[25].setValue(me.Ukraine);
+									payerGrid.editingPlugin.editor.items.items[25].store.reload();
+									btn.setDisabled(true);
+									btn.setTooltip('Спочатку необхідно закінчити дії з останнім записом');
+								}
+							},
+							{
+								xtype: 'button',
+								iconCls: 'fa fa-trash-o',
+								cls: 'delete-action',
+								border: '',
+								handler: function () {
+									var selection = payerGrid.getView().getSelectionModel().getSelection()[0];
+									if (!selection) {
+										$App.dialogInfo('Оберіть спочатку запис!');
+										return
+									}
+
+									if (!selection.data.ID) {
+										$App.dialogInfo('Запис не збережено');
+										return
+									}
+
+									$App.connection.run({
+										entity: "inv_payers",
+										method: "delete",
+										execParams: {
+											ID: selection.data.ID
+										}
+									}).then(function (res) {
+										payerGridStore.remove(selection);
+										payerGrid.setHeight(payerGrid.getHeight() - 40);
+										if (me.sender) me.sender.onRefresh();
+									});
+
+								}
+							}
+						]
+					}
+				]
+			});
+		gridPayer.add(payerGrid);
+
+		if (Ext.grid.RowEditor) {
+			Ext.apply(Ext.grid.RowEditor.prototype, {
+				saveBtnText: "Зберегти",
+				cancelBtnText: "Відмінити",
+				errorsText: "Помилки:",
+				showToolTip: function (msg) {
+				}
+			});
+		}
+	}
+});

@@ -1,0 +1,39 @@
+{
+  "caption": "Довідник матеріалу даху",
+  "description": "Довідник матеріалу даху",
+  "connectionName": "main",
+  "sqlAlias": "pgo_roofmat",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва",
+      "allowNull": true
+    },
+    {
+      "name": "oldID",
+      "dataType": "Int",
+      "caption": "ID з старої системи",
+      "description": "ID з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

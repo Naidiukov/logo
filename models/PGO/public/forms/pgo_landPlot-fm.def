@@ -1,0 +1,272 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_landPlot"
+// @model "PGO"
+// @formType "auto"
+// @caption "Відомості про землю"
+// @description "Відомості про землю"
+var setCtrlAvailable = function (fields, form, isReadOnly) {
+    let currField;
+    if (isReadOnly) {
+        _.forEach(fields, function (fld) {
+            currField = form.getField(fld);
+            if (currField) {
+                currField.setReadOnly(true);
+                currField.setValue(null);
+            }
+
+        })
+    } else {
+        _.forEach(fields, function (fld, i) {
+            currField = form.getField(i);
+            if (currField) {
+                currField.setReadOnly(false);
+                currField.setValue(fld);
+            }
+        })
+    }
+
+};
+const _ = require('lodash');
+exports.formDef = {
+    requiredFields: ['objAccountingID', 'landPlotID'],
+    items: [
+        {
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'year',
+                    readOnly: true
+                },
+                {
+                    xtype: 'ubcombobox',
+                    width: 400,
+                    displayField: "fullName",
+                    disableContextMenu: true,
+                    valueField: 'ID',
+                    attributeName: 'payerID',
+                    store: Ext.create('UB.ux.data.UBStore', {
+                        ubRequest: {
+                            entity: 'inv_payers',
+                            method: UB.core.UBCommand.methodName.SELECT,
+                            fieldList: ["ID", "fullName"]
+                        },
+                        autoLoad: false,
+                        autoDestroy: true
+                    }),
+                    allowBlank: false,
+                    listeners: {
+                        select: function (fld, record) {
+                            let form = this.up('form'),
+                                landPlotCtrl = form.queryById('landPlotID');
+                            if (record[0]) {
+                                if(ADM.AccessManager.checkAccess('PGO_04_01_02')) landPlotCtrl.setReadOnly(false);
+                                landPlotCtrl.store.ubRequest.whereList = {};
+                                landPlotCtrl.store.ubRequest.whereList.byPayerID = {
+                                    expression: '[owner]',
+                                    condition: '=',
+                                    values: {owner: record[0].getData()['ID']}
+                                };
+                                landPlotCtrl.store.reload();
+                            }
+                        },
+                        change: function (fld, newV, oldV) {
+                            let form = this.up('form'),
+                                landPlotCtrl = form.queryById('landPlotID');
+                            let store = fld.getStore(),
+                                data = store.getById(newV).getData();
+                            landPlotCtrl.store.ubRequest.whereList = {};
+                            landPlotCtrl.setValue(null);
+                            if (!newV) landPlotCtrl.setReadOnly(true);
+                        }
+                    }
+                },
+                {
+                    layout: {
+                        type: "hbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        labelWidth: 160
+                    },
+                    margin: "0, 0, 0, 0",
+                    items: [
+                        {
+                            fieldLabel: 'Земельна ділянка',
+                            itemId: 'landPlotID',
+                            disableContextMenu: true,
+                            xtype: 'ubcombobox',
+                            displayField: 'pgoLandStr',
+                            allowBlank: false,
+                            height: 20,
+                            valueField: 'ID',
+                            flex: 1,
+                            readOnly: true,
+                            ubRequest: {
+                                entity: 'inv_landPlot',
+                                method: 'select',
+                                fieldList: ['ID', 'pgoLandStr', 'landCategory', 'position', 'location', 'landPurpose', 'cadastralNumber', 'totalArea', 'documentOwnership', 'registryData', 'owner', 'useType', 'notes'],
+                                whereList: {}
+                            },
+
+                            listeners: {
+                                afterrender: function (fld) {
+                                    fld.firstOpen = true;
+
+                                    fld.inputCell.on('contextmenu', function (e, t) {
+                                        e.stopEvent();
+                                        fld.contextMenu = Ext.create('Ext.menu.Menu', {
+                                            items: [{
+                                                text: UB.i18n('editSelItem'),
+                                                iconCls: 'fa fa-edit',
+                                                itemId: 'editItem',
+                                                hidden: !fld.getValue() || fld.up('form').isNewInstance,
+                                                disabled: !ADM.AccessManager.checkAccess('PGO_04_01_02'),
+                                                handler: function (ctx) {
+                                                    if(!fld.getValue()) return;
+                                                    let landID = fld.getValue(),
+                                                        form = fld.up('form');
+                                                    if (landID) {
+                                                        //form.form.reset();
+                                                        //form.up().doClose();
+                                                        $App.doCommand({
+                                                            cmdType: "showForm",
+                                                            formCode: 'inv_landPlot',
+                                                            entity: "inv_landPlot",
+                                                            instanceID: landID,
+                                                            //target: $App.viewport.centralPanel,
+                                                            isModal: true,
+                                                            //tabId: "invland" + Ext.id(),
+                                                            cmpInitConfig: {
+                                                                pgoLandPlotID: form.instanceID
+                                                            }
+                                                        });
+                                                    }
+
+                                                }
+                                            }]
+                                        });
+                                        fld.contextMenu.showAt(e.getXY());
+                                    });
+                                },
+                                change: function (fld, newV, oldV) {
+                                    let form = this.up('form'),
+                                        record = fld.findRecordByValue(fld.getValue()) ? fld.findRecordByValue(fld.getValue()).getData() : undefined,
+                                        cadastralNumberCtrl = form.getField('cadastralNumber');
+
+                                    if (fld.firstOpen && !form.isNewInstance) {
+                                        fld.firstOpen = false;
+
+                                    } else {
+                                        if (record) {
+                                            form.record.set('landPlotID', record.ID);
+                                            if(ADM.AccessManager.checkAccess('PGO_04_01_02')) setCtrlAvailable(_.merge(record, {leased: false}), form, false);
+                                        } else {
+                                            form.record.set('landPlotID', null);
+                                            if(ADM.AccessManager.checkAccess('PGO_04_01_02')) setCtrlAvailable(['cadastralNumber', 'documentOwnership', 'landCategory', 'landPurpose', 'location', 'notes', 'owner', 'registryData', 'totalArea', 'useType', 'leased', 'position'], form, true);
+                                        }
+                                    }
+
+                                }
+                            }
+                        },
+                        {
+                            xtype: 'button',
+                            itemId: 'addButton',
+                            maxHeight: 40,
+                            flex: 2,
+                            maxWidth: 40,
+                            minHeight: 40,
+                            minWidth: 40,
+                            margin: '0, 4, 0, 0',
+                            tooltip: 'Додати земельну ділянку',
+                            style: 'background-color: white; border: 0px;',
+                            iconCls: 'fa fa-plus-circle fa-2x',
+                            disabled: !ADM.AccessManager.checkAccess('PGO_04_01_02'),
+                            handler: function (btn) {
+                                var form = this.up('form'),
+                                    payerID = form.getField('payerID').getValue(),
+                                    landPlotCtrl = form.queryById('landPlotID');
+
+                                if (payerID) {
+                                    $App.doCommand({
+                                        cmdType: "showForm",
+                                        formCode: "inv_landPlot",
+                                        entityName: "inv_landPlot",
+                                        entity: "inv_landPlot",
+                                        isModal: true,
+                                        initialFieldValues: {
+                                            owner: payerID
+                                        },
+                                        cmpInitConfig: {
+                                            ctrlToRefresh: landPlotCtrl
+                                        }
+                                    });
+
+                                    // form.up().doClose();
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    attributeName: 'cadastralNumber',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'landCategory',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'location',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'useType',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'landPurpose',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'leased',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'totalArea',
+                    xtype: 'numberfield',
+                    allowExponential: false,
+                    decimalPrecision: 4,
+                    hideTrigger: true,
+                    maxLength: 10,
+                    readOnly: true
+                },
+                {
+                    attributeName: 'documentOwnership',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'registryData',
+                    maxValue: new Date(),
+                    readOnly: true
+                },
+                {
+                    attributeName: 'position',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'notes',
+                    readOnly: true
+                }
+            ]
+        }
+    ]
+};

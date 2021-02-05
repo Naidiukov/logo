@@ -1,0 +1,20 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "comm_regInfoCurr"
+// @model "COMM"
+// @formType "auto"
+// @caption "Інформація про реєстрацію (Форма скасування)"
+// @description "Інформація про реєстрацію (Скасування)"
+exports.formDef = {
+    requiredFields: ['state'],
+	items:[
+		{
+			attributeName: 'cancelDate',
+			allowBlank: false
+		},
+        {
+            attributeName: 'cancelReason',
+            allowBlank: false
+        }
+	]
+};

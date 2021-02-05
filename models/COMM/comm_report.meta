@@ -1,0 +1,47 @@
+{
+  "caption": "Статистичні відомості",
+  "description": "Статистичні відомості",
+  "connectionName": "main",
+  "sqlAlias": "comm_report",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "repType",
+      "dataType": "Enum",
+      "enumGroup": "COMM_REPTYPE",
+      "caption": "Тип відомості",
+      "description": "Тип відомості",
+      "allowNull": false
+    },
+    {
+      "name": "dateFrom",
+      "dataType": "Date",
+      "caption": "Дата з",
+      "allowNull": true
+    },
+    {
+      "name": "dateTo",
+      "dataType": "Date",
+      "caption": "Дата по",
+      "allowNull": true
+    },
+    {
+      "name": "reportData",
+      "dataType": "Text",
+      "caption": "Дані звіту",
+      "allowNull": false
+    },
+    {
+      "name": "dateRep",
+      "dataType": "DateTime",
+      "caption": "Дата звіту",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

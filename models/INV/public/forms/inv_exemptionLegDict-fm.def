@@ -1,0 +1,44 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_exemptionLegDict"
+// @model "INV"
+// @formType "auto"
+// @caption "Довідник пільгових категорій фіз. осіб"
+// @description "Довідник пільгових категорій фіз. осіб"
+exports.formDef = {
+
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
+    },
+    items: [
+        {
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                labelWidth: 160
+            },
+            flex: 1,
+            items: [
+                {
+                    layout: {
+                        type: "hbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        labelWidth: 160
+                    },
+                    margin: "5, 0, 0, 0",
+                    items: [
+                        {
+                            attributeName: 'exemptionCat',
+                            flex:1,
+                            rows: 5
+                        }
+                    ]
+                }
+            ]
+        }]
+};

@@ -1,0 +1,507 @@
+{
+	"caption": "Інформація про реєстрацію (Поточна реєстрація)",
+	"description": "Інформація про реєстрацію (Поточна реєстрація)",
+	"connectionName": "main",
+	"sqlAlias": "comm_reginfcurr",
+	"cacheType": "None",
+	"attributes": [
+		{
+			"name" : "state",
+			"dataType": "Enum",
+			"enumGroup": "REC_STATE",
+			"caption": "Стан",
+			"description": "Стан",
+			"allowNull": true
+		},
+		{
+			"name" : "regUnit",
+			"dataType": "Entity",
+			"associatedEntity": "inv_regUnit",
+			"caption": "Орган Реєстрації",
+			"description": "Орган Реєстрації",
+			"allowNull": true
+		},
+		{
+			"name" : "regDate",
+			"dataType": "Date",
+			"caption": "Дата реєстрації",
+			"allowNull": false
+		},
+		{
+			"name" : "regDateFormatted",
+			"dataType": "String",
+			"caption": "Дата народження",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(to_char([regDate], 'DD.MM.YYYY'))"
+				}
+			]
+		},
+		{
+			"name" : "area",
+			"dataType": "String",
+			"size": 100,
+			"caption": "Область",
+			"description": "Область",
+			"allowNull": true
+		},
+		{
+			"name" : "region",
+			"dataType": "String",
+			"size": 100,
+			"caption": "Район",
+			"description": "Район",
+			"allowNull": true
+		},
+		{
+			"name" : "settlement",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_settlementDict",
+			"caption": "Населений пункт",
+			"description": "Населений пункт",
+			"allowNull": true
+		},
+		{
+			"name" : "streetType",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_streetType",
+			"caption": "Тип вулиці",
+			"description": "Тип вулиці",
+			"allowNull": true
+		},
+		{
+			"name" : "settlementDistrict",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_settlementDistrict",
+			"caption": "Район міста",
+			"description": "Район міста",
+			"allowNull": true
+		},
+		{
+			"name" : "street",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_localStreet",
+			"caption": "Вулиця",
+			"description": "Вулиця",
+			"allowNull": true
+		},
+		{
+			"name" : "houseNum",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Будинок",
+			"description": "Будинок",
+			"allowNull": true
+		},
+		{
+			"name" : "flatNum",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Квартира",
+			"description": "Квартира",
+			"allowNull": true
+		},
+		{
+			"name" : "postIndex",
+			"dataType": "String",
+			"size": 5,
+			"caption": "Індекс",
+			"allowNull": true
+		},
+		{
+			"name" : "regReason",
+			"dataType": "Entity",
+			"associatedEntity": "comm_regReason",
+			"caption": "Підстава для реєстрації",
+			"description": "Підстава для реєстрації",
+			"allowNull": true
+		},
+		{
+			"name" : "docType",
+			"dataType": "Enum",
+			"enumGroup": "DOC_TYPE",
+			"caption": "Вид документа",
+			"description": "Вид документа",
+			"allowNull": true
+		},
+		{
+			"name" : "series",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Серія",
+			"allowNull": true
+		},
+		{
+			"name" : "num",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Номер",
+			"allowNull": true
+		},
+		{
+			"name" : "issueDate",
+			"dataType": "Date",
+			"caption": "Дата видачі",
+			"allowNull": true
+		},
+		{
+			"name" : "issueDateFormatted",
+			"dataType": "String",
+			"caption": "Дата видачі",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(to_char([issueDate], 'DD.MM.YYYY'))"
+				}
+			]
+		},
+		{
+			"name" : "docRegUnit",
+			"dataType": "Entity",
+			"associatedEntity": "inv_regUnit",
+			"caption": "Ким видано",
+			"description": "Ким видано",
+			"allowNull": true
+		},
+		{
+			"name" : "validTo",
+			"dataType": "Date",
+			"caption": "Дійсний до",
+			"allowNull": true
+		},
+		{
+			"name" : "validToFormatted",
+			"dataType": "String",
+			"caption": "Дійсний до",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(to_char([validTo], 'DD.MM.YYYY'))"
+				}
+			]
+		},
+
+		 {
+			"name" : "cancelDate",
+			"dataType": "Date",
+			"caption": "Дата скасування",
+			"allowNull": true
+		},
+		{
+			"name" : "cancelReason",
+			"dataType": "Entity",
+			"associatedEntity": "comm_cancelReason",
+			"caption": "Причина",
+			"description": "Причина",
+			"allowNull": true
+		},
+
+		//Куди вибув
+		{
+			"name" : "removeDate",
+			"dataType": "Date",
+			"caption": "Дата зняття з реєстрації попереднього місця проживання/ перебування",
+			"allowNull": true
+		},
+		{
+			"name" : "removeDateFormatted",
+			"dataType": "String",
+			"caption": "Дата народження",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(to_char([removeDate], 'DD.MM.YYYY'))"
+				}
+			]
+		},
+		{
+			"name" : "rRegUnit",
+			"dataType": "Entity",
+			"associatedEntity": "inv_regUnit",
+			"caption": "Ким знято з реєстрації",
+			"description": "Ким знято з реєстрації",
+			"allowNull": true
+		},
+		{
+			"name" : "rReason",
+			"dataType": "Entity",
+			"associatedEntity": "comm_cancelReason",
+			"caption": "Причина",
+			"description": "Причина",
+			"allowNull": true
+		},
+		{
+			"name" : "rCountry",
+			"dataType": "Entity",
+			"associatedEntity": "inv_countryDict",
+			"caption": "Країна",
+			"description": "Країна",
+			"allowNull": true
+		},
+		{
+			"name" : "rArea",
+			"dataType": "String",
+			"size": 100,
+			"caption": "Область",
+			"description": "Область",
+			"allowNull": true
+		},
+		{
+			"name" : "rRegion",
+			"dataType": "String",
+			"size": 100,
+			"caption": "Район",
+			"description": "Район",
+			"allowNull": true
+		},
+		{
+			"name" : "rSettlement",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_settlementDict",
+			"caption": "Населений пункт",
+			"description": "Населений пункт",
+			"allowNull": true
+		},
+		{
+			"name" : "rStreetType",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_streetType",
+			"caption": "Тип вулиці",
+			"description": "Тип вулиці",
+			"allowNull": true
+		},
+		{
+			"name" : "rSettlementDistrict",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_settlementDistrict",
+			"caption": "Район міста",
+			"description": "Район міста",
+			"allowNull": true
+		},
+		{
+			"name" : "rStreet",
+			"dataType": "Entity",
+			"associatedEntity": "pgo_localStreet",
+			"caption": "Вулиця",
+			"description": "Вулиця",
+			"allowNull": true
+		},
+		{
+			"name" : "rHouseNum",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Будинок",
+			"description": "Будинок",
+			"allowNull": true
+		},
+		{
+			"name" : "rFlatNum",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Квартира",
+			"description": "Квартира",
+			"allowNull": true
+		},
+		{
+			"name" : "rPostIndex",
+			"dataType": "String",
+			"size": 5,
+			"caption": "Індекс",
+			"allowNull": true
+		},
+		//Наданий докумнет
+		{
+			"name" : "rDocType",
+			"dataType": "Enum",
+			"enumGroup": "DOC_TYPE",
+			"caption": "Вид документа",
+			"description": "Вид документа",
+			"allowNull": true
+		},
+		{
+			"name" : "rSeries",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Серія",
+			"allowNull": true
+		},
+		{
+			"name" : "rNum",
+			"dataType": "String",
+			"size": 10,
+			"caption": "Номер",
+			"allowNull": true
+		},
+		{
+			"name" : "rIssueDate",
+			"dataType": "Date",
+			"caption": "Дата видачі",
+			"allowNull": true
+		},
+		{
+			"name" : "rIssueDateFormatted",
+			"dataType": "String",
+			"caption": "Дата видачі",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(to_char([rIssueDate], 'DD.MM.YYYY'))"
+				}
+			]
+		},
+		{
+			"name" : "rDocRegUnit",
+			"dataType": "Entity",
+			"associatedEntity": "inv_regUnit",
+			"caption": "Ким видано",
+			"description": "Ким видано",
+			"allowNull": true
+		},
+		{
+			"name" : "rValidTo",
+			"dataType": "Date",
+			"caption": "Дійсний до",
+			"allowNull": true
+		},
+		{
+			"name" : "rValidToFormatted",
+			"dataType": "String",
+			"caption": "Дата видачі",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(to_char([rValidTo], 'DD.MM.YYYY'))"
+				}
+			]
+		},
+		{
+			"name" : "rLivePlace",
+			"dataType": "String",
+			"size": 100,
+			"caption": "Місце проживання",
+			"allowNull": true
+		},
+		{
+			"name" : "rowID",
+			"dataType": "String",
+			"caption": "№ з/п",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Field",
+					"expression": "ROWID"
+				}
+			]
+		},
+		{
+			"name" : "isAdultReg",
+			"dataType": "Boolean",
+			"caption": "Виповнилось 18 років станом на regDate",
+			"size": 100,
+			"mapping": [
+				 {
+					 "name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(CASE WHEN [payerID.birthDate] is not null AND ([regDate]>= [payerID.birthDate] + INTERVAL '18 year') THEN 1 ELSE 0 END)"
+					//"(SELECT (CASE WHEN payer.birthDate is not null THEN (date(regCurr.regDate) >= date(payer.birthDate, '+18 year')) ELSE null END) as isAdult from comm_regInfoCurr regCurr left join inv_payers payer on payer.ID=regCurr.payerID where payer.ID=[ID])"
+				}
+			]
+		},
+		{
+			"name" : "isAdultRemove",
+			"dataType": "Boolean",
+			"caption": "Виповнилось 18 років станом на removeDate",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "(CASE WHEN [payerID.birthDate] is not null AND ([removeDate]>= [payerID.birthDate] + INTERVAL '18 year') THEN 1 ELSE 0 END)"//"(SELECT (CASE WHEN payer.birthDate is not null THEN (date(regCurr.removeDate) >= date(payer.birthDate, '+18 year')) ELSE null END) as isAdult from comm_regInfoCurr regCurr left join inv_payers payer on payer.ID=regCurr.payerID where payer.ID=[ID])"
+				}
+			]
+		},
+		{
+			"name" : "isDoc",
+			"dataType": "String",
+			"caption": "Наявність документа, що підтверджує громадянство України",
+			"size": 100,
+			"mapping": [
+				{
+					"name" : "AnsiSQL",
+					"expressionType": "Expression",
+					"expression": "'Наявність встановлено'"
+				}
+			]
+		},
+		{
+			"name" : "payerID",
+			"dataType": "Entity",
+			"associatedEntity": "inv_payers",
+			"caption": "Платник",
+			"description": "Платник",
+			"allowNull": false
+		}
+
+	],
+	"mixins": {
+		"mStorage": {
+			"simpleAudit": true,
+			"safeDelete": false
+		},
+		"softDelete": {
+			"enabled": false
+		}
+	},
+	"dbExtensions": {
+		"IDX_COMM_REGINFCURR_AREA": {
+			"type": "INDEX",
+			"definition": {
+				"keys": {
+					"area": {}
+				},
+				"isUnique": false
+			}
+		},
+		"IDX_COMM_REGINFCURR_REGION": {
+			"type": "INDEX",
+			"definition": {
+				"keys": {
+					"region": {}
+				},
+				"isUnique": false
+			}
+		},
+		"IDX_COMM_REGINFCURR_RAREA": {
+			"type": "INDEX",
+			"definition": {
+				"keys": {
+					"rArea": {}
+				},
+				"isUnique": false
+			}
+		},
+		"IDX_COMM_REGINFCURR_RREGION": {
+			"type": "INDEX",
+			"definition": {
+				"keys": {
+					"rRegion": {}
+				},
+				"isUnique": false
+			}
+		}
+	}
+}

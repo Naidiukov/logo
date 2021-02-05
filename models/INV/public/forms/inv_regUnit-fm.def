@@ -1,0 +1,36 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_regUnit"
+// @model "INV"
+// @formType "auto"
+// @caption "Орган реєстрації"
+// @description "Орган реєстрації"
+exports.formDef = {
+    items:[
+        {
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            items: [
+                {
+                    attributeName: 'code',
+                    readOnly: true
+                },
+                {
+                    attributeName: 'name'
+                },
+                {
+                    attributeName: 'nameNom'
+                },
+                {
+                    attributeName: 'type'
+                },
+                {
+                    attributeName: 'isRegAuth'
+                }
+            ]
+        }
+
+    ]
+};

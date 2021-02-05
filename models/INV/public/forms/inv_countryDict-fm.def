@@ -1,0 +1,18 @@
+// @! "do not remove comments below unless you know what you do!"
+// @mi_modifyDate "undefined"
+// @isDefault "false"
+// @entity "inv_countryDict"
+// @model "INV"
+// @formType "auto"
+// @caption "Довідник країн"
+// @description "Довідник країн"
+exports.formDef = {
+	items: [
+		{
+			attributeName: 'code'
+		},
+		{
+			attributeName: 'name'
+		}
+	]
+};

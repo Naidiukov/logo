@@ -1,0 +1,54 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "true"
+// @entity "pgo_settlementDict"
+// @model "PGO"
+// @formType "auto"
+// @caption "Населений пункт"
+// @description "Населений пункт"
+exports.formDef = {
+    items: [
+        {attributeName: "koattNum"},
+        {attributeName: "governmentStatus"},
+        {attributeName: "governmentName"},
+        {attributeName: "pgoDictID",
+            disableContextMenu: true},
+		{
+			layout: {
+				type: "vbox",
+				align: "stretch"
+			},
+			defaults: {
+				labelWidth: 160
+			},
+			flex: 4,
+			autoScroll: true,
+			items: [{
+				xtype: "ubdetailgrid",
+				title: 'Райони',
+				itemId: "gridDistrict",
+				hideToolbar: false,
+				toolbarActionList: ['refresh', 'addNew', 'del'],
+				//hideMenuAllActions: true,
+				hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+				autoScroll: true,
+				margin: "0, 0, 5, 0",  //top, right, buttom, left
+				cmdType: "showList",
+				selModel: {
+					selectionMode: "SINGLE"
+				},
+				entityConfig: {
+					entity: "pgo_settlementDistrict",
+					method: "select",
+					fieldList: [
+						{name: "ID", visibility: false},
+						{name: "settlementDictID", visibility: false},
+						{name: "name"},
+						{name: "nameGenetive"}
+					]
+				},
+				masterFields: ["ID"],
+				detailFields: ["settlementDictID"]
+			}]
+		}
+    ]
+};

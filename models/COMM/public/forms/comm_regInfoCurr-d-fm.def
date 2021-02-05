@@ -1,0 +1,507 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "comm_regInfoCurr"
+// @model "COMM"
+// @formType "auto"
+// @caption "Інформація про реєстрацію (Поточна реєстрація; Знято з реєстрації)"
+// @description "Інформація про реєстрацію (Поточна реєстрація; Знято з реєстрації)"
+exports.formDef = {
+    requiredFields: ['area', 'region', 'rArea', 'rRegion'],
+    autoScroll: true,
+    size: {
+        width: 900,
+        height: 600
+    },
+	items:[
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Поточна реєстрація',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'state',
+                    readOnly: true
+                },
+                {
+                    attributeName: "regUnit",
+                    listeners: {
+                        beforeQuerySend: function () {
+                            this.store.ubRequest.whereList = {
+                                byUser: {
+                                    expression: 'mi_createUser',
+                                    condition: "=",
+                                    values: {mi_createUser: $App.connection.userData().UserID}
+                                }
+                            };
+                            if (this.getValue()) {
+                                this.store.ubRequest.whereList.byCurrID = {
+                                    expression: 'ID',
+                                    condition: "=",
+                                    values: {ID: this.getValue()}
+                                };
+                                this.store.ubRequest.logicalPredicates = ["([byUser] or [byCurrID])"];
+                            } else {
+                                this.store.ubRequest.logicalPredicates = [];
+                            }
+
+                        }
+                    }
+                },
+                {
+                    attributeName: "regDate"
+                },
+                {
+                    xtype: 'ubcombobox',
+                    valueField: 'areaName',
+                    displayField: 'areaName',
+                    fieldLabel: $App.domainInfo.get('comm_regInfoCurr').attr('area').caption,
+                    readOnly: !ADM.AccessManager.checkAccess('RTG_05_01_02'),
+                    disableContextMenu: true,
+                    itemId: 'area',
+                    ubRequest: {
+                        entity: "pgo_ngoDict",
+                        method: "select",
+                        fieldList: ['areaName'],
+                        groupList: ['areaName'],
+                        orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+                    },
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                regionCtrl = form.queryById('region'),
+                                settlementCtrl = form.getField('settlement');
+                            if (newValue) {
+                                form.record.set('area', newValue);
+                                fld.store.reload();
+                                INV.services.setWhereList(regionCtrl, 'byAreaName', 'areaName', newValue);
+                                if (oldValue) {
+                                    regionCtrl.setValue(null);
+                                    form.record.set('region', null);
+                                    settlementCtrl.setValue(null);
+                                }
+
+                            } else {
+                                form.record.set('area', null);
+                                INV.services.setWhereList(regionCtrl, 'byAreaName', 'areaName', true);
+                                regionCtrl.setValue(null);
+                                form.record.set('region', null);
+                                INV.services.setWhereList(settlementCtrl, 'byRegionName', 'pgoDictID.regionName', -1);
+                                settlementCtrl.setValue(null);
+                            }
+                            regionCtrl.store.reload();
+                        },
+                        beforeRender: function () {
+                            this.store.ubRequest.fieldList = ['areaName']
+                        }
+                    }
+                },
+                {
+                    xtype: 'ubcombobox',
+                    valueField: 'regionName',
+                    displayField: 'regionName',
+                    fieldLabel: $App.domainInfo.get('comm_regInfoCurr').attr('region').caption,
+                    readOnly: !ADM.AccessManager.checkAccess('RTG_05_01_02'),
+                    itemId: "region",
+                    flex: 1,
+                    ubRequest: {
+                        entity: "pgo_ngoDict",
+                        method: "select",
+                        fieldList: ['regionName'],
+                        groupList: ['regionName'],
+                        orderList: {sortOrder: {expression: "regionName", order: 'asc'}}
+                    },
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                settlementCtrl = form.getField('settlement');
+                            if (newValue) {
+                                form.record.set('region', newValue);
+                                INV.services.setWhereList(settlementCtrl, 'byRegionName', 'pgoDictID.regionName', fld.getRawValue());
+                                if (oldValue) {
+                                    settlementCtrl.setValue(null);
+                                }
+
+                            } else {
+                                form.record.set('region', null);
+                                INV.services.setWhereList(settlementCtrl, 'byRegionName', 'pgoDictID.regionName', true);
+                                settlementCtrl.setValue(null);
+                            }
+                            settlementCtrl.store.reload();
+                        },
+                        beforeRender: function () {
+                            this.store.ubRequest.fieldList = ['regionName']
+                        }
+                    }
+                },
+                {
+                    attributeName: "settlement",
+                    whereList: {},
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                streetCtrl = form.getField('street');
+                            if (newValue) {
+                                INV.services.setWhereList(streetCtrl, 'bySettlementDictID', 'settlementDictID', newValue);
+                                if (oldValue) {
+                                    streetCtrl.setValue(null);
+                                }
+
+                            } else {
+                                INV.services.setWhereList(streetCtrl, 'bySettlementDictID', 'settlementDictID', -1);
+                                streetCtrl.setValue(null);
+                            }
+                            streetCtrl.store.reload();
+                        }
+                    }
+                },
+                {
+                    attributeName: "streetType",
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                streetCtrl = form.getField('street');
+
+                            if (newValue) {
+                                INV.services.setWhereList(streetCtrl, 'byStreetType', 'streetType', newValue);
+                                if (oldValue) {
+                                    streetCtrl.setValue(null);
+                                }
+
+                            } else {
+                                INV.services.setWhereList(streetCtrl, 'byStreetType', 'streetType', -1);
+                                streetCtrl.setValue(null);
+                            }
+                            streetCtrl.store.reload();
+                        }
+                    }
+                },
+                {
+                    attributeName: "street",
+                    whereList: {}
+                },
+                {
+                    attributeName: "houseNum"
+                },
+                {
+                    attributeName: "flatNum"
+                },
+                {
+                    attributeName: "postIndex"
+                },
+                {
+                    attributeName: "regReason"
+                },
+                ]
+        },
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Документ для реєстрації',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: 'docType'
+                }, {
+                    attributeName: 'series'
+                }, {
+                    attributeName: 'num'
+                }, {
+                    attributeName: 'issueDate'
+                }, {
+                    attributeName: 'docRegUnit',
+                    listeners: {
+                        beforeQuerySend: function () {
+                            this.store.ubRequest.whereList = {
+                                byUser: {
+                                    expression: 'mi_createUser',
+                                    condition: "=",
+                                    values: {mi_createUser: $App.connection.userData().UserID}
+                                }
+                            };
+                            if (this.getValue()) {
+                                this.store.ubRequest.whereList.byCurrID = {
+                                    expression: 'ID',
+                                    condition: "=",
+                                    values: {ID: this.getValue()}
+                                };
+                                this.store.ubRequest.logicalPredicates = ["([byUser] or [byCurrID])"];
+                            } else {
+                                this.store.ubRequest.logicalPredicates = [];
+                            }
+
+                        }
+                    }
+                }, {
+                    attributeName: 'validTo'
+                }
+            ]
+        },
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Куди вибув',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [
+                {
+                    attributeName: "rRegUnit"
+                },
+                {
+                    attributeName: "removeDate"
+                },
+                {
+                    attributeName: "rCountry",
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                rLivePlaceCtrl = form.getField('rLivePlace');
+                            if (fld.getValue() != 333658698055681) {
+                                INV.services.setCtrlVisibility([
+                                    {name: 'rLivePlace', isVisible: true},
+                                    {name: 'rArea', isVisible: false, nullVal: true},
+                                    {name: 'rRegion', isVisible: false, nullVal: true},
+                                    {name: 'rSettlement', isVisible: false, nullVal: true},
+                                    {name: 'rStreetType', isVisible: false, nullVal: true},
+                                    {name: 'rStreet', isVisible: false, nullVal: true},
+                                    {name: 'rHouseNum', isVisible: false, nullVal: true},
+                                    {name: 'rFlatNum', isVisible: false, nullVal: true},
+                                    {name: 'rPostIndex', isVisible: false, nullVal: true}
+                                ], form);
+                            } else {
+                                INV.services.setCtrlVisibility([
+                                    {name: 'rLivePlace', isVisible: false, nullVal: true},
+                                    {name: 'rArea', isVisible: true},
+                                    {name: 'rRegion', isVisible: true},
+                                    {name: 'rSettlement', isVisible: true},
+                                    {name: 'rStreetType', isVisible: true},
+                                    {name: 'rStreet', isVisible: true},
+                                    {name: 'rHouseNum', isVisible: true},
+                                    {name: 'rFlatNum', isVisible: true},
+                                    {name: 'rPostIndex', isVisible: true}
+                                ], form);
+                            }
+                        }
+                    }
+                },
+                {
+                    xtype: 'ubcombobox',
+                    valueField: 'areaName',
+                    displayField: 'areaName',
+                    fieldLabel: $App.domainInfo.get('comm_regInfoCurr').attr('rArea').caption,
+                    readOnly: !ADM.AccessManager.checkAccess('RTG_05_01_02'),
+                    itemId: "rArea",
+                    disableContextMenu: true,
+                    ubRequest: {
+                        entity: "pgo_ngoDict",
+                        method: "select",
+                        fieldList: ['areaName'],
+                        groupList: ['areaName'],
+                        orderList: {sortOrder: {expression: "areaName", order: 'asc'}}
+                    },
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                regionCtrl = form.queryById('rRegion'),
+                                settlementCtrl = form.getField('rSettlement');
+                            if (newValue) {
+                                form.record.set('rArea', newValue);
+                                fld.store.reload();
+                                INV.services.setWhereList(regionCtrl, 'byAreaName', 'areaName', newValue);
+                                if (oldValue) {
+                                    regionCtrl.setValue(null);
+                                    form.record.set('rRegion', null);
+                                    settlementCtrl.setValue(null);
+                                }
+
+                            } else {
+                                form.record.set('rArea', null);
+                                INV.services.setWhereList(regionCtrl, 'byAreaName', 'areaName', true);
+                                regionCtrl.setValue(null);
+                                form.record.set('rRegion', null);
+                                INV.services.setWhereList(settlementCtrl, 'byRegionName', 'pgoDictID.regionName', -1);
+                                settlementCtrl.setValue(null);
+                            }
+                            regionCtrl.store.reload();
+                        },
+                        beforeRender: function () {
+                            this.store.ubRequest.fieldList = ['areaName']
+                        }
+                    }
+                },
+                {
+                    xtype: 'ubcombobox',
+                    valueField: 'regionName',
+                    displayField: 'regionName',
+                    readOnly: !ADM.AccessManager.checkAccess('RTG_05_01_02'),
+                    fieldLabel: $App.domainInfo.get('comm_regInfoCurr').attr('rRegion').caption,
+                    itemId: "rRegion",
+                    flex: 1,
+                    ubRequest: {
+                        entity: "pgo_ngoDict",
+                        method: "select",
+                        fieldList: ['regionName'],
+                        groupList: ['regionName'],
+                        orderList: {sortOrder: {expression: "regionName", order: 'asc'}}
+                    },
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                settlementCtrl = form.getField('rSettlement');
+                            if (newValue) {
+                                form.record.set('rRegion', newValue);
+                                INV.services.setWhereList(settlementCtrl, 'byRegionName', 'pgoDictID.regionName', fld.getRawValue());
+                                if (oldValue) {
+                                    settlementCtrl.setValue(null);
+                                }
+
+                            } else {
+                                form.record.set('rRegion', null);
+                                INV.services.setWhereList(settlementCtrl, 'byRegionName', 'pgoDictID.regionName', true);
+                                settlementCtrl.setValue(null);
+                            }
+                            settlementCtrl.store.reload();
+                        },
+                        beforeRender: function () {
+                            this.store.ubRequest.fieldList = ['regionName']
+                        }
+                    }
+                },
+                {
+                    attributeName: "rSettlement",
+                    whereList: {},
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                streetCtrl = form.getField('rStreet');
+                            if (newValue) {
+                                INV.services.setWhereList(streetCtrl, 'bySettlementDictID', 'settlementDictID', newValue);
+                                if (oldValue) {
+                                    streetCtrl.setValue(null);
+                                }
+
+                            } else {
+                                INV.services.setWhereList(streetCtrl, 'bySettlementDictID', 'settlementDictID', -1);
+                                streetCtrl.setValue(null);
+                            }
+                            streetCtrl.store.reload();
+                        }
+                    }
+                },
+                {
+                    attributeName: "rStreetType",
+                    listeners: {
+                        change(fld, newValue, oldValue) {
+                            let form = this.up('form'),
+                                streetCtrl = form.getField('rStreet');
+
+                            if (newValue) {
+                                INV.services.setWhereList(streetCtrl, 'byStreetType', 'streetType', newValue);
+                                if (oldValue) {
+                                    streetCtrl.setValue(null);
+                                }
+
+                            } else {
+                                INV.services.setWhereList(streetCtrl, 'byStreetType', 'streetType', -1);
+                                streetCtrl.setValue(null);
+                            }
+                            streetCtrl.store.reload();
+                        }
+                    }
+                },
+                {
+                    attributeName: "rStreet",
+                    whereList: {}
+                },
+                {
+                    attributeName: "rHouseNum"
+                },
+                {
+                    attributeName: "rFlatNum"
+                },
+                {
+                    attributeName: "rPostIndex",
+                    validator: function (v) {
+                        if (/^\d*$/.test(v)) return v && v.length == 5 || !v ? true : 'Кількість символів має дорівнювати 5!';
+                        else return 'Поле має містити тільки цифри'
+                    }
+                },
+                {
+                    attributeName: "rLivePlace",
+                    hidden: true
+                },
+                {
+                    attributeName: "rReason"
+                }
+            ]
+        },
+        {
+            xtype: 'fieldset',
+            margin: "0, 15, 5, 15",
+            title: 'Наданий документ',
+            collapsible: true,
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                flex: 1
+            },
+            items: [{
+                attributeName: 'rDocType'
+            }, {
+                attributeName: 'rSeries'
+            }, {
+                attributeName: 'rNum'
+            }, {
+                attributeName: 'rIssueDate'
+            }, {
+                attributeName: 'rDocRegUnit',
+                listeners: {
+                    beforeQuerySend: function () {
+                        this.store.ubRequest.whereList = {
+                            byUser: {
+                                expression: 'mi_createUser',
+                                condition: "=",
+                                values: {mi_createUser: $App.connection.userData().UserID}
+                            }
+                        };
+                        if (this.getValue()) {
+                            this.store.ubRequest.whereList.byCurrID = {
+                                expression: 'ID',
+                                condition: "=",
+                                values: {ID: this.getValue()}
+                            };
+                            this.store.ubRequest.logicalPredicates = ["([byUser] or [byCurrID])"];
+                        } else {
+                            this.store.ubRequest.logicalPredicates = [];
+                        }
+
+                    }
+                }
+            }, {
+                attributeName: 'rValidTo'
+            }]
+        }
+	]
+};

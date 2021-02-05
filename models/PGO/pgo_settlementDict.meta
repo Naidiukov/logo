@@ -1,0 +1,96 @@
+{
+  "caption": "Довідник населених пунктів",
+  "description": "Довідник населених пунктів",
+  "connectionName": "main",
+  "sqlAlias": "pgo_settDict",
+  "cacheType": "None",
+  "descriptionAttribute": "governmentFullName",
+  "attributes": [
+    {
+      "name": "koattNum",
+      "dataType": "String",
+      "size": 20,
+      "caption": "Код КОАТТУ",
+      "description": "Код КОАТТУ",
+      "allowNull": false
+    },
+    {
+      "name": "governmentStatus",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Статус населеного пункту",
+      "description": "Статус населеного пункту",
+      "allowNull": false
+    },
+    {
+      "name": "governmentName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Назва населеного пункту",
+      "description": "Назва населеного пункту",
+      "allowNull": false
+    },
+    {
+      "name": "governmentShortName",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Назва населеного пункту",
+      "description": "Назва населеного пункту",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[governmentStatus] || ' ' || [governmentName]"
+        }
+      ]
+    },
+    {
+      "name": "governmentFullName",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Назва населеного пункту",
+      "description": "Назва населеного пункту",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[pgoDictID.regionName] || ', ' || [governmentStatus] || ' ' || [governmentName]"
+        }
+      ]
+    },
+    {
+      "name": "governmentNameFull",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Назва населеного пункту",
+      "description": "Назва населеного пункту",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[pgoDictID.localGovernment] || ', '|| [pgoDictID.regionName] || ', ' || [governmentStatus] || ' ' || [governmentName]"
+        }
+      ]
+    },
+    {
+      "name": "pgoDictID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_ngoDict",
+      "caption": "Назва місцевої ради",
+      "description": "Назва місцевої ради",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

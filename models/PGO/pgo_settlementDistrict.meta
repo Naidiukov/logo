@@ -1,0 +1,39 @@
+{
+  "caption": "Довідник районів населеного пункту",
+  "description": "Довідник районів населеного пункту",
+  "connectionName": "main",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Назва",
+      "description": "Назва",
+      "allowNull": false
+    },
+    {
+      "name": "nameGenetive",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Назва у р.в.",
+      "description": "Назва у р.в.",
+      "allowNull": true
+    },
+    {
+      "name": "settlementDictID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Назва місцевої ради",
+      "description": "Назва місцевої ради",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

@@ -1,0 +1,164 @@
+<!--@name "Повідомлення про скасування реєстрації/зняття з реєстрації"-->
+<!--@report_code "noticeCancelLPlace"-->
+<!--@model "COMM"-->
+<!--@ID "333935039545345"-->
+
+
+
+<!--%pageOrientation:portrait-->
+
+
+
+
+
+
+<p style="text-align: right; margin-right: 70px;">Додаток 17<br />до Правил</p><p></p>
+<table style="width: 100%;  line-height: 0.5;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 55%;">&nbsp;</td>
+<td style="width: 45%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: left;"></td>
+</tr>
+<tr>
+<td style="width: 55%;">&nbsp;</td>
+<td style="width: 45%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: left;"></td>
+</tr>
+<tr>
+<td style="width: 55%;">&nbsp;</td>
+<td style="width: 45%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 8px; font-weight: bold;">&nbsp;</p>
+<p style="text-align: center; font-size: 8px; font-weight: bold;">&nbsp;</p>
+<p style="text-align: center; font-size: 14px; font-weight: bold;">ПОВІДОМЛЕННЯ<br />про скасування реєстрації/зняття з реєстрації місця<br />проживання/перебування особи</p>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 22%; margin-left: 15px; padding: 0; vertical-align: bottom; text-align: right; height: 25px;">За відомостями</td>
+<td style="width: 78%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0 0 0 15px; vertical-align: bottom; text-align: left;">{{regUnitName}}</td>
+</tr>
+<tr>
+<td style="">&nbsp;</td>
+<td style="vertical-align: top; font-size: 10px; text-align: center;">(назва органу реєстрації)</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 10%; padding: 0; vertical-align: bottom;">прізвище</td>
+<td style="width: 90%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0 0 0 15px; vertical-align: bottom; text-align: left;">{{lastName}}<!--{{#prevLastName}}--> ({{prevLastName}})<!--{{/prevLastName}}--></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 6%; padding: 0; vertical-align: bottom; text-align: left; height: 22px;">ім&rsquo;я</td>
+<td style="width: 94%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0 0 0 15px; vertical-align: bottom; text-align: left;">{{firstName}}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 13%; padding: 0; vertical-align: bottom; text-align: left; height: 22px;">по батькові</td>
+<td style="width: 87%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0 0 0 15px; vertical-align: bottom; text-align: left;">{{middleName}}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 28%; padding: 0; vertical-align: bottom; text-align: left; height: 22px;">дата і місце народження</td>
+<td style="width: 72%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0 0 0 15px; vertical-align: bottom; text-align: left;">{{birthPlace}}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; line-height: 1.5;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 28%; padding: 0; vertical-align: bottom; text-align: left; height: 22px;">громадянство/підданство</td>
+<td style="width: 72%; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0 0 0 15px; vertical-align: bottom; text-align: left;">{{nationality_name}}</td>
+</tr>
+<tr>
+<td style="padding: 0; vertical-align: bottom; text-align: justify;" colspan="2">унікальний &nbsp;&nbsp;&nbsp;&nbsp;номер &nbsp;&nbsp;&nbsp;&nbsp;запису &nbsp;&nbsp;&nbsp;&nbsp;в &nbsp;&nbsp;&nbsp;&nbsp;Єдиному &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;державному &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;демографічному &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;реєстрі*</td>
+</tr>
+<tr>
+<td style="border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom; text-align: center; height: 15px;" colspan="2">{{EDDRecordNum}}</td>
+</tr>
+<tr>
+<td style="text-align: justify; vertical-align: bottom; padding-left: 0; padding-bottom: 0;" colspan="2">скасовано реєстрацію/зняття з реєстрації місця проживання/перебування особи (необхідне підкреслити) за адресою<br/><!--{{#isAddrReg}}-->{{addrPlace1}} {{addrPlace2}}<!--{{/isAddrReg}}--><!--{{^isAddrReg}}-->{{addrToPlace1}} {{addrToPlace2}}<!--{{/isAddrReg}}--></td>
+</tr>
+<tr>
+<td style="border-top-width: 1px; border-top-color: black; border-top-style: solid; font-size: 10px; vertical-align: top; text-align: center; padding: 0;" colspan="2">(адреса місця проживання або адреса (місцезнаходження)</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 100%; padding: 0; vertical-align: bottom; text-align: left; height: 18px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;">{{addrPlace2}}</td>
+</tr>
+<tr>
+<td style="font-size: 10px; text-align: center; vertical-align: top; height: 22px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;">спеціалізованої соціальної установи, закладу соціального обслуговування та соціального захисту</td>
+</tr>
+<tr>
+<td style="font-size: 10px; text-align: center; vertical-align: top;">або військової частини, за якою зареєстровано місце проживання особи)</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; line-height: 1.5;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 100%; padding: 0; vertical-align: bottom; text-align: justify;">у зв’язку з</td>
+</tr>
+<tr>
+<td style="padding: 0 0 0 15px; vertical-align: bottom; text-align: left; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;">{{cancelReason}}</td>
+</tr>
+<tr>
+<td style="padding: 0; vertical-align: bottom; text-align: left; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;"></td>
+</tr>
+<tr>
+<td style="padding: 0; vertical-align: bottom; text-align: left; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;"></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td colspan="4"></td>
+</tr>
+<tr>
+<td colspan="4"></td>
+</tr>
+<tr>
+<td style="width: 250px;"></td>
+<td style="width: 100px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid;"></td>
+<td style="width: 100px;"></td>
+<td style="width: 250px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; text-align: center; vertical-align: bottom; padding: 0;">{{currUser}}</td>
+</tr>
+<tr>
+<td style="width: 250px; font-size: 10px; height: 5px;"></td>
+<td style="width: 100px; vertical-align: top; text-align: center; padding: 0; font-size: 10px; height: 5px;">(підпис)</td>
+<td style="width: 100px; font-size: 10px; height: 5px;"></td>
+<td style="width: 250px; vertical-align: top; text-align: center; padding: 0; font-size: 10px; height: 5px;">(посада, прізвище, ініціали)</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; margin-top: 8px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 107px; text-align: left; vertical-align: bottom; padding: 0;">М.П.</td>
+<td style="width: 40px;  border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 5px;"></td>
+<td style="width: 150px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 30px; padding: 0; padding-bottom: 1px; vertical-align: bottom;">20</td>
+<td style="width: 30px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid; padding: 0; vertical-align: bottom;"></td>
+<td style="width: 403px; padding: 0; vertical-align: bottom;">&nbsp;р.</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size: 10px;">__________</p>
+<p style="text-indent: 50px; font-size: 10px; text-align: justify;">* Для осіб, яким оформлено паспорт громадянина України чи паспорт громадянина України для виїзду за кордон засобами Єдиного державного демографічного реєстру.</p>

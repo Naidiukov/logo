@@ -1,0 +1,989 @@
+{
+  "caption": "Платники",
+  "description": "Платники",
+  "connectionName": "main",
+  "sqlAlias": "inv_payer",
+  "descriptionAttribute": "fullName",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "personType",
+      "dataType": "Enum",
+      "enumGroup": "INV_PERSON_TYPE",
+      "caption": "Тип",
+      "allowNull": false
+    },
+    {
+      "name": "lastName",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Прізвище",
+      "allowNull": true
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва",
+      "allowNull": true
+    },
+    {
+      "name": "firstName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Ім'я",
+      "allowNull": true
+    },
+    {
+      "name": "middleName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "По батькові",
+      "allowNull": true
+    },
+    {
+      "name": "fullName",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ПІБ",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [personType]='PHYSICAL' THEN trim(COALESCE([lastName],'') || ' ' || COALESCE([firstName], '') || ' ' || COALESCE([middleName], '')) ELSE [name] END"
+        }
+      ]
+    },
+    {
+      "name": "idnCode",
+      "dataType": "String",
+      "size": 30,
+      "caption": "РНОКПП",
+      "allowNull": true
+    },
+    {
+      "name": "edrpou",
+      "dataType": "String",
+      "size": 30,
+      "caption": "Код ЄДРПОУ",
+      "allowNull": true
+    },
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 30,
+      "caption": "РНОКПП/ЄДРПОУ",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [personType]='PHYSICAL' THEN [idnCode] ELSE [edrpou] END"
+        }
+      ]
+    },
+    {
+      "name": "passportSeries",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Серія/номер паспорта.Серія",
+      "allowNull": true
+    },
+    {
+      "name": "passportNumber",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Серія/номер паспорта.Номер",
+      "allowNull": true
+    },
+    {
+      "name": "passportSeriesAndNumber",
+      "dataType": "String",
+      "size": 240,
+      "description": "Серия и номер паспорта",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [passportSeries] IS NOT NULL THEN COALESCE([passportSeries], '') || ' ' || COALESCE([passportNumber], '') ELSE COALESCE([passportNumber], '') END"
+        }
+      ]
+    },
+    {
+      "name": "passportIssueDate",
+      "dataType": "Date",
+      "caption": "Дата видачі",
+      "allowNull": true
+    },
+    {
+      "name": "passportIssuedBy",
+      "dataType": "Entity",
+      "associatedEntity": "inv_regUnit",
+      "caption": "Ким видано",
+      "description": "Ким видано",
+      "allowNull": true
+    },
+    {
+      "name": "passportValidToDate",
+      "dataType": "Date",
+      "caption": "Дійсний до",
+      "allowNull": true
+    },
+    {
+      "name": "birthDate",
+      "dataType": "Date",
+      "caption": "Дата народження",
+      "allowNull": true
+    },
+    {
+      "name": "idCardNumber",
+      "dataType": "String",
+      "size": 9,
+      "caption": "№ паспорта нового зразка",
+      "allowNull": true
+    },
+    {
+      "name": "phone",
+      "dataType": "String",
+      "size": 250,
+      "caption": "Телефон",
+      "allowNull": true
+    },
+    {
+      "name": "email",
+      "dataType": "String",
+      "size": 250,
+      "caption": "Електронна пошта",
+      "allowNull": true
+    },
+    {
+      "name": "postIndex",
+      "dataType": "String",
+      "size": 5,
+      "caption": "Індекс",
+      "allowNull": true
+    },
+    {
+      "name": "notes",
+      "dataType": "Text",
+      "size": 14,
+      "caption": "Додатково",
+      "allowNull": true
+    },
+    {
+      "name": "privilegeStartDate",
+      "dataType": "Date",
+      "caption": "Дата початку дії пільги",
+      "allowNull": true
+    },
+    {
+      "name": "privilegeEndDate",
+      "dataType": "Date",
+      "caption": "Дата закінчення дії пільги",
+      "allowNull": true
+    },
+    {
+      "name": "privilegePhysID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_exemptionPhysDict",
+      "caption": "Пільгова категорія фіз. осіб",
+      "allowNull": true
+    },
+    {
+      "name": "privilegeLegID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_exemptionLegDict",
+      "caption": "Пільгова категорія юр. осіб",
+      "allowNull": true
+    },
+    {
+      "name": "oldID",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ID з старої системи",
+      "allowNull": true
+    },
+    {
+      "name": "oldTable",
+      "dataType": "String",
+      "size": 50,
+      "caption": "З якої таблиці імпортовано дані",
+      "description": "З якої таблиці імпортовано дані",
+      "defaultValue": "Не імпортоване",
+      "allowNull": true
+    },
+    {
+      "name": "gender",
+      "dataType": "Enum",
+      "enumGroup": "GENDER",
+      "caption": "Стать",
+      "description": "Стать",
+      "allowNull": true
+    },
+    {
+      "name": "genderName",
+      "dataType": "String",
+      "caption": "Вид документа",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT ubEnum.name from inv_payers payer left join ubm_enum ubEnum on ubEnum.code=payer.gender and ubEnum.eGroup='GENDER' where payer.ID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "birthCertificate",
+      "dataType": "String",
+      "size": 200,
+      "caption": "№ свідоцтва про народження",
+      "description": "№ свідоцтва про народження",
+      "allowNull": true
+    },
+    {
+      "name": "birthCertificateSeries",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Свідоцтво про народження. Серія",
+      "description": "Свідоцтво про народження. Серія",
+      "allowNull": true
+    },
+    {
+      "name": "birthCertificateNum",
+      "dataType": "String",
+      "size": 190,
+      "caption": "Свідоцтво про народження. Номер",
+      "description": "Свідоцтво про народження. Номер",
+      "allowNull": true
+    },
+    {
+      "name": "birthCertifDate",
+      "dataType": "Date",
+      "caption": "Дата видання свідоцтва про народження",
+      "allowNull": true
+    },
+    {
+      "name": "birthCertifIssuedBy",
+      "dataType": "Entity",
+      "associatedEntity": "inv_regUnit",
+      "caption": "Ким видано свідоцтво про народження",
+      "description": "Ким видано свідоцтво про народження",
+      "allowNull": true
+    },
+    {
+      "name": "deathCertificate",
+      "dataType": "String",
+      "size": 200,
+      "caption": "№ свідоцтва про смерть",
+      "description": "№ свідоцтва про смерть",
+      "allowNull": true
+    },
+    {
+      "name": "deathCertificateSeries",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Свідоцтво про смерть. Серія",
+      "description": "Свідоцтво про смерть. Серія",
+      "allowNull": true
+    },
+    {
+      "name": "deathCertificateNum",
+      "dataType": "String",
+      "size": 190,
+      "caption": "Свідоцтво про смерть. Номер",
+      "description": "Свідоцтво про смерть. Номер",
+      "allowNull": true
+    },
+    {
+      "name": "deathCertifDate",
+      "dataType": "Date",
+      "caption": "Дата видання свідоцтва про смерть",
+      "allowNull": true
+    },
+    {
+      "name": "deathCertifIssuedBy",
+      "dataType": "Entity",
+      "associatedEntity": "inv_regUnit",
+      "caption": "Ким видано свідоцтво про смерть",
+      "description": "Ким видано свідоцтво про смерть",
+      "allowNull": true
+    },
+    {
+      "name": "natalPlace",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Місце народження",
+      "description": "Місце народження",
+      "allowNull": true
+    },
+    {
+      "name": "country",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Країна",
+      "description": "Країна",
+      "allowNull": true
+    },
+    {
+      "name": "area",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Область",
+      "description": "Область",
+      "allowNull": true
+    },
+    {
+      "name": "settlement",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Населений пункт",
+      "description": "Населений пункт",
+      "allowNull": true
+    },
+    {
+      "name": "address",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Адреса",
+      "allowNull": true
+    },
+    {
+      "name": "addressAtuID",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Адреса",
+      "allowNull": true
+    },
+    {
+      "name": "addressFull",
+      "dataType": "String",
+      "size": 240,
+      "description": "Адреса",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [addressAtuID] IS NOT NULL THEN COALESCE([addressAtuID], '') || ' ' || COALESCE([address], '') ELSE COALESCE([address], '') END"
+        }
+      ]
+    },
+    {
+      "name": "birthPlace",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Місце проживання",
+      "allowNull": true
+    },
+    {
+      "name": "birthPlaceAtuID",
+      "dataType": "String",
+      "size": 250,
+      "allowNull": true,
+      "caption": "Місце проживання"
+    },
+    {
+      "name": "accBoard",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "В/облік. стіл",
+      "description": "В/облік. стіл",
+      "allowNull": true
+    },
+    {
+      "name": "militaryGroup",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_militaryGroup",
+      "caption": "Група обліку",
+      "description": "Група обліку",
+      "allowNull": true
+    },
+    {
+      "name": "militaryRank",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_militaryRank",
+      "caption": "Військове звання",
+      "description": "Військове звання",
+      "allowNull": true
+    },
+    {
+      "name": "combatant",
+      "dataType": "Enum",
+      "enumGroup": "COMBAT",
+      "caption": "Стройовий чи ні",
+      "description": "Стройовий чи ні",
+      "allowNull": true
+    },
+    {
+      "name": "specialization",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Цивільна спец-ть",
+      "description": "Цивільна спец-ть",
+      "allowNull": true
+    },
+    {
+      "name": "admitDate",
+      "dataType": "Date",
+      "caption": "Дата визнання",
+      "allowNull": true
+    },
+    {
+      "name": "commission",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "Комісією при",
+      "description": "Комісією при",
+      "allowNull": true
+    },
+    {
+      "name": "admitted",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_militaryAdmit",
+      "caption": "визнаний",
+      "description": "визнаний",
+      "allowNull": true
+    },
+    {
+      "name": "citizen",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "За гр.",
+      "description": "За гр.",
+      "allowNull": true
+    },
+    {
+      "name": "num",
+      "dataType": "Int",
+      "caption": "№",
+      "description": "№",
+      "allowNull": true
+    },
+    {
+      "name": "bankField",
+      "dataType": "String",
+      "size": 2000,
+      "caption": "пусте поле без назви",
+      "description": "пусте поле без назви",
+      "allowNull": true
+    },
+    {
+      "name": "reviewDate",
+      "dataType": "Date",
+      "caption": "Підлягає повторному огляду",
+      "allowNull": true
+    },
+    {
+      "name": "countryB",
+      "dataType": "Entity",
+      "associatedEntity": "inv_countryDict",
+      "caption": "Країна",
+      "description": "Країна (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "areaB",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Область",
+      "description": "Область (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "regionB",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Район",
+      "description": "Район (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementB",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "natalPlaceB",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Місце народження",
+      "description": "Місце народження (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "areaAddR",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Область",
+      "description": "Область (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "regionAddR",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Район",
+      "description": "Район (блок Місце народження)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementAddR",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "streetTypeAddR",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_streetType",
+      "caption": "Тип вулиці",
+      "description": "Тип вулиці (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementDistrictAddR",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDistrict",
+      "caption": "Район міста",
+      "description": "Район міста (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "streetAddR",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_localStreet",
+      "caption": "Вулиця",
+      "description": "Вулиця (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "houseNumAddR",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Будинок",
+      "description": "Будинок (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "corpusNumAddR",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Корпус",
+      "description": "Корпус (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "flatNumAddR",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Квартира",
+      "description": "Квартира (блок Адреса реєстрації)",
+      "allowNull": true
+    },
+    {
+      "name": "areaAddL",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Область",
+      "description": "Область (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementAddL",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Населений пункт",
+      "description": "Населений пункт (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "streetTypeAddL",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_streetType",
+      "caption": "Тип вулиці",
+      "description": "Тип вулиці (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementDistrictAddL",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDistrict",
+      "caption": "Район міста",
+      "description": "Район міста (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "streetAddL",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_localStreet",
+      "caption": "Вулиця",
+      "description": "Вулиця (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "houseNumAddL",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Будинок",
+      "description": "Будинок (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "corpusNumAddL",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Корпус",
+      "description": "Корпус (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "flatNumAddL",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Квартира",
+      "description": "Квартира (блок Адреса проживання)",
+      "allowNull": true
+    },
+    {
+      "name": "authorizedFullName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "ПІБ уповноваженої особи",
+      "description": "ПІБ уповноваженої особи",
+      "allowNull": true
+    },
+    {
+      "name": "authorizedPersonID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "ПІБ уповноваженої особи",
+      "description": "ПІБ уповноваженої особи",
+      "allowNull": true
+    },
+    {
+      "name": "personState",
+      "dataType": "Entity",
+      "associatedEntity": "inv_personState",
+      "caption": "Статус особи",
+      "description": "Статус особи",
+      "allowNull": true
+    },
+    {
+      "name": "prevLastName",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Попереднє прізвище",
+      "allowNull": true
+    },
+    {
+      "name": "nationality",
+      "dataType": "Entity",
+      "associatedEntity": "inv_countryDict",
+      "caption": "Громадянство",
+      "description": "Громадянство",
+      "allowNull": true
+    },
+    {
+      "name": "personNum",
+      "dataType": "String",
+      "size": 15,
+      "caption": "Номер громадянина",
+      "description": "Номер громадянина",
+      "allowNull": true
+    },
+    {
+      "name": "EDDRecordNum",
+      "dataType": "String",
+      "size": 15,
+      "caption": "Номер запису в ЄДДР",
+      "description": "Номер запису в ЄДДРа",
+      "allowNull": true
+    },
+    {
+      "name": "deathDate",
+      "dataType": "Date",
+      "caption": "Дата смерті",
+      "allowNull": true
+    },
+    {
+      "name": "deathDateFormatted",
+      "dataType": "String",
+      "caption": "Дата народження",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(to_char([deathDate], 'DD.MM.YYYY'))"
+        }
+      ]
+    },
+    {
+      "name": "regInfoCurrID",
+      "dataType": "Entity",
+      "associatedEntity": "comm_regInfoCurr",
+      "caption": "Поточна реєстрація",
+      "description": "Поточна реєстрація",
+      "allowNull": true
+    },
+    {
+      "name": "docType",
+      "dataType": "String",
+      "caption": "Вид документа",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT ubEnum.name from comm_regInfoCurr currReg left join ubm_enum ubEnum on ubEnum.code=currReg.docType and ubEnum.eGroup='DOC_TYPE' where currReg.ID=[regInfoCurrID])"
+        }
+      ]
+    },
+    {
+      "name": "rDocType",
+      "dataType": "String",
+      "caption": "Вид документа",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT ubEnum.name from comm_regInfoCurr currReg left join ubm_enum ubEnum on ubEnum.code=currReg.rDocType and ubEnum.eGroup='DOC_TYPE' where currReg.ID=[regInfoCurrID])"
+        }
+      ]
+    },
+    {
+      "name": "rowID",
+      "dataType": "String",
+      "caption": "№ з/п",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Field",
+          "expression": "ROWID"
+        }
+      ]
+    },
+    {
+      "name": "birthDateFormatted",
+      "dataType": "String",
+      "caption": "Дата народження",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(to_char([birthDate], 'DD.MM.YYYY'))"
+        }
+      ]
+    },
+    {
+      "name": "birthCertifDateFormatted",
+      "dataType": "String",
+      "caption": "Дата народження",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(to_char([birthCertifDate], 'DD.MM.YYYY'))"
+        }
+      ]
+    },
+    {
+      "name": "regDateFormatted",
+      "dataType": "String",
+      "caption": "Дата реєстрації",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(to_char([regInfoCurrID.regDate], 'DD.MM.YYYY'))"
+        }
+      ]
+    },
+    {
+      "name": "areaFrom",
+      "dataType": "String",
+      "caption": "Область",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT area from comm_regInfoFrom currFrom where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "regionFrom",
+      "dataType": "String",
+      "caption": "Район",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT region from comm_regInfoFrom currFrom where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "settlementFrom",
+      "dataType": "String",
+      "caption": "Населений пункт",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT (settleDict.governmentStatus || ' ' || settleDict.governmentName) as name from comm_regInfoFrom currFrom left join pgo_settlementDict settleDict on settleDict.ID=currFrom.settlement where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "streetTypeFrom",
+      "dataType": "String",
+      "caption": "Населений пункт",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT streetType.name from comm_regInfoFrom currFrom left join pgo_streetType streetType on streetType.ID=currFrom.streetType where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "streetFrom",
+      "dataType": "String",
+      "caption": "Населений пункт",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT street.street from comm_regInfoFrom currFrom left join pgo_localStreet street on street.ID=currFrom.street where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "houseNumFrom",
+      "dataType": "String",
+      "caption": "Населений пункт",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT currFrom.houseNum from comm_regInfoFrom currFrom where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "flatNumFrom",
+      "dataType": "String",
+      "caption": "Населений пункт",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT currFrom.flatNum from comm_regInfoFrom currFrom where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "postIndexFrom",
+      "dataType": "String",
+      "caption": "Населений пункт",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(SELECT currFrom.postIndex from comm_regInfoFrom currFrom where currFrom.ID=(SELECT MAX(ID) FROM comm_regInfoFrom WHERE payerID=[ID]) and currFrom.payerID=[ID])"
+        }
+      ]
+    },
+    {
+      "name": "removeDateFormatted",
+      "dataType": "String",
+      "caption": "Дата реєстрації",
+      "size": 100,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "(to_char([regInfoCurrID.removeDate], 'DD.MM.YYYY'))"
+        }
+      ]
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  },
+  "dbExtensions": {
+    "IDX_INV_PAYERS_AREAB": {
+      "type": "INDEX",
+      "definition": {
+        "keys": {
+          "areaB": {}
+        },
+        "isUnique": false
+      }
+    },
+    "IDX_INV_PAYERS_REGIONB": {
+      "type": "INDEX",
+      "definition": {
+        "keys": {
+          "regionB": {}
+        },
+        "isUnique": false
+      }
+    },
+    "IDX_INV_PAYERS_AREAADDR": {
+      "type": "INDEX",
+      "definition": {
+        "keys": {
+          "areaAddR": {}
+        },
+        "isUnique": false
+      }
+    },
+    "IDX_INV_PAYERS_REGIONADDR": {
+      "type": "INDEX",
+      "definition": {
+        "keys": {
+          "regionAddR": {}
+        },
+        "isUnique": false
+      }
+    },
+    "IDX_INV_PAYERS_AREAADDL": {
+      "type": "INDEX",
+      "definition": {
+        "keys": {
+          "areaAddL": {}
+        },
+        "isUnique": false
+      }
+    }
+  }
+}

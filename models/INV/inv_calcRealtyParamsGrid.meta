@@ -1,0 +1,97 @@
+{
+  "caption": "Параметри розрахунку податку на нерухоме майно",
+  "description": "Параметри розрахунку податку на нерухоме майно",
+  "connectionName": "main",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "calcParamsDictID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_calcRealtyParamsDict",
+      "caption": "Параметри розрахунку податку на нерухоме майно",
+      "allowNull": false
+    },
+    {
+      "name": "calcParamsCode",
+      "dataType": "String",
+      "caption": "Код",
+      "size": 10,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[calcParamsDictID.code]"
+        }
+      ]
+    },
+    {
+      "name": "calcParamsName",
+      "dataType": "String",
+      "caption": "Назва",
+      "size": 150,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[calcParamsDictID.name]"
+        }
+      ]
+    },
+    {
+      "name": "legalZ1",
+      "dataType": "Currency",
+      "caption": "для юр осіб. 1 зона",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "legalZ2",
+      "dataType": "Currency",
+      "caption": "для юр осіб. 2 зона",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "legalZ3",
+      "dataType": "Currency",
+      "caption": "для юр осіб. 3 зона",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "physZ1",
+      "dataType": "Currency",
+      "caption": "для фіз осіб. 1 зона",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "physZ2",
+      "dataType": "Currency",
+      "caption": "для фіз осіб. 2 зона",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "physZ3",
+      "dataType": "Currency",
+      "caption": "для фіз осіб. 3 зона",
+      "allowNull": true,
+      "defaultValue": "0"
+    },
+    {
+      "name": "calcParamsID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_calcRealtyParams",
+      "caption": "Параметри розрахунку земельного податку",
+      "allowNull": false,
+      "cascadeDelete": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "caption": "Надходження",
+  "description": "Надходження",
+  "connectionName": "main",
+  "sqlAlias": "inv_reginc",
+  "descriptionAttribute": "payer",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "payDate",
+      "dataType": "Date",
+      "caption": "Дата платежу",
+      "allowNull": false
+    },
+    {
+      "name": "paySum",
+      "dataType": "Currency",
+      "caption": "Сума платежу",
+      "description": "Сума платежу",
+      "allowNull": false
+    },
+    {
+      "name": "payer",
+      "dataType": "String",
+      "size": 1000,
+      "caption": "Платник",
+      "allowNull": false
+    },
+    {
+      "name": "payPurpose",
+      "dataType": "String",
+      "size": 1000,
+      "caption": "Призначення платежу",
+      "allowNull": false
+    },
+    {
+      "name": "payCode",
+      "dataType": "String",
+      "size": 1000,
+      "caption": "Код платежу",
+      "allowNull": false
+    },
+    {
+      "name": "MFO",
+      "dataType": "String",
+      "size": 1000,
+      "caption": "МФО банку",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": true,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

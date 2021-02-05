@@ -1,0 +1,49 @@
+{
+  "caption": "Довідник: Параметри розрахунку податку на нерухоме майно",
+  "description": "Довідник: Параметри розрахунку податку на нерухоме майно",
+  "connectionName": "main",
+  "cacheType": "None",
+  "descriptionAttribute": "fullName",
+  "attributes": [
+    {
+      "name": "parentID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_calcRealtyParamsDict",
+      "caption": "Батьківський пункт",
+      "allowNull": true
+    },
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 10,
+      "caption": "Код",
+      "allowNull": false
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 250,
+      "caption": "Найменування",
+      "allowNull": false
+    },
+    {
+      "name": "fullName",
+      "dataType": "String",
+      "caption": "Земельна ділянка",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[code] ||  ' ' || [name]"
+        }
+      ]
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

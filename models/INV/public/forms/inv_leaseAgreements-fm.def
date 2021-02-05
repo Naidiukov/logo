@@ -1,0 +1,578 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_leaseAgreements"
+// @model "INV"
+// @formType "auto"
+// @caption "Договір оренди"
+// @description "Договір оренди"
+exports.formDef = {
+    items: [{
+        xtype: 'tabpanel',
+        itemId: 'cmpTabPanel',
+        flex: 1,
+        minWidth: 250,
+        plain: true,
+        items: [
+            {
+                itemId: "tabMain",
+                title: 'Договір оренди',
+                defaults: {
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    }
+                },
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
+                items: [
+                    {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch'
+                        },
+                        items: [
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'state',
+                                        readOnly: true,
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'agreeNum',
+                                        width: 500
+
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'renter',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'landLord',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'startDate',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'endDate',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'stopDate',
+                                        readOnly: true,
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'validTerm',
+                                        xtype: 'numberfield',
+                                        allowExponential: false,
+                                        maxLength: 9,
+                                        // validator: function (v) {
+                                        //     return /^[0-9]{1,5}(,[0-9]{1,2})?$/.test(v) == 0 || !v ? true : 'Не припустимий формат!';
+                                        // },
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'rentPay',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'payTerm',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'fine',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'indexation',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'useGoal',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'insurance',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'insurer',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: "hbox",
+                                    align: "stretch"
+                                },
+                                defaults: {
+                                    labelWidth: 160
+                                },
+                                margin: "5, 0, 0, 0",
+                                items: [
+                                    {
+                                        attributeName: 'notes',
+                                        width: 500
+                                    }
+                                ]
+                            },
+                            {
+                                layout: {
+                                    type: 'vbox',
+                                    align: 'stretch'
+                                },
+                                items: [
+                                    {
+                                        xtype: 'panel',
+                                        title: 'Об’єкт оренди',
+                                        items: [{
+                                            items: [{
+                                                xtype: "ubdetailgrid",
+                                                itemId: "gridAgrObjs",
+                                                hideToolbar: false,
+                                                toolbarActionList: ['refresh', 'addNew', 'del'],
+                                                //hideMenuAllActions: true,
+                                                hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                                                margin: "0, 0, 5, 0",  //top, right, buttom, left
+                                                cmdType: "showList",
+                                                selModel: {
+                                                    selectionMode: "SINGLE"
+                                                },
+                                                entityConfig: {
+                                                    entity: "inv_agreementObjs",
+                                                    method: "select",
+                                                    fieldList: [
+                                                        {name: "ID", visibility: false},
+                                                        {name: "objectID", visibility: false},
+                                                        {"name": "objectID.oType", "visibility": false},
+                                                        {"name": "objectID.code", "description": "Код"},
+                                                        {"name": "objectID.oTypeStr", "description": "Тип об'єкта"},
+                                                        {"name": "objectID.koattNum.koattNum", "description": "КОАТУУ"},
+                                                        {"name": "objectID.address", "description": "Адреса"},
+                                                        {"name": "objectID.totalArea", "description": "Загальна площа", "format":".00"},
+                                                        {"name": "objectID.documentOwnership", "description": "Документ права власності"},
+                                                        {"name": "objectID.registryData", "description": "Дата держреєстрації"},
+                                                        {"name": "objectID.owner", "description": "Власник"},
+                                                        {"name": "objectID.koattNum.localGovernment", "description": "Орган місцевого самоврядування"}
+                                                    ]
+                                                },
+                                                masterFields: ["ID"],
+                                                detailFields: ["agreementID"],
+                                                onDeterminateForm: function () {
+                                                    let form = this.up("form");
+                                                    return {
+                                                        formCode: "inv_agreementObjs",
+                                                        entityName: "inv_agreementObjs",
+                                                        cmpInitConfig: {
+                                                            landLordID: form.record.get('landLord'),
+                                                            objType: this.store.getAt(0) ? JSON.stringify(this.store.getAt(0).data['objectID.oType']) : undefined
+                                                        }
+                                                    };
+                                                },
+                                                onItemDblClick: function () {
+                                                    var me = this,
+                                                        record = me.store.getById(me.selectedRecordID),
+                                                        formCode = record.get('objectID.oType')=='realtyObject' ? 'inv_realtyObject' : 'inv_landPlot';
+
+                                                    $App.doCommand({
+                                                        cmdType: "showForm",
+                                                        formCode: formCode,
+                                                        entityName: formCode,
+                                                        entity: formCode,
+                                                        instanceID: record.get('objectID'),
+                                                        target: $App.viewport.centralPanel,
+                                                        tabId: "object" + Ext.id(),
+                                                        sender: me
+                                                    });
+                                                },
+                                                onItemContextMenu: function (grid, record, item, index, event) {
+
+                                                }
+                                            }]
+                                        }]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                itemId: "tabLeasePay",
+                title: 'Орендна плата',
+                defaults: {
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    }
+                },
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+
+                },
+                items: [
+                    {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch'
+                        },
+                        items: [
+                            {
+                                xtype: 'panel',
+                                title: 'Орендна плата',
+                                collapsible: true,
+                                items: [{
+                                    xtype: "ubdetailgrid",
+                                    itemId: "gridRents",
+                                    hideToolbar: false,
+                                    toolbarActionList: ['refresh', 'addNew', 'del'],
+                                    hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                                    margin: "0, 0, 5, 0",  //top, right, buttom, left
+                                    cmdType: "showList",
+                                    selModel: {
+                                        selectionMode: "SINGLE"
+                                    },
+                                    entityConfig: {
+                                        entity: "inv_rentPayment",
+                                        method: "select",
+                                        fieldList: [
+                                            {name: "ID", visibility: false},
+                                            {name: "agreementID", visibility: false},
+                                            {name: "pName", visibility: false},
+                                            {name: "pType", visibility: false},
+                                            {name: "pIdn", visibility: false},
+                                            {name: "payerAddress", visibility: false},
+                                            {name: "name"},
+                                            {name: "year"},
+                                            {name: "sumYear"},
+                                            {name: "debt"},
+                                            {name: "fine"},
+                                            {name: "actualSum"}
+                                        ]
+                                    },
+                                    masterFields: ["ID"],
+                                    detailFields: ["agreementID"],
+                                    onDeterminateForm: function () {
+                                        let form = this.up("form");
+                                        return {
+                                            formCode: "inv_rentPayment",
+                                            entityName: "inv_rentPayment",
+                                            cmpInitConfig: {
+                                                renterID: form.record.get('renter')
+                                            }
+                                        };
+                                    },
+                                    onItemContextMenu: function (grid, record, item, index, event) {
+
+                                    }
+                                }]
+                            }
+                        ]
+                    },
+                    {
+                        layout: {
+                            type: 'vbox',
+                            align: 'stretch'
+                        },
+                        items: [
+                            {
+                                xtype: 'panel',
+                                title: 'Надходження',
+                                collapsible: true,
+                                items: [{
+                                    xtype: "ubdetailgrid",
+                                    itemId: "gridIncomes",
+                                    hideToolbar: false,
+                                    toolbarActionList: ['refresh', 'addNew', 'del'],
+                                    hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink"],
+                                    margin: "0, 0, 5, 0",  //top, right, buttom, left
+                                    cmdType: "showList",
+                                    selModel: {
+                                        selectionMode: "SINGLE"
+                                    },
+                                    entityConfig: {
+                                        entity: "inv_rentIncomes",
+                                        method: "select",
+                                        fieldList: [
+                                            {name: "ID", visibility: false},
+                                            {name: "agreementID", visibility: false},
+                                            {name: "payDate"},
+                                            {name: "paySum"},
+                                            {name: "payer"},
+                                            {name: "payPurpose"},
+                                            {name: "payCode"}
+                                        ]
+                                    },
+                                    masterFields: ["ID"],
+                                    detailFields: ["agreementID"],
+                                    onDeterminateForm: function () {
+                                        let form = this.up("form");
+                                        return {
+                                            formCode: "inv_rentIncomes",
+                                            entityName: "inv_rentIncomes",
+                                            cmpInitConfig: {
+                                            }
+                                        };
+                                    },
+                                    onItemContextMenu: function (grid, record, item, index, event) {
+
+                                    }
+                                }]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                itemId: "tabDocus",
+                title: 'Документи',
+                defaults: {
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    }
+                },
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
+                items: [
+                    {
+                        xtype: "ubdetailgrid",
+                        itemId: "gridAttachments",
+                        hideToolbar: false,
+                        toolbarActionList: ['refresh'],
+                        //hideMenuAllActions: true,
+                        hideActions: ["showPreview", "showDetail", "audit", "edit", "addNewByCurrent", "itemLink", 'addNew', 'del'],
+                        autoScroll: true,
+                        pageSize: 8,
+                        minRowsPagingBarVisibled: 8,
+                        margin: "0, 0, 5, 0",  //top, right, bottom, left
+                        cmdType: "showList",
+                        selModel: {
+                            selectionMode: "SINGLE"
+                        },
+                        entityConfig: {
+                            entity: "inv_contractAttachment",
+                            method: "select",
+                            fieldList: [
+                                {"name": "ID", "visibility": false},
+                                {"name": "agreementID", "visibility": false},
+                                {"name": "name"}
+                            ]
+                        },
+                        beforeRender: function () {
+                            let me = this;
+
+                            me.columns[0].renderer = function (value, a) {
+                                return "<a href='#' style='color:red'  data-id=" + a.record.get('ID') + "><i class='fa fa-times' aria-hidden='true'></i></a>&nbsp;&nbsp;" + value;
+                            };
+                        },
+                        afterInit: function () {
+                            var grid = this;
+                            grid.actions.del.setHidden(true);
+
+                            grid.on('deselect', function () {
+                                grid.actions.del.setHidden(true);
+                            });
+
+                            grid.on('select', function () {
+                                grid.actions.del.setHidden(true);
+                            });
+                        },
+                        masterFields: ["ID"],
+                        detailFields: ["agreementID"],
+                        onItemContextMenu: function () {
+                        },
+                        onDeterminateForm: function () {
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    ]
+};

@@ -1,0 +1,118 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "pgo_agricultureMachine"
+// @model "PGO"
+// @formType "auto"
+// @caption "Сільськогосподарська техніка"
+// @description "Сільськогосподарська техніка"
+exports.formDef = {
+    size: {
+        width: 500,
+        height: 700
+    },
+    requiredFields: ['objAccountingID'],
+    items: [
+        {
+            layout: {
+                type: "vbox",
+                align: "stretch"
+            },
+            defaults: {
+                labelWidth: 160,
+                flex: 1
+            },
+            autoScroll: true,
+            items: [
+                {
+                    attributeName: 'year',
+                    labelWidth: 140,
+                    readOnly: true
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Трактори',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'tractorTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    miniTractorCount = form.getField('miniTractor').getValue();
+                                if(v) return v>=miniTractorCount ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'miniTractor'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    margin: "0, 15, 0, 15",
+                    title: 'Вантажні автомобілі та комбайни',
+                    collapsible: true,
+                    layout: {
+                        type: "vbox",
+                        align: "stretch"
+                    },
+                    defaults: {
+                        flex: 1
+                    },
+                    items: [
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'truck'
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'combineTotal',
+                            validator: function (v) {
+                                let form = this.up('form'),
+                                    combineTotalCount = form.getField('combineTotal').getValue();
+                                if(v) return v>=combineTotalCount ? true : 'Значення не може бути меншим за суму усіх значень відповідного блоку!';
+                                else return true;
+                            }
+                        },
+                        {
+                            xtype: 'numberfield',
+                            allowExponential: false,
+                            allowDecimals: false,
+                            hideTrigger: true,
+                            attributeName: 'harvesterCombine'
+                        }
+                    ]
+                },
+                {
+                    attributeName: 'notes',
+                    labelWidth: 140,
+                    margin: "10, 15, 0, 15",
+					flex: 1
+                }
+            ]
+        }
+    ]
+};

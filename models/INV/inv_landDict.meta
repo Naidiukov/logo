@@ -1,0 +1,76 @@
+{
+  "caption": "Довідник",
+  "description": "Довідник показників нормативної грошової оцінки земель населених пунктів",
+  "connectionName": "main",
+  "sqlAlias": "inv_landDict",
+  "cacheType": "None",
+  "descriptionAttribute": "koattNum",
+  "attributes": [
+    {
+      "name": "koattNum",
+      "dataType": "BigInt",
+      "caption": "Код КОАТТУ",
+      "description": "Код КОАТТУ",
+      "allowNull": false
+    },
+    {
+      "name": "governmentStatus",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Статус населеного пункту",
+      "description": "Статус населеного пункту",
+      "allowNull": false
+    },
+    {
+      "name": "governmentName",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Назва місцевого самоврядування",
+      "description": "Назва місцевого самоврядування",
+      "allowNull": false
+    },
+    {
+      "name": "governmentFullName",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Назва місцевого самоврядування",
+      "description": "Назва місцевого самоврядування",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[governmentStatus] || ', ' || [governmentName]"
+        }
+      ]
+    },
+    {
+      "name": "localGovernment",
+      "dataType": "String",
+      "size": 500,
+      "caption": "Орган місцевого самоврядування",
+      "description": "Орган місцевого самоврядування",
+      "allowNull": false
+    },
+    {
+      "name": "lastYear",
+      "dataType": "Int",
+      "caption": "Рік останнього проведення нормативної грошової оцінки земель населеного пункту",
+      "description": "Рік останнього проведення нормативної грошової оцінки земель населеного пункту",
+      "allowNull": false
+    },
+    {
+      "name": "NGO",
+      "dataType": "Currency",
+      "caption": "Нормативно грошова одиниця одиниці площі",
+      "description": "Нормативно грошова одиниця одиниці площі",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "caption": "Відомості про сільськогосподарську техніку",
+  "description": "Відомості про сільськогосподарську техніку",
+  "connectionName": "main",
+  "sqlAlias": "pgo_agrmachine",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "Int",
+      "caption": "Рік обходу",
+      "description": "Рік обходу",
+      "allowNull": false
+    },
+    {
+      "name": "tractorTotal",
+      "dataType": "Int",
+      "caption": "Трактори - всього",
+      "description": "Трактори - всього",
+      "allowNull": true
+    },
+    {
+      "name": "miniTractor",
+      "dataType": "Int",
+      "caption": "У т.ч. міні-трактори (садово-городові) та мотоблоки",
+      "description": "У т.ч. міні-трактори (садово-городові) та мотоблоки",
+      "allowNull": true
+    },
+    {
+      "name": "truck",
+      "dataType": "Int",
+      "caption": "Вантажні автомобілі - всього",
+      "description": "Вантажні автомобілі - всього",
+      "allowNull": true
+    },
+    {
+      "name": "combineTotal",
+      "dataType": "Int",
+      "caption": "Комбайни - всього",
+      "description": "Комбайни - всього",
+      "allowNull": true
+    },
+    {
+      "name": "harvesterCombine",
+      "dataType": "Int",
+      "caption": "У т.ч. зернозбиральні комбайни",
+      "description": "У т.ч. зернозбиральні комбайни",
+      "allowNull": true
+    },
+    {
+      "name": "notes",
+      "dataType": "String",
+      "size": 1000,
+      "caption": "Додаткова інформація",
+      "description": "Додаткова інформація",
+      "allowNull": true
+    },
+    {
+      "name": "objAccountingID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_objAccounting",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

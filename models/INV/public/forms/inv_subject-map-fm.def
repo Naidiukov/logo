@@ -1,0 +1,165 @@
+// @! "do not remove comments below unless you know what you do!"
+// @mi_modifyDate "undefined"
+// @isDefault "false"
+// @entity "inv_subject"
+// @model "INV"
+// @formType "custom"
+// @caption "Карта"
+// @description "Карта"
+exports.formDef = 'INV.map';
+Ext.define('INV.map', {
+    extend: "Ext.form.Panel",
+    alias: 'widget.leafletmapview',
+    width: Ext.getBody().getViewSize().width - 120,
+    height: Ext.getBody().getViewSize().height - 150,
+
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
+    },
+    items: [],
+
+
+    initComponent: function () {
+        var me = this;
+        me.items = [
+            {
+                xtype: 'panel',
+                flex: 1,
+
+                layout: {
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                items: [{
+                    xtype: 'panel',
+                    id: me.id + 'monitoring-map',
+                    flex: 1
+                }]
+            }
+            ]
+        me.callParent(arguments);
+
+        if (window.L === 'undefined') {
+            return false
+        }
+
+        me.on('afterrender', function (){
+            let me = this
+            let map = {}
+
+            window.smmMoniyUnitMap = map = {
+                map: false,
+                markersGroup: false,
+                tracesGroup: {},
+                drawnGroup: false,
+                osm: false,
+                units: false,
+                config: false,
+                timeout: false,
+                tracesData: [],
+                visibleMarkers: {},
+                traces: {},
+                markers: {},
+                posts: {},
+
+                init: function () {
+                    let _this = this
+                    this.map = L.map(me.id + 'monitoring-map', {
+                        editable: true,
+                        // center: [ 51.505, -0.09 ],
+                        // attributionControl: false,
+                        zoom: 13,
+                        maxZoom: 18
+                    })
+
+                    this.initGeoServer()
+
+                    this.prepareMap()
+                },
+
+                initGeoServer: function () {
+                    const osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+                    const osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 18 });
+
+                    const googleUrl = 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
+                    const google = new L.TileLayer(googleUrl, {
+                        minZoom: 5,
+                        maxZoom: 18,
+                        subdomains: [ 'mt0', 'mt1', 'mt2', 'mt3' ],
+                    });
+                    const source1 = L.WMS.source('http://map.land.gov.ua/geowebcache/service/wms', {
+                        crs: L.CRS.EPSG3857,
+                        format: 'image/png',
+                        transparent: 'true',
+                        info_format: 'text/html',
+                        tiled: true,
+                        // mode: '8bit',
+                        layer_id: 6882640856227290,
+                    });
+
+                    const gnidun = new L.TileLayer('http://c.demo_gnidyn.local.softpro.ua/map/rtile/carto_2461062647949296864/ua/{z}/{x}/{y}.png', {
+                        minZoom: 5,
+                    });
+
+                    function onEachFeature(feature, layer) {
+                        var popupContent = []
+
+                        Object.keys(feature.properties).forEach(item => {
+                            item !== 'Шар' && feature.properties[item] && popupContent.push(`${item}: ${feature.properties[item]}`)
+                        })
+                        feature.properties.Кадас && (!me.defaultObject || !me.defaultObject.coords) && popupContent.push(`<input type="button" value="Відкрити картку" onclick="INV.services.openSubjectFormByCadastr('${feature.properties.Кадас || ''}')">`)
+                        const popup = layer.bindPopup(popupContent.join('<br/>'));
+                        if (me.defaultObject && me.defaultObject.cadastralNumber && feature.properties.Кадас === me.defaultObject.cadastralNumber) me.defaultObject.popup = popup
+                    }
+
+
+
+                    const landPlotNotOwnLGr = new L.FeatureGroup()
+                    const landPlotOwnLGr = new L.FeatureGroup()
+                    const landPlotOwnL = {...window.landPlotOwn}
+                    if (me.defaultObject && me.defaultObject.cadastralNumber) {
+                        const findCadastr = landPlotOwnL.features.find(item => item.properties['Кадас'] === me.defaultObject.cadastralNumber)
+                        if (findCadastr) landPlotOwnL.features = [findCadastr]
+                    }
+
+                    L.geoJSON(window.landPlotNotOwn, { coordsToLatLng: INV.services.coordsToLatLng, onEachFeature: onEachFeature, }).addTo(landPlotNotOwnLGr);
+                    L.geoJSON(landPlotOwnL, { coordsToLatLng: INV.services.coordsToLatLng, onEachFeature: onEachFeature, }).addTo(landPlotOwnLGr);
+
+                    const baseLayers = {
+                        OpenStreetMap: osm,
+                        'Google Maps': google,
+                        Ортофотоплани: gnidun,
+                        Кадастр: source1.getLayer('kadastr'),
+                        'Землі не надані у власніть': landPlotNotOwnLGr,
+                        'Межі ділянок із правами': landPlotOwnLGr
+                    };
+
+                    L.control.layers({}, baseLayers).addTo(this.map);
+                    baseLayers['Google Maps'].addTo(this.map)
+                    baseLayers['Ортофотоплани'].addTo(this.map)
+                    if (me.defaultObject && me.defaultObject.coords) baseLayers['Межі ділянок із правами'].addTo(this.map)
+                },
+
+
+
+                prepareMap: function () {
+                    let _this = this
+
+                    if (me.defaultObject && me.defaultObject.coords) setTimeout(function () {
+                        _this.map.fitBounds(L.latLngBounds(me.defaultObject.coords))
+                        me.defaultObject.popup.openPopup()
+                    }, 100)
+                    else setTimeout(function () {
+                        _this.map.setView([50.32862006187366, 30.707353589823473], 14)
+                    }, 100)
+
+                },
+            }
+
+            // Init map
+            map.init()
+        })
+
+    }
+});

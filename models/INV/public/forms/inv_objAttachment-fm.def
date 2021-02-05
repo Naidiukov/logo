@@ -1,0 +1,62 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_objAttachment"
+// @model "INV"
+// @formType "auto"
+// @caption "Документ"
+// @description "Документ"
+exports.formDef = {
+    requiredFields: ['attachment'],
+
+    autoScroll: true,
+    size: {
+        width: 900,
+        height: 600
+    },
+    parentConfig: {
+        layout: { // выравниваем
+            type: "hbox",
+            align: "stretch" //max
+        },
+        defaults: {
+            layout: 'fit' //внутри подчинённых панелек выравниваем на максимальный размер
+        }
+    },
+    layout: 'fit',
+    items: [
+        {
+            title: UB.i18n('obrazDocumenta'), //'Образ документа'
+            flex: 3,
+            /* сохранение состояния сплитера (ширины документа) */
+            stateful: true,
+            stateId: UB.core.UBLocalStorageManager.getKeyUI('inv_objAttachment'),
+            items: [
+                {
+                    attributeName: "attachment",
+                    expanded: true
+                }
+            ]
+        },
+        {
+            xtype: "splitter",
+            collapsible: false,
+            performCollapse: false
+        },
+        {
+            layout: {
+                type: 'vbox',
+                align: "stretch",
+                flex: 1
+            },
+            flex: 1,
+            items: [
+                {
+                    attributeName: "name",
+                    margin: "5, 5, 0, 5",  //top, right, buttom, left
+                    labelWidth: 80,
+                    allowBlank: false
+                }
+            ]
+        }
+    ]
+};

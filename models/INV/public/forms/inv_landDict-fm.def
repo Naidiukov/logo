@@ -1,0 +1,39 @@
+// @! "do not remove comments below unless you know what you do!"
+// @mi_modifyDate "undefined"
+// @isDefault "false"
+// @entity "inv_landDict"
+// @model "INV"
+// @formType "auto"
+// @caption "Довідник показників НГО"
+// @description "Довідник показників НГО"
+exports.formDef = {
+	parentConfig: {
+		layout: { // выравниваем
+			type: "vbox",
+			align: "stretch" //max
+		},
+		defaults: {
+			labelWidth: 160
+		}
+	},
+	items: [
+		{
+			attributeName: 'koattNum'
+		},
+		{
+			attributeName: 'governmentStatus'
+		},
+		{
+			attributeName: 'governmentName'
+		},
+		{
+			attributeName: 'localGovernment'
+		},
+		{
+			attributeName: 'lastYear'
+		},
+		{
+			attributeName: 'NGO'
+		}
+	]
+};

@@ -1,0 +1,265 @@
+{
+  "caption": "Реквізити місцевої ради",
+  "description": "Реквізити місцевої ради",
+  "connectionName": "main",
+  "sqlAlias": "pgo_requisites",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "edrpou",
+      "dataType": "String",
+      "size": 8,
+      "caption": "Код ЄДРПОУ",
+      "allowNull": true
+    },
+    {
+      "name": "postIndex",
+      "dataType": "String",
+      "size": 5,
+      "caption": "Індекс",
+      "allowNull": true
+    },
+    {
+      "name": "pgoDictID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_ngoDict",
+      "caption": "Назва",
+      "description": "Назва",
+      "allowNull": false
+    },
+    {
+      "name": "localGovGenitive",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва місцевої ради у р.в.",
+      "allowNull": false
+    },
+    {
+      "name": "regionGenitive",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва району у р.в.",
+      "allowNull": false
+    },
+    {
+      "name": "areaGenitive",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва області у р.в.",
+      "allowNull": false
+    },
+    {
+      "name": "settlementDictID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_settlementDict",
+      "caption": "Адміністративний центр ради",
+      "description": "Адміністративний центр ради",
+      "allowNull": true
+    },
+    {
+      "name": "streetID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_localStreet",
+      "caption": "Вулиця",
+      "description": "Вулиця",
+      "allowNull": true
+    },
+    {
+      "name": "houseNum",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Номер будинку",
+      "allowNull": true
+    },
+    {
+      "name": "headFullName",
+      "dataType": "String",
+      "size": 240,
+      "caption": "ПІБ",
+      "allowNull": true
+    },
+    {
+      "name": "headBirthDate",
+      "dataType": "Date",
+      "caption": "Дата народження",
+      "allowNull": true
+    },
+    {
+      "name": "headPhoneNumber",
+      "dataType": "String",
+      "size": 50,
+      "caption": "Службовий телефон",
+      "allowNull": true
+    },
+    {
+      "name": "headEducationLVL",
+      "dataType": "Enum",
+      "enumGroup": "EDUCATION",
+      "caption": "Освітній рівень",
+      "description": "Освітній рівень",
+      "allowNull": true
+    },
+    {
+      "name": "specialization",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Спеціальність",
+      "allowNull": true
+    },
+    {
+      "name": "whoNominated",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Ким висунутий на виборах",
+      "allowNull": true
+    },
+    {
+      "name": "candidatesNum",
+      "dataType": "Int",
+      "caption": "Кількість кандидатур на виборах",
+      "allowNull": true
+    },
+    {
+      "name": "electionDate",
+      "dataType": "Date",
+      "caption": "Дата обрання",
+      "allowNull": true
+    },
+    {
+      "name": "votesNum",
+      "dataType": "Int",
+      "caption": "Кількість отриманих голосів",
+      "allowNull": true
+    },
+    {
+      "name": "councilHead",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Обрання головою ради",
+      "allowNull": true
+    },
+    {
+      "name": "clerkFullName",
+      "dataType": "String",
+      "size": 240,
+      "caption": "ПІБ",
+      "allowNull": true
+    },
+    {
+      "name": "clerkBirthDate",
+      "dataType": "Date",
+      "caption": "Дата народження",
+      "allowNull": true
+    },
+    {
+      "name": "clerkPhoneNumber",
+      "dataType": "String",
+      "size": 50,
+      "caption": "Службовий телефон",
+      "allowNull": true
+    },
+    {
+      "name": "clerkEducationLVL",
+      "dataType": "Enum",
+      "enumGroup": "EDUCATION",
+      "caption": "Освітній рівень",
+      "description": "Освітній рівень",
+      "allowNull": true
+    },
+    {
+      "name": "clerkElectionDate",
+      "dataType": "Date",
+      "caption": "Дата обрання секретарем",
+      "allowNull": true
+    },
+    {
+      "name": "councilClerk",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Обрання секретарем ради",
+      "allowNull": true
+    },
+    {
+      "name": "email",
+      "dataType": "String",
+      "size": 250,
+      "caption": "Електронна адреса",
+      "allowNull": true
+    },
+    {
+      "name": "plannerFullName",
+      "dataType": "String",
+      "size": 250,
+      "caption": "Землевпорядник",
+      "allowNull": false
+    },
+    {
+      "name": "dilovodFullName",
+      "dataType": "String",
+      "size": 250,
+      "caption": "Діловод",
+      "allowNull": true
+    },
+    {
+      "name": "centerDistance",
+      "dataType": "Int",
+      "size": 100,
+      "caption": "Відстань до районного центру",
+      "allowNull": true
+    },
+    {
+      "name": "totalArea",
+      "dataType": "float",
+      "caption": "Загальна площа (Га)",
+      "allowNull": true
+    },
+    {
+      "name": "stateLand",
+      "dataType": "float",
+      "caption": "Земель державної власності (Га)",
+      "allowNull": true
+    },
+    {
+      "name": "communalLand",
+      "dataType": "float",
+      "caption": "Земель комунальної власності (Га)",
+      "allowNull": true
+    },
+    {
+      "name": "privateLand",
+      "dataType": "float",
+      "caption": "Земель приватної власності (Га)",
+      "allowNull": true
+    },
+    {
+      "name": "settlementTotalArea",
+      "dataType": "float",
+      "caption": "Загальна площа населених пунктів (Га)",
+      "allowNull": true
+    },
+    {
+      "name": "stateProperty",
+      "dataType": "float",
+      "caption": "Державна власність (Га)",
+      "allowNull": true
+    },
+    {
+      "name": "communalProperty",
+      "dataType": "float",
+      "caption": "Комунальна власність (га)",
+      "allowNull": true
+    },
+    {
+      "name": "privateProperty",
+      "dataType": "float",
+      "caption": "Приватна власність (Га)",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

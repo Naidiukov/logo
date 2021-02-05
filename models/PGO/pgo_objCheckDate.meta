@@ -1,0 +1,67 @@
+{
+  "caption": "Дата обходу об’єкта ",
+  "description": "Дата обходу об’єкта ",
+  "connectionName": "main",
+  "sqlAlias": "pgo_checkdate",
+  "cacheType": "None",
+  "attributes": [
+    {
+      "name": "checkDate",
+      "dataType": "Date",
+      "caption": "Дата обходу",
+      "allowNull": false
+    },
+    {
+      "name": "lastName",
+      "dataType": "String",
+      "size": 240,
+      "caption": "Прізвище",
+      "allowNull": false
+    },
+    {
+      "name": "firstName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Ім'я",
+      "allowNull": false
+    },
+    {
+      "name": "middleName",
+      "dataType": "String",
+      "size": 100,
+      "caption": "По батькові",
+      "allowNull": true
+    },
+    {
+      "name": "fullName",
+      "dataType": "String",
+      "size": 200,
+      "caption": "ПІБ",
+      "allowNull": true,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "trim(COALESCE([lastName],'') || ' ' || COALESCE([firstName], '') || ' ' || COALESCE([middleName], ''))"
+        }
+      ]
+    },
+    {
+      "name": "objAccountingID",
+      "dataType": "Entity",
+      "associatedEntity": "pgo_objAccounting",
+      "caption": "Об'єкт ПГО",
+      "description": "Об'єкт ПГО",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    },
+    "softDelete": {
+      "enabled": false
+    }
+  }
+}

@@ -1,0 +1,64 @@
+<!--@name "Про ділянку осг що не є паєм, вільна від забудови"-->
+<!--@report_code "osgConstrFree"-->
+<!--@model "PGO"-->
+<!--@ID "333272351801345"-->
+
+
+
+<!--%pageOrientation:portrait--><table style="word-break: break-all; border-collapse: collapse; width: 360px;" width="360px" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td style="cursor: default; text-align: center; font-size: 14pt; width: 360px;"></td>
+</tr>
+<tr>
+<td style="cursor: default; text-align: center; font-size: 14pt; width: 360px;"><strong>Україна</strong></td>
+</tr>
+<tr>
+<td style="cursor: default; text-align: center; font-size: 14pt;">{{local.localGovernment}}</td>
+</tr>
+<tr>
+<td style="cursor: default; text-align: center; font-size: 14pt;">Ідентифікаційний код {{local.edrpou}}</td>
+</tr>
+<tr>
+<td style="cursor: default; text-align: center; font-size: 14pt;">{{local.postIndex}}, {{local.areaName}} область</td>
+</tr>
+<tr>
+<td style="cursor: default; text-align: center; font-size: 14pt;">{{local.regionName}}</td>
+</tr>
+<tr>
+<td style="cursor: default; text-align: center; font-size: 14pt;">{{local.settlementState}}. {{local.settlement}}, {{local.street}}, {{local.houseNum}}</td>
+</tr>
+<tr>
+<td style="cursor: default; font-size: 14pt;">____________20___р: №____________</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><span style="font-size: 16pt;"><strong>Д О В І Д К А</strong></span></p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-indent: 100px; text-align: justify;"><span style="font-size: 14pt;">Видана виконавчим комітетом {{local.localGovGenitive}} про те, що земельна ділянка площею {{land.totalArea}} га на території {{pgo.settlement}} {{local.regionGenitive}} {{local.areaGenitive}} області, кадастровий номер {{land.cadastral}}, для ведення особистого селянського господарства, яка згідно {{land.document}} за законом від {{land.regDate}} року належить __________________________________________________, не була та не є паєм. На даний час вказана ділянка вільна від забудови та споруд.</span></p>
+<p style="text-indent: 100px; text-align: justify;"><span style="font-size: 14pt;">Довідка видана {{formParams.certif}}.</span></p>
+<p style="text-indent: 100px; text-align: justify;">&nbsp;</p>
+<p style="text-indent: 100px; text-align: justify;">&nbsp;</p>
+<table width="773" cellspacing="0" cellpadding="3px">
+<tbody>
+<tr>
+<td style="width: 1072px;">
+<p style="text-indent: 100px; font-size: 14pt;">Сільський голова</p>
+</td>
+<td style="width: 472px;">
+<p style="font-size: 14pt;">{{local.headShortName}}</p>
+</td>
+</tr>
+<tr>
+<td style="width: 1072px;">
+<p style="text-indent: 100px; font-size: 14pt;">Землевпорядник</p>
+</td>
+<td style="width: 472px;">
+<p style="font-size: 14pt;">{{local.plannerShortName}}</p>
+</td>
+</tr>
+</tbody>
+</table>

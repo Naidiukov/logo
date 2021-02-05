@@ -1,0 +1,30 @@
+{
+  "caption": "Довідник дорожного покриття",
+  "description": "Довідник дорожного покриття",
+  "connectionName": "main",
+  "sqlAlias": "pgo_coverage",
+  "cacheType": "None",
+  "descriptionAttribute": "name",
+  "attributes": [
+    {
+      "name": "code",
+      "dataType": "String",
+      "size": 20,
+      "caption": "Код",
+      "allowNull": true
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "size": 200,
+      "caption": "Назва",
+      "allowNull": true
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}

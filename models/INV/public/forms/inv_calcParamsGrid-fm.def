@@ -1,0 +1,79 @@
+// @! "do not remove comments below unless you know what you do!"
+// @mi_modifyDate "undefined"
+// @isDefault "false"
+// @entity "inv_calcParamsGrid"
+// @model "INV"
+// @formType "auto"
+// @caption "Параметри розрахунку земельного податку"
+// @description "Параметри розрахунку земельного податку"
+exports.formDef = {
+	items: [
+		{
+			layout: {
+				type: "vbox",
+				align: 'stretch'
+			},
+			items: [
+				{
+					attributeName: 'code',
+					readOnly: true
+				},
+				{
+					attributeName: 'parentCode',
+					readOnly: true
+				},
+				{
+					attributeName: 'name'
+				},
+				{
+					xtype: 'numberfield',
+					step: 0.01,
+					minValue: 0,
+					allowExponential: false,
+					attributeName: 'ngoLegal',
+					decimalPrecision: 3,
+					enforceMaxLength: true,
+					valueToRaw: function (value) {
+						return _.isNumber(value) ? Ext.util.Format.currency(value, '', this.decimalPrecision || 3).replace(/ /g, '') : ''
+					}
+				},
+				{
+					xtype: 'numberfield',
+					attributeName: 'ngoPhys',
+					step: 0.01,
+					minValue: 0,
+					allowExponential: false,
+					decimalPrecision: 3,
+					enforceMaxLength: true,
+					valueToRaw: function (value) {
+						return _.isNumber(value) ? Ext.util.Format.currency(value, '', this.decimalPrecision || 3).replace(/ /g, '') : ''
+					}
+				},
+				{
+					xtype: 'numberfield',
+					attributeName: 'outLegal',
+					step: 0.01,
+					minValue: 0,
+					allowExponential: false,
+					decimalPrecision: 3,
+					enforceMaxLength: true,
+					valueToRaw: function (value) {
+						return _.isNumber(value) ? Ext.util.Format.currency(value, '', this.decimalPrecision || 3).replace(/ /g, '') : ''
+					}
+				},
+				{
+					xtype: 'numberfield',
+					attributeName: 'outPhys',
+					step: 0.01,
+					minValue: 0,
+					allowExponential: false,
+					decimalPrecision: 3,
+					enforceMaxLength: true,
+					valueToRaw: function (value) {
+						return _.isNumber(value) ? Ext.util.Format.currency(value, '', this.decimalPrecision || 3).replace(/ /g, '') : ''
+					}
+				}
+			]
+		}
+	]
+};

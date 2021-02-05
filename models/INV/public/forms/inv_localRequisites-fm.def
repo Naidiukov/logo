@@ -1,0 +1,259 @@
+// @! "do not remove comments below unless you know what you do!"
+// @isDefault "false"
+// @entity "inv_localRequisites"
+// @model "INV"
+// @formType "auto"
+// @caption "Реквізити місцевої ради"
+// @description "Реквізити місцевої ради"
+exports.formDef = {
+    items: [{
+        layout: {
+            type: 'vbox',
+            align: 'stretch'
+        },
+        //bodyStyle: 'padding:10px 10px 0',
+        items: [
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        xtype: "ubcombobox",
+                        attributeName: "landDictID",
+                        valueField: 'ID',
+                        disableContextMenu: true,
+                        name: "koattNum",
+                        ubID: "koattNum",
+                        itemId: "koattNum",
+                        fieldLabel: "Назва",
+                        displayField: 'localGovernment',
+                        labelWidth: 138,
+                        fieldList: ["ID", "localGovernment"]
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: "hbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    labelWidth: 160,
+                    flex: 1
+                },
+                margin: "5, 0, 0, 0",
+                items: [
+                    {
+                        attributeName: "state",
+                        labelWidth: 138,
+						readOnly: true
+                    }
+                ]
+            },
+            {
+                // Fieldset in Column 1 - collapsible via toggle button
+                xtype: 'fieldset',
+                margin: "0, 15, 0, 15",
+                //columnWidth: 0.5,
+                title: 'Параметри УДКСУ',
+                collapsible: true,
+                // defaultType: 'textfield',
+                // defaults: {anchor: '100%'},
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [{
+                    attributeName: 'name'
+                }, {
+                    attributeName: 'code'
+                },
+                    {
+                        attributeName: 'MFO'
+                    }]
+            },
+            {
+                // Fieldset in Column 1 - collapsible via toggle button
+                xtype: 'fieldset',
+                margin: "15, 15, 20, 15",
+                //columnWidth: 0.5,
+                title: 'Параметри платежів за землю фіз.особи',
+                collapsible: true,
+                // defaultType: 'textfield',
+                // defaults: {anchor: '100%'},
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [{
+                    attributeName: 'physLandPayPurpose'
+                }, {
+                    attributeName: 'physLandPayCode'
+                },
+                    {
+                        attributeName: 'physLandAccount'
+                    }]
+            },
+            {
+                // Fieldset in Column 1 - collapsible via toggle button
+                xtype: 'fieldset',
+                margin: "15, 15, 20, 15",
+                //columnWidth: 0.5,
+                title: 'Параметри платежів за землю юр.особи',
+                collapsible: true,
+                // defaultType: 'textfield',
+                // defaults: {anchor: '100%'},
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [{
+                    attributeName: 'legLandPayPurpose'
+                }, {
+                    attributeName: 'legLandPayCode'
+                },
+                    {
+                        attributeName: 'legLandAccount'
+                    }]
+            },
+            {
+                xtype: 'fieldset',
+                margin: "15, 15, 20, 15",
+                title: 'Параметри платежів за нерухоме майно фіз.особи, нежитлова нерухомість',
+                collapsible: true,
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [
+                    {
+                        attributeName: 'physRealtyPayPurposeN'
+                    }, {
+                        attributeName: 'physRealtyPayCodeN'
+                    },
+                    {
+                        attributeName: 'physRealtyAccountN'
+                    }]
+            },
+            {
+                xtype: 'fieldset',
+                margin: "15, 15, 20, 15",
+                title: 'Параметри платежів за нерухоме майно юр.особи, нежитлова нерухомість',
+                collapsible: true,
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [
+                    {
+                        attributeName: 'legRealtyPayPurposeN'
+                    }, {
+                        attributeName: 'legRealtyPayCodeN'
+                    },
+                    {
+                        attributeName: 'legRealtyAccountN'
+                    }]
+            },
+            {
+                // Fieldset in Column 1 - collapsible via toggle button
+                xtype: 'fieldset',
+                margin: "15, 15, 20, 15",
+                //columnWidth: 0.5,
+                title: 'Параметри платежів за нерухоме майно фіз.особи, житлова нерухомість',
+                collapsible: true,
+                // defaultType: 'textfield',
+                // defaults: {anchor: '100%'},
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [
+                    {
+                        attributeName: 'physRealtyPayPurpose'
+                    }, {
+                        attributeName: 'physRealtyPayCode'
+                    },
+                    {
+                        attributeName: 'physRealtyAccount'
+                    }]
+            },
+            {
+                // Fieldset in Column 1 - collapsible via toggle button
+                xtype: 'fieldset',
+                margin: "15, 15, 20, 15",
+                //columnWidth: 0.5,
+                title: 'Параметри платежів за нерухоме майно юр.особи, житлова нерухомість',
+                collapsible: true,
+                // defaultType: 'textfield',
+                // defaults: {anchor: '100%'},
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [
+                    {
+                        attributeName: 'legRealtyPayPurpose'
+                    }, {
+                        attributeName: 'legRealtyPayCode'
+                    },
+                    {
+                        attributeName: 'legRealtyAccount'
+                    }]
+            },
+            {
+                // Fieldset in Column 1 - collapsible via toggle button
+                xtype: 'fieldset',
+                margin: "15, 15, 20, 15",
+                //columnWidth: 0.5,
+                title: 'Параметри платежів за оренду',
+                collapsible: true,
+                // defaultType: 'textfield',
+                // defaults: {anchor: '100%'},
+                layout: {
+                    type: "vbox",
+                    align: "stretch"
+                },
+                defaults: {
+                    flex: 1
+                },
+                items: [
+                    {
+                        attributeName: 'leasePayPurpose'
+                    }, {
+                        attributeName: 'leasePayCode'
+                    },
+                    {
+                        attributeName: 'leaseAccount'
+                    }]
+            }
+        ]
+    }]
+};

@@ -1,0 +1,25 @@
+{
+  "name": "inv",
+  "version": "1.0.0",
+  "description": "INV INV",
+  "config": {
+    "ubmodel": {
+      "name": "INV"
+    }
+  },
+  "scripts": {
+  },
+  "public": false,
+  "main": "inv-inv.js",
+  "browser": "/clientRequire/models/INV/initModel.js",
+  "dependencies": {
+    "@unitybase/base": "^5.0.0"
+  },
+  "devDependencies": {
+    "@unitybase/stubs": "^5.0.0"
+  },
+  "keywords": [
+  ],
+  "author": "IQusion team",
+  "license": "(GPL-3.0 OR LGPL-3.0 OR MPL-2.0)"
+}

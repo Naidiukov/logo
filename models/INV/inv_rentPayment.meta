@@ -1,0 +1,122 @@
+{
+  "caption": "Орендна плата",
+  "description": "Орендна плата",
+  "connectionName": "main",
+  "sqlAlias": "inv_rentpay",
+  "cacheType": "None",
+  "descriptionAttribute": "year",
+  "attributes": [
+    {
+      "name": "year",
+      "dataType": "String",
+      "size": 4,
+      "caption": "Рік",
+      "description": "Рік",
+      "allowNull": false
+    },
+    {
+      "name": "name",
+      "dataType": "Entity",
+      "associatedEntity": "inv_payers",
+      "caption": "Орендар",
+      "description": "Орендар",
+      "allowNull": true
+    },
+    {
+      "name": "pType",
+      "dataType": "String",
+      "caption": "Тип платника",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "[name.personType]"
+        }
+      ]
+    },
+    {
+      "name": "pName",
+      "dataType": "String",
+      "caption": "Назва платника",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [name.personType]='PHYSICAL' THEN COALESCE([name.lastName],'') || ' ' || COALESCE([name.firstName], '') || ' ' || COALESCE([name.middleName], '') ELSE [name.name] END"
+        }
+      ]
+    },
+    {
+      "name": "pIdn",
+      "dataType": "String",
+      "caption": "Індентифікаційний код платника",
+      "size": 1000,
+      "mapping": [
+        {
+          "name" : "AnsiSQL",
+          "expressionType": "Expression",
+          "expression": "CASE WHEN [name.personType]='PHYSICAL' THEN COALESCE([name.idnCode],'') ELSE COALESCE([name.edrpou], '') END"
+        }
+      ]
+    },
+    {
+      "name": "payerAddress",
+      "dataType": "String",
+      "size": 100,
+      "caption": "Адреса платника",
+      "description": "Адреса платника",
+      "allowNull": false
+    },
+    {
+      "name": "payerPhone",
+      "dataType": "String",
+      "size": 15,
+      "caption": "Телефон платника",
+      "description": "Телефон платника",
+      "allowNull": true
+    },
+    {
+      "name": "sumYear",
+      "dataType": "Currency",
+      "caption": "Сума оренди за рік",
+      "description": "Сума оренди за рік",
+      "allowNull": false
+    },
+    {
+      "name": "debt",
+      "dataType": "Currency",
+      "caption": "Борг",
+      "description": "Борг",
+      "allowNull": true
+    },
+    {
+      "name": "fine",
+      "dataType": "Currency",
+      "caption": "Пеня",
+      "description": "Пеня",
+      "allowNull": true
+    },
+    {
+      "name": "actualSum",
+      "dataType": "Currency",
+      "caption": "Фактично сплачено",
+      "description": "Фактично сплачено",
+      "allowNull": true
+    },
+    {
+      "name": "agreementID",
+      "dataType": "Entity",
+      "associatedEntity": "inv_leaseAgreements",
+      "caption": "Договір оренди",
+      "allowNull": false
+    }
+  ],
+  "mixins": {
+    "mStorage": {
+      "simpleAudit": false,
+      "safeDelete": false
+    }
+  }
+}
